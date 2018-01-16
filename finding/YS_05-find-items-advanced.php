@@ -1,7 +1,7 @@
 <?php
 echo '<br>';
 
-$timeOffset = 1*60*60; // offset Ending within
+$timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo']*60*60 : 24*60*60; // offset Ending within
 echo 'Смещение времени окончания аукциона: '. $timeOffset/60/60 . ' час.';
 echo '<br>';
 
@@ -14,7 +14,7 @@ echo '<br>';
 echo '<br>';
 var_dump( $_POST );
 
-echo '<br>';
+echo '<br><br>';
 //var_dump($GLOBALS);
 
 	        function iso_8601_utc_time($offset = 0, $precision = 0)
