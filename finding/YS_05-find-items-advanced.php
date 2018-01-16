@@ -1,15 +1,46 @@
 <?php
-//if (!empty($_POST)) {
-//	echo 'POST PRESENT';
-//	var_dump( $_POST['data'] );
-//	die;
-//}
-var_dump( $_REQUEST );
+echo '<br>';
+
+$timeOffset = 1*60*60; // offset Ending within
+echo 'Смещение времени окончания аукциона: '. $timeOffset/60/60 . ' час.';
+echo '<br>';
+
+////if (!empty($_POST)) {
+////	echo 'POST PRESENT';
+////	var_dump( $_POST['data'] );
+////	die;
+////}
+//var_dump( $_REQUEST );
 echo '<br>';
 var_dump( $_POST );
-var_dump( $_POST[1]['name'] );
+
 echo '<br>';
 //var_dump($GLOBALS);
+
+	        function iso_8601_utc_time($offset = 0, $precision = 0)
+	        {
+		        $time = gettimeofday();
+
+		        if (is_int($precision) && $precision >= 0 && $precision <= 6) {
+			        $total = (string) $time['sec'] . '.' . str_pad((string) $time['usec'], 6, '0', STR_PAD_LEFT);
+			        $total_rounded = bcadd($total, '0.' . str_repeat('0', $precision) . '5', $precision);
+			        @list($integer, $fraction) = explode('.', $total_rounded);
+			        $format = $precision == 0
+				        ? "Y-m-d\TH:i:s\Z"
+				        : "Y-m-d\TH:i:s,".$fraction."\Z";
+			        return gmdate($format, $integer + $offset);
+		        }
+
+		        return false;
+	        }
+//	        echo iso_8601_utc_time();
+//	        echo '<br>';
+//	        echo 'DATE: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 86400);
+//	        echo '<br>';
+//	        echo date("M d Y H:i:s", mktime(0, 0, 0, 1, 1, 1998));
+//	        echo '<br>';
+//	        echo gmdate("M d Y H:i:s", mktime(0, 0, 0, 1, 1, 1998));
+
 ?>
 
 
@@ -67,7 +98,7 @@ $service = new Services\FindingService( [
 	 */
 	$request = new Types\FindItemsAdvancedRequest();
 
-	$request->keywords = 'iPhone 7';
+	$request->keywords = $_POST['name'] ? '('.$_POST['name']. ')' : '(iPhone 7, iphone 6)';
 
 	/**
 	 * Search across two categories.
@@ -92,12 +123,17 @@ $service = new Services\FindingService( [
 	 */
 	$request->itemFilter[] = new Types\ItemFilter( [
 		'name'  => 'MinPrice',
-		'value' => [ '100.00' ]
+		'value' => [  $_POST['price_min'] ? $_POST['price_min'] : '100.00' ]
 	] );
 
 	$request->itemFilter[] = new Types\ItemFilter( [
 		'name'  => 'MaxPrice',
-		'value' => [ '1000.00' ]
+		'value' => [ $_POST['price_max'] ? $_POST['price_max'] :  '1000.00' ]
+	] );
+
+	$request->itemFilter[] = new Types\ItemFilter( [
+		'name'  => 'EndTimeTo',
+		'value' => [ iso_8601_utc_time( $timeOffset ) ]
 	] );
 
 	/**
@@ -140,7 +176,7 @@ $service = new Services\FindingService( [
 
 	if ( $response->ack !== 'Failure' ) {
 		foreach ( $response->searchResult->item as $item ) {
-			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
+//			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
 			printf(
 				"(%s) %s: %s %.2f\n<br>",
 				$item->itemId,
@@ -164,7 +200,7 @@ $service = new Services\FindingService( [
 
 		if ( $response->ack !== 'Failure' ) {
 			foreach ( $response->searchResult->item as $item ) {
-			    printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
+//			    printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
 				printf(
 					"(%s) %s: %s %.2f\n<br>",
 					$item->itemId,
