@@ -5,18 +5,16 @@ $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo']*60*60 : 24*60*60; // off
 echo 'Смещение времени окончания аукциона: '. $timeOffset/60/60 . ' час.';
 echo '<br>';
 
-////if (!empty($_POST)) {
-////	echo 'POST PRESENT';
-////	var_dump( $_POST['data'] );
-////	die;
-////}
-//var_dump( $_REQUEST );
-echo '<br>';
+echo '<h5>POST - дата:</h5>';
 var_dump( $_POST );
 
 echo '<br><br>';
-//var_dump($GLOBALS);
-
+            /** convert time to iso8601 (ebay api format)
+             * @param int $offset смещение в секундах
+             * @param int $precision
+             *
+             * @return bool|false|string
+             */
 	        function iso_8601_utc_time($offset = 0, $precision = 0)
 	        {
 		        $time = gettimeofday();
@@ -33,13 +31,6 @@ echo '<br><br>';
 
 		        return false;
 	        }
-//	        echo iso_8601_utc_time();
-//	        echo '<br>';
-//	        echo 'DATE: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 86400);
-//	        echo '<br>';
-//	        echo date("M d Y H:i:s", mktime(0, 0, 0, 1, 1, 1998));
-//	        echo '<br>';
-//	        echo gmdate("M d Y H:i:s", mktime(0, 0, 0, 1, 1, 1998));
 
 ?>
 
@@ -208,6 +199,12 @@ $service = new Services\FindingService( [
 					$item->sellingStatus->currentPrice->currencyId,
 					$item->sellingStatus->currentPrice->value
 				);
+//				print('<pre>');
+////				foreach ($item as $it) {
+//				var_dump($item);
+////                }
+//				print('</pre>');
+//				print('<br>');
 			}
 		}
 	}

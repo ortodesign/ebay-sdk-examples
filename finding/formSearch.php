@@ -134,28 +134,12 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
         $("form#search_ebay").submit(function (event) {
             event.preventDefault();
             $('#resp').html('');
-            var values = [];
-            $("input").each(function () {
-                values[$(this).attr("id")] = $(this).val();
-            });
-            console.log(values);
-            var input = $("#name");
-            // var inputs = {
-            //     name : $("input#name).val,
-            //     price_min : $("input#price_min).val,
-            //     price_max : $("input#price_max).val
-            // };
-            $form = $(this);
-            var serializedData = $form.serialize();
-            console.log(serializedData);
             $.ajax({
                 type: "POST",
                 // data     : {data:values},
-                data: serializedData,
+                data: $(this).serialize(),
                 url: "YS_05-find-items-advanced.php",
                 success: function (data) {
-                    // debugger;
-                    // input.val(data);
                     $('#resp').html(data);
                 }
             });
@@ -163,9 +147,8 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
         setTimeout(function () {
                 $("form#search_ebay").trigger('submit');
 
-        },10000
+            }, 500
         );
-
     });
 </script>
 </body>
