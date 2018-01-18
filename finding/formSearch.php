@@ -115,7 +115,7 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
 </div>
 <style>
     pre {
-        font-size: .5em;
+        font-size: .6em;
     }
 
     #resp {
