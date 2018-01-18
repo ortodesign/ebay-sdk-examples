@@ -31,7 +31,8 @@ except:
 
 # html = driver.page_source
 print('Total pages: '+totalpages)
-totalpages = list(int(totalpages))
-for page in totalpages:
+driver.close()
+# totalpages = list(int(totalpages))
+for page in range(1, int(totalpages)+1):
     print(page)
 
