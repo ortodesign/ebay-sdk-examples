@@ -68,6 +68,7 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
                 <div class="card text-white p-5 bg-primary">
                     <div class="card-body">
                         <h1 class="mb-4">search form</h1>
+
                         <form action="/" id="search_ebay" method="get">
                             <div class="form-group">
                                 <label>Название товара (keywords)</label>
@@ -129,6 +130,20 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
         src="http://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
+
+<script>
+    //курс бакса аяксом
+    // $.ajax({
+    //     url: "https://www.cbr-xml-daily.ru/daily_jsonp.js",
+    //     dataType: 'jsonp',
+    //     jsonpCallback: 'CBR_XML_Daily_Ru',
+    //     jsonp: '',
+    //     success: function( response ) {
+    //         console.log( response.Valute.USD.Value ); // server response
+    //     }
+    // });
+</script>
+
 <script>
     $(document).ready(function () {
         $("form#search_ebay").submit(function (event) {
@@ -144,11 +159,11 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
                 }
             });
         });
-        setTimeout(function () {
-                $("form#search_ebay").trigger('submit');
-
-            }, 500
-        );
+        // setTimeout(function () {
+        //         $("form#search_ebay").trigger('submit');
+        //
+        //     }, 500
+        // );
     });
 </script>
 </body>
