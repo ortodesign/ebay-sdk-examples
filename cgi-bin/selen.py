@@ -33,6 +33,7 @@ except:
 print('Total pages: '+totalpages)
 driver.close()
 # totalpages = list(int(totalpages))
+
 for page in range(1, int(totalpages)+1):
     print(page)
 
