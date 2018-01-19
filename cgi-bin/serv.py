@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+"""
+Very simple HTTP server in python.
+
+Usage::
+    ./dummy-web-server.py [<port>]
+
+Send a GET request::
+    curl http://localhost
+
+Send a HEAD request::
+    curl -I http://localhost
+
+Send a POST request::
+    curl -d "foo=bar&bin=baz" http://localhost
+
+"""
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+
+# import SocketServer
+
+
+class S(BaseHTTPRequestHandler):
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+
+    def do_GET(self):
+        self._set_headers()
+        print(self.path)
+
+        if self.path != '/' or self.path != '':
+            import json
+            from selen import citilink
+            self.wfile.write(json.dumps(citilink(self.path), sort_keys=False))
+        else:
+            self.wfile.write("<html><body><h1>hi! %s </h1></body></html>" % self.path)
+
+    def do_HEAD(self):
+        self._set_headers()
+
+    def do_POST(self):
+        # Doesn't do anything with posted data
+        self._set_headers()
+        self.wfile.write("<html><body><h1>POST!</h1></body></html>")
+
+
+def run(server_class=HTTPServer, handler_class=S, port=8081):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print 'Starting httpd...'
+    httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    from sys import argv
+
+    if len(argv) == 2:
+        run(port=int(argv[1]))
+    else:
+        run()
