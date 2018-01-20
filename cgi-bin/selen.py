@@ -31,7 +31,7 @@ def citilink(query):
     targetUrl = urllib.quote_plus('https://www.citilink.ru/search/?text='+q_txt)
     print('getting: '+targetUrl)
     driver.get('https://www.citilink.ru/search/?text='+q_txt)  # &p=7
-    time.sleep(3)
+    time.sleep(2)
     product = {}
     p3 = []
 
@@ -53,9 +53,13 @@ def citilink(query):
         print('Total pages: '+totalpages)
 
         if int(totalpages) > 1:
-            for page in range(1, int(totalpages)+1):
-                driver.find_element_by_xpath('(.//div[@class="page_listing"]//li/a)['+ str(page) +']').click() # клик по пагинации
-                time.sleep(3)
+            for page in range(1, int(totalpages)+1 if totalpages < 9 else int(totalpages)):
+
+                # data - page = "13"
+                if page != 1: driver.find_element_by_xpath('(.//div[@class="page_listing"]//li/a[@data-page="'+ str(page) +'"])').click() # клик по пагинации
+                # driver.find_element_by_xpath('(.//div[@class="page_listing"]//li/a)['+ str(page) +']').click() # клик по пагинации
+
+                time.sleep(2)
                 # curTitle = driver.find_elements_by_xpath('.//*[@id="subcategoryList"]//span/a')
                 # curPrice = driver.find_elements_by_xpath('.// *[ @ id = "subcategoryList"] // span[1] / span / ins[1]')
                 curData = driver.find_elements_by_xpath('.// *[ @ id = "subcategoryList"] // div[ @ data-list-id ]')
@@ -67,6 +71,7 @@ def citilink(query):
                         'title': p3['shortName'],
                         'price': p3['price']
                 }
+                print page
     if len(product) > 0:
         for k, v in product.iteritems():
             print('IdKey: ' + str(k) + ' IdVal: ' + str(v['id']) + ' Title: ' + v['title'] + ' Price: ' + str(v['price']))
