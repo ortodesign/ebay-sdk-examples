@@ -1,0 +1,23 @@
+{
+  "001":{
+    "categoryName": "Мобильные телефоны и смартфоны",
+    "citilinkName": "Мобильные телефоны",
+    "citilinkId": "214",
+    "ebayName": "Cell Phones & Smartphones",
+    "ebayId": "9355"
+  },
+  "002":{
+    "categoryName": "Планшеты",
+    "citilinkName": "Планшеты",
+    "citilinkId": "376",
+    "ebayName": "Cell Phones & Smartphones",
+    "ebayId": "9355"
+  },
+  "803":{
+    "categoryName": "Виртуальные очки",
+    "citilinkName": "Виртуальные очки",
+    "citilinkId": "834",
+    "ebayName": "Cell Phones & Smartphones",
+    "ebayId": "9355"
+  }
+}

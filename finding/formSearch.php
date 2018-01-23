@@ -13,56 +13,115 @@
 <div class="py-5">
     <div class="container-fluid">
         <div class="row">
+<pre class="log">
+                    <?php
+                    print (__DIR__);
+                    require_once  __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
+                    //                     require_once  'C:/OSPanel/domains/ebay-sdk-examples/vendor/php-activerecord/php-activerecord/ActiveRecord.php';
+                    print ( __DIR__ .'./models');
+                    ActiveRecord\Config::initialize(function($cfg)
+                    {
+	                    $cfg->set_model_directory( __DIR__ . '/../models');
+	                    $cfg->set_connections(
+		                    array(
+			                    'development' => 'mysql://tst01:tst@localhost/tst01',
+			                    'test' => 'mysql://tst01:tst@localhost/tst01',
+			                    'production' => 'mysql://tst01:tst@localhost/tst01'
+		                    )
+	                    );
+	                    $cfg->set_default_connection('production');
+                    });
+//                    ActiveRecord\Config::initialize(function($cfg)
+//                    {
+//	                    $cfg->set_model_directory( __DIR__ .'/../models');
+//	                    $cfg->set_connections(array('development' =>
+//		                                                'mysql://tst01:tst@localhost/tst01'));
+//	                    $cfg->set_default_connection('production');
+//                    });
 
+                    $test = test::find(1);
+//                    $product = Product::create(array('name' => 'Tito', 'state' => 'VA'));
+
+
+
+                    //                    $bd = mysqli_connect('localhost', 'tst01', 'tst', 'tst01');
+                    //                    if ($bd->connect_errno) {
+                    //	                    echo "Не удалось подключиться к MySQL: (" . $bd->connect_errno . ") " . $bd->connect_error;
+                    //                    }
+                    ////                    var_dump($bd);
+                    ////                    if (!$bd->query("DROP TABLE IF EXISTS test") ||
+                    ////                        !$bd->query("CREATE TABLE test(id INT, label CHAR(1))") ||
+                    ////                        !$bd->query("INSERT INTO test(id, label) VALUES (1, 'a')")) {
+                    ////	                    echo "Не удалось создать таблицу: (" . $bd->errno . ") " . $bd->error;
+                    ////                    }
+                    //                    $bd->query("INSERT INTO test(id, label) VALUES (3, 'c')");
+                    //                    $res = $bd->query("SELECT id, label FROM test ORDER BY id ASC");
+                    //                    echo "Обратный порядок...\n";
+                    //                    for ($row_no = $res->num_rows - 1; $row_no >= 0; $row_no--) {
+                    //	                    $res->data_seek($row_no);
+                    //	                    $row = $res->fetch_assoc();
+                    //	                    echo " id = " . $row['id'] . "\n";
+                    //	                    echo " label = " . $row['label'] . "\n";
+                    //                    }
+                    //
+                    //                    echo "Исходный порядок строк...\n";
+                    //                    $res->data_seek(0);
+                    //                    while ($row = $res->fetch_assoc()) {
+                    //	                    echo " id = " . $row['id'] . "\n";
+                    //	                    echo " label = " . $row['label'] . "\n";
+                    //                    }
+                    ?>
+                </pre>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <pre>
-const C_AUTHORIZED_SELLER_ONLY = 'AuthorizedSellerOnly';
-const C_AVAILABLE_TO = 'AvailableTo';
-const C_BEST_OFFER_ONLY = 'BestOfferOnly';
-const C_CHARITY_ONLY = 'CharityOnly';
-const C_CONDITION = 'Condition';
-const C_CURRENCY = 'Currency';
-const C_END_TIME_FROM = 'EndTimeFrom';
-const C_END_TIME_TO = 'EndTimeTo';
-const C_EXCLUDE_AUTO_PAY = 'ExcludeAutoPay';
-const C_EXCLUDE_CATEGORY = 'ExcludeCategory';
-const C_EXCLUDE_SELLER = 'ExcludeSeller';
-const C_EXPEDITED_SHIPPING_TYPE = 'ExpeditedShippingType';
-const C_FEATURED_ONLY = 'FeaturedOnly';
-const C_FEEDBACK_SCORE_MAX = 'FeedbackScoreMax';
-const C_FEEDBACK_SCORE_MIN = 'FeedbackScoreMin';
-const C_FREE_SHIPPING_ONLY = 'FreeShippingOnly';
-const C_GET_IT_FAST_ONLY = 'GetItFastOnly';
-const C_HIDE_DUPLICATE_ITEMS = 'HideDuplicateItems';
-const C_LISTED_IN = 'ListedIn';
-const C_LISTING_TYPE = 'ListingType';
-const C_LOCAL_PICKUP_ONLY = 'LocalPickupOnly';
-const C_LOCAL_SEARCH_ONLY = 'LocalSearchOnly';
-const C_LOCATED_IN = 'LocatedIn';
-const C_LOTS_ONLY = 'LotsOnly';
-const C_MAX_BIDS = 'MaxBids';
-const C_MAX_DISTANCE = 'MaxDistance';
-const C_MAX_HANDLING_TIME = 'MaxHandlingTime';
-const C_MAX_PRICE = 'MaxPrice';
-const C_MAX_QUANTITY = 'MaxQuantity';
-const C_MIN_BIDS = 'MinBids';
-const C_MIN_PRICE = 'MinPrice';
-const C_MIN_QUANTITY = 'MinQuantity';
-const C_MOD_TIME_FROM = 'ModTimeFrom';
-const C_OUTLET_SELLER_ONLY = 'OutletSellerOnly';
-const C_PAYMENT_METHOD = 'PaymentMethod';
-const C_RETURNS_ACCEPTED_ONLY = 'ReturnsAcceptedOnly';
-const C_SELLER = 'Seller';
-const C_SELLER_BUSINESS_TYPE = 'SellerBusinessType';
-const C_SOLD_ITEMS_ONLY = 'SoldItemsOnly';
-const C_START_TIME_FROM = 'StartTimeFrom';
-const C_START_TIME_TO = 'StartTimeTo';
-const C_TOP_RATED_SELLER_ONLY = 'TopRatedSellerOnly';
-const C_VALUE_BOX_INVENTORY = 'ValueBoxInventory';
-const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
-                </pre>
+<!--                <pre class="hidden">-->
+<!--const C_AUTHORIZED_SELLER_ONLY = 'AuthorizedSellerOnly';-->
+<!--const C_AVAILABLE_TO = 'AvailableTo';-->
+<!--const C_BEST_OFFER_ONLY = 'BestOfferOnly';-->
+<!--const C_CHARITY_ONLY = 'CharityOnly';-->
+<!--const C_CONDITION = 'Condition';-->
+<!--const C_CURRENCY = 'Currency';-->
+<!--const C_END_TIME_FROM = 'EndTimeFrom';-->
+<!--const C_END_TIME_TO = 'EndTimeTo';-->
+<!--const C_EXCLUDE_AUTO_PAY = 'ExcludeAutoPay';-->
+<!--const C_EXCLUDE_CATEGORY = 'ExcludeCategory';-->
+<!--const C_EXCLUDE_SELLER = 'ExcludeSeller';-->
+<!--const C_EXPEDITED_SHIPPING_TYPE = 'ExpeditedShippingType';-->
+<!--const C_FEATURED_ONLY = 'FeaturedOnly';-->
+<!--const C_FEEDBACK_SCORE_MAX = 'FeedbackScoreMax';-->
+<!--const C_FEEDBACK_SCORE_MIN = 'FeedbackScoreMin';-->
+<!--const C_FREE_SHIPPING_ONLY = 'FreeShippingOnly';-->
+<!--const C_GET_IT_FAST_ONLY = 'GetItFastOnly';-->
+<!--const C_HIDE_DUPLICATE_ITEMS = 'HideDuplicateItems';-->
+<!--const C_LISTED_IN = 'ListedIn';-->
+<!--const C_LISTING_TYPE = 'ListingType';-->
+<!--const C_LOCAL_PICKUP_ONLY = 'LocalPickupOnly';-->
+<!--const C_LOCAL_SEARCH_ONLY = 'LocalSearchOnly';-->
+<!--const C_LOCATED_IN = 'LocatedIn';-->
+<!--const C_LOTS_ONLY = 'LotsOnly';-->
+<!--const C_MAX_BIDS = 'MaxBids';-->
+<!--const C_MAX_DISTANCE = 'MaxDistance';-->
+<!--const C_MAX_HANDLING_TIME = 'MaxHandlingTime';-->
+<!--const C_MAX_PRICE = 'MaxPrice';-->
+<!--const C_MAX_QUANTITY = 'MaxQuantity';-->
+<!--const C_MIN_BIDS = 'MinBids';-->
+<!--const C_MIN_PRICE = 'MinPrice';-->
+<!--const C_MIN_QUANTITY = 'MinQuantity';-->
+<!--const C_MOD_TIME_FROM = 'ModTimeFrom';-->
+<!--const C_OUTLET_SELLER_ONLY = 'OutletSellerOnly';-->
+<!--const C_PAYMENT_METHOD = 'PaymentMethod';-->
+<!--const C_RETURNS_ACCEPTED_ONLY = 'ReturnsAcceptedOnly';-->
+<!--const C_SELLER = 'Seller';-->
+<!--const C_SELLER_BUSINESS_TYPE = 'SellerBusinessType';-->
+<!--const C_SOLD_ITEMS_ONLY = 'SoldItemsOnly';-->
+<!--const C_START_TIME_FROM = 'StartTimeFrom';-->
+<!--const C_START_TIME_TO = 'StartTimeTo';-->
+<!--const C_TOP_RATED_SELLER_ONLY = 'TopRatedSellerOnly';-->
+<!--const C_VALUE_BOX_INVENTORY = 'ValueBoxInventory';-->
+<!--const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';-->
+<!--                </pre>-->
+
             </div>
             <div class="col-md-4">
                 <div class="card text-white p-5 bg-primary">
@@ -70,11 +129,28 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
                         <h1 class="mb-4">search form</h1>
 
                         <form action="/" id="search_ebay" method="get">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="citilink" name="citilink" type="checkbox" value="checked">
+                                    use citilink
+                                </label>
+                            </div>
+
+                            <select name="category" class="custom-select">
+<!--                                <option >Open this select menu</option>-->
+	                            <?php
+	                            require_once('functions.php');
+	                            $cats = getCategoriesFromJsonFile();
+	                            foreach ($cats as $key => $it) {
+		                            print( '<option value="'.$key.'">'.$it->categoryName.'</option>'  );
+	                            }
+	                            ?>
+                            </select>
                             <div class="form-group">
                                 <label>Название товара (keywords)</label>
                                 <input id="name" name="name" type="text" class="form-control"
                                        placeholder="введите название"
-                                       value="iPhone 7, iPhone 6">
+                                       value="Samsung Galaxy S7">
                             </div>
                             <div class="form-group d-flex">
                                 <div class="col-sm-6 row">
@@ -117,7 +193,12 @@ const C_WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
     pre {
         font-size: .6em;
     }
-
+    .hidden{
+        display: none !important;
+    }
+    .log{
+        font-size: .7em;
+    }
     #resp {
         /*position: fixed;*/
         /*height: 200px;*/

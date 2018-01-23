@@ -1,6 +1,6 @@
 <?php
 echo '<br>';
-
+require_once('functions.php');
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
 echo 'Смещение времени окончания аукциона: ' . $timeOffset / 60 / 60 . ' час.';
 echo '<br>';
@@ -11,37 +11,16 @@ print('<br>');
 echo '<h5>POST - дата:</h5>';
 var_dump( $_POST );
 print('<br>');
+
+echo '<h5>citilink - дата:</h5><pre>';
+if (isset($_POST['citilink'])) var_dump( getCitilinkJsonFromPyServ($_POST['name']) );
+print('</pre><br>');
+echo '<h5>Соответствие категорий:</h5><pre>';
+var_dump( getCategoriesFromJsonFile() );
+print('</pre><br>');
+
 echo '<br>';
-/** convert time to iso8601 (ebay api format)
- *
- * @param int $offset смещение в секундах
- * @param int $precision
- *
- * @return bool|false|string
- */
-function iso_8601_utc_time( $offset = 0, $precision = 0 ) {
-	$time = gettimeofday();
 
-	if ( is_int( $precision ) && $precision >= 0 && $precision <= 6 ) {
-		$total         = (string) $time['sec'] . '.' . str_pad( (string) $time['usec'], 6, '0', STR_PAD_LEFT );
-		$total_rounded = bcadd( $total, '0.' . str_repeat( '0', $precision ) . '5', $precision );
-		@list( $integer, $fraction ) = explode( '.', $total_rounded );
-		$format = $precision == 0
-			? "Y-m-d\TH:i:s\Z"
-			: "Y-m-d\TH:i:s," . $fraction . "\Z";
-
-		return gmdate( $format, $integer + $offset );
-	}
-
-	return false;
-}
-
-function getDollarCourse() {
-	$jso = file_get_contents( 'https://www.cbr-xml-daily.ru/daily_json.js', "r" );
-	return json_decode( $jso )->Valute->USD->Value;
-//                        response.Valute.USD.Value
-//                        https://www.cbr-xml-daily.ru/daily_json.js
-}
 
 ?>
 
@@ -108,6 +87,7 @@ $request->keywords = $_POST['name'] ? '(' . $_POST['name'] . ')' : '(iPhone 7, i
  * Books > Fiction & Literature (171228)
  */
 //	$request->categoryId = [ '617', '171228' ];
+//	$request->categoryId = [ '9355' ];
 
 /**
  * Filter results to only include auction items or auctions with buy it now.
@@ -146,9 +126,9 @@ $request->sortOrder = 'CurrentPriceHighest';
 /**
  * Limit the results to 10 items per page and start at page 1.
  */
-$request->paginationInput                 = new Types\PaginationInput();
-$request->paginationInput->entriesPerPage = 10;
-$request->paginationInput->pageNumber     = 1;
+//$request->paginationInput                 = new Types\PaginationInput();
+//$request->paginationInput->entriesPerPage = 10;
+//$request->paginationInput->pageNumber     = 1;
 
 /**
  * Send the request.
@@ -192,32 +172,32 @@ if ( $response->ack !== 'Failure' ) {
 /**
  * Paginate through 2 more pages worth of results.
  */
-$limit = min( $response->paginationOutput->totalPages, 3 );
-for ( $pageNum = 2; $pageNum <= $limit; $pageNum ++ ) {
-	$request->paginationInput->pageNumber = $pageNum;
-
-	$response = $service->findItemsAdvanced( $request );
-
-	echo "==================\nResults for page $pageNum\n==================\n<br>";
-
-	if ( $response->ack !== 'Failure' ) {
-		foreach ( $response->searchResult->item as $item ) {
-//			    printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
-			printf(
-				"%s (%s) %s: %s %.2f\n<br>",
-				$item->country,
-				$item->itemId,
-				$item->title,
-				$item->sellingStatus->currentPrice->currencyId,
-				$item->sellingStatus->currentPrice->value
-			);
-//				print('<pre>');
-////				foreach ($item as $it) {
-//				var_dump($item);
-////                }
-//				print('</pre>');
-//				print('<br>');
-		}
-	}
-}
+//$limit = min( $response->paginationOutput->totalPages, 3 );
+//for ( $pageNum = 2; $pageNum <= $limit; $pageNum ++ ) {
+//	$request->paginationInput->pageNumber = $pageNum;
+//
+//	$response = $service->findItemsAdvanced( $request );
+//
+//	echo "==================\nResults for page $pageNum\n==================\n<br>";
+//
+//	if ( $response->ack !== 'Failure' ) {
+//		foreach ( $response->searchResult->item as $item ) {
+////			    printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
+//			printf(
+//				"%s (%s) %s: %s %.2f\n<br>",
+//				$item->country,
+//				$item->itemId,
+//				$item->title,
+//				$item->sellingStatus->currentPrice->currencyId,
+//				$item->sellingStatus->currentPrice->value
+//			);
+////				print('<pre>');
+//////				foreach ($item as $it) {
+////				var_dump($item);
+//////                }
+////				print('</pre>');
+////				print('<br>');
+//		}
+//	}
+//}
 ?>
