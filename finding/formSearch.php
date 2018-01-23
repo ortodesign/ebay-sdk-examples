@@ -39,8 +39,12 @@
 //	                    $cfg->set_default_connection('production');
 //                    });
 
-                    $test = test::find(1);
+//                    $test = Product::find(1);
 //                    $product = Product::create(array('name' => 'Tito', 'state' => 'VA'));
+                    $product = new Product();
+                    $product->title = 'My first blog post!!';
+                    $product->author_id = 5;
+                    $product->save();
 
 
 

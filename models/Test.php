@@ -5,7 +5,7 @@
  * Date: 23.01.2018
  * Time: 15:39
  */
-class test extends ActiveRecord\Model
+class Test extends ActiveRecord\Model
 {
 	static $validates_uniqueness_of = array(
 		"unique_property"
