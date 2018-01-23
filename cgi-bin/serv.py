@@ -29,11 +29,14 @@ class S(BaseHTTPRequestHandler):
     def do_GET(self):
         self._set_headers()
         print(self.path)
-
-        if self.path != '/' or self.path != '':
+        import re
+        query = re.sub('[/,?]', '', self.path)
+        print ('query = ' + query)
+        if query != '' and query != 'favicon.ico':
+            print ('accepted query = ' + query)
             import json
             from selen import citilink
-            self.wfile.write(json.dumps(citilink(self.path), sort_keys=False))
+            self.wfile.write(json.dumps(citilink(query), sort_keys=False))
         else:
             self.wfile.write("<html><body><h1>hi! %s </h1></body></html>" % self.path)
 
