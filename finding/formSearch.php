@@ -181,6 +181,8 @@
         crossorigin="anonymous"></script>
 
 <script>
+    import VueEditortable from "vue-editortable"
+    Vue.component('vue-editortable', VueEditortable)
     //курс бакса аяксом
     // $.ajax({
     //     url: "https://www.cbr-xml-daily.ru/daily_jsonp.js",
@@ -214,6 +216,8 @@
         //     }, 500
         // );
     });
+
+
 </script>
 </body>
 </html>
