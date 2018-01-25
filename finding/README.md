@@ -1,23 +1,151 @@
-# Finding Examples
+# vue-editortable
 
-These examples show how to use the eBay SDK for PHP with the Finding service.
+> A Vue.js editable table component
+> * Load/Save Data from/to a database
+> * Create, Edit, Save, and Delete Data
+> * Show/Hide columns
+> * Keyboard Navigation & Shortcuts
+> * SWIPE Design for wide tables
+> * Simple Responsive Design with data attributes
+> * Configurable
+> * Multisorting
+> * Searchfilter
+> * dynamic Pagination
+> * Validation
 
-1. [Simple keywords search](https://github.com/davidtsadler/ebay-sdk-examples/blob/master/finding/01-simple-keywords-search.php)
+---
+## Demo
 
-   A basic example that performs a keyword search and outputs the results.
+* [Vue-editortable Demo 1 - Vuetify Style](http://vue-editortable-vuetify.eljacko.de/)
+* [Vue-editortable Demo 2 - Custom Dark Style](http://vue-editortable-customdark.eljacko.de/)
+* The database connection is disabled on the demo pages.
 
-1. [Keywords search with pagination](https://github.com/davidtsadler/ebay-sdk-examples/blob/master/finding/02-keywords-search-with-pagination.php)
+---
+## Dependencies
 
-   The basic example is expanded upon to include pagination of the search results.
+Only Vue.js, no other frameworks/libraries
+* Vue.js >= 2.0 (tested with 2.2.2)
+* Vue-awesome Icons
+* Axios
+* validator
 
-1. [Find items by product](https://github.com/davidtsadler/ebay-sdk-examples/blob/master/finding/03-find-items-by-product.php)
+---
+## Browser compatibility
 
-   A basic example that finds items that match a UPC.
+Only tested browser by now is Chrome.
+Feel free to test and share your results.
 
-1. [Find items by product with item filters](https://github.com/davidtsadler/ebay-sdk-examples/blob/master/finding/04-find-items-by-product-with-item-filters.php)
+---
+## Installation
 
-   This example expands upon the previous example to show how multiple item filters can be specified to reduce the number of items that are returned.
+#### If you use Webpack/Browserify
 
-1. [Find items advanced](https://github.com/davidtsadler/ebay-sdk-examples/blob/master/finding/05-find-items-advanced.php)
-  
-   A basic example that uses findItemsAdvanced to perform a keyword search across two eBay categories.
+### npm
+``` sh
+npm install --save vue-editortable
+```
+Import globally in an App:
+
+``` javascript
+import VueEditortable from "vue-editortable"
+Vue.component('vue-editortable', VueEditortable)
+```
+Import locally in a component:
+
+``` javascript
+import VueEditortable from "vue-editortable"
+// ...
+components: {
+    VueEditortable,
+  }
+// ...
+```
+
+## Usage
+
+``` html
+<vue-editortable :data="{ columns, options }"></vue-editortable>
+```
+``` javascript
+// ...
+data() {
+      return {
+        columns: [
+          {
+            title: 'Id',
+            name: 'id',
+            editable: false,
+          },
+          {
+            title: 'Firstname',
+            name: 'firstname',
+            editable: true,
+          },
+          {
+            title: 'Lastname',
+            name: 'lastname',
+            editable: true,
+          },
+          {
+            title: 'Email',
+            name: 'email',
+            editable: true,
+          },
+        ],
+        options: {
+          showSearchFilter: true,
+          requests: {
+            allUrl: 'http://api.dev/api/users',
+          },
+        },
+      };
+    },
+// ...
+```
+
+---
+## Documentation
+
+You will find a complete documentation [here](https://github.com/el-jacko/vue-editortable/wiki).
+
+---
+## Build Setup
+
+``` sh
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+---
+## TODOs
+
+Some major TODOs:
+* error messages
+* implementing Datatypes
+* filter per columns
+* optional Modal before deleting
+* compatibility with CSS Frameworks (Bootstrap, Semantic, Foundation)
+* search & replace
+* edit multiple fields
+* statistics
+
+---
+## Contributions
+
+All contributions are welcome!
+
+---
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
