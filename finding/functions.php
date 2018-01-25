@@ -51,4 +51,9 @@ function getCitilinkJsonFromPyServ( $query ) {
 
 	return json_decode( $citilinkJson );
 }
+function getCitilinkJsonFromFile( $query ) {
+	$citilinkJson = file_get_contents( $query, "r" );
+
+	return json_decode( $citilinkJson );
+}
 //}

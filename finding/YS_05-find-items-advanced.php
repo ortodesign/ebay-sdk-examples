@@ -1,23 +1,84 @@
 <?php
 echo '<br>';
-require_once('functions.php');
+require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
 echo 'Смещение времени окончания аукциона: ' . $timeOffset / 60 / 60 . ' час.';
 echo '<br>';
 $dollar = getDollarCourse();
-print('Dollar: ');
-print($dollar);
-print('<br>');
+print( 'Dollar: ' );
+print( $dollar );
+print( '<br>' );
 echo '<h5>POST - дата:</h5>';
 var_dump( $_POST );
-print('<br>');
+print( '<br>' );
 
 echo '<h5>citilink - дата:</h5><pre>';
-if (isset($_POST['citilink'])) var_dump( getCitilinkJsonFromPyServ($_POST['name']) );
-print('</pre><br>');
-echo '<h5>Соответствие категорий:</h5><pre>';
-var_dump( getCategoriesFromJsonFile() );
-print('</pre><br>');
+require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
+//require_once   __DIR__ . '/../models/Product.php';
+
+$connections = array(
+	'development' => 'mysql://tst01:tst@localhost/tst01',
+	'test'        => 'mysql://tst01:tst@localhost/tst01',
+	'production'  => 'mysql://tst01:tst@localhost/tst01'
+);
+
+// initialize ActiveRecord
+ActiveRecord\Config::initialize( function ( $cfg ) use ( $connections ) {
+//	$cfg->set_model_directory( __DIR__ . '/../models');
+	$cfg->set_connections( $connections );
+} );
+
+class Product extends ActiveRecord\Model {
+	static $table_name = 'Product';
+	static $connection = 'production';
+}
+class Keywords extends ActiveRecord\Model {
+	static $table_name = 'keywords';
+	static $connection = 'production';
+}
+
+$product = new  Product;
+if ( isset( $_POST['citilink'] ) ) {
+//	$citilink = getCitilinkJsonFromPyServ( $_POST['name'] );
+	$citilink = getCitilinkJsonFromFile( 'sumsung_galaxy_s7.json' );
+
+//	require __DIR__ . '/../models/Product.php';
+//	var_dump($citilink);
+	foreach ( $citilink as $k => $v ) {
+		print_r( $k );
+		print_r( $v->shortName . ' : ' );
+		print_r( $v->id . ' : ' );
+		print_r( $v->url . '<br>' );
+		if (! $product::all( array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) ) ) { // если айди нет в базе
+			$product::create( array(
+				'title'       => $v->shortName,
+				'citilinkURL' => $v->url,
+				'citilinkID'  => $v->id,
+				'keywordID'   => 1
+			) );
+		}
+//		else {
+//			$product::find('all', array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) )->update_attributes(array(
+//				'title'       => $v->shortName,
+//				'citilinkURL' => $v->url,
+//				'citilinkID'  => $v->id,
+//				'keywordID'   => 1
+//			) );
+//		}
+//		$product->save();
+
+	}
+
+//	foreach ( $product::all() as $k => $v ) {
+////                        print_r($k.'<br>');
+//		print_r( $v->id . ' : ' . $v->title . '<br>' );
+//	}
+}
+print( '</pre><br>' );
+//echo '<h5>Соответствие категорий:</h5><pre>';
+//var_dump( getCategoriesFromJsonFile() );
+//print( '</pre><br>' );
 
 echo '<br>';
 
@@ -45,7 +106,6 @@ echo '<br>';
 /**
  * Include the SDK by using the autoloader from Composer.
  */
-require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Include the configuration values.

@@ -13,69 +13,34 @@
 <div class="py-5">
     <div class="container-fluid">
         <div class="row">
-<pre class="log">
-                    <?php
-                    print (__DIR__);
-                    require_once  __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
-                    //                     require_once  'C:/OSPanel/domains/ebay-sdk-examples/vendor/php-activerecord/php-activerecord/ActiveRecord.php';
-                    print ( __DIR__ .'./models');
-                    ActiveRecord\Config::initialize(function($cfg)
-                    {
-	                    $cfg->set_model_directory( __DIR__ . '/../models');
-	                    $cfg->set_connections(
-		                    array(
-			                    'development' => 'mysql://tst01:tst@localhost/tst01',
-			                    'test' => 'mysql://tst01:tst@localhost/tst01',
-			                    'production' => 'mysql://tst01:tst@localhost/tst01'
-		                    )
-	                    );
-	                    $cfg->set_default_connection('production');
-                    });
-//                    ActiveRecord\Config::initialize(function($cfg)
-//                    {
-//	                    $cfg->set_model_directory( __DIR__ .'/../models');
-//	                    $cfg->set_connections(array('development' =>
-//		                                                'mysql://tst01:tst@localhost/tst01'));
-//	                    $cfg->set_default_connection('production');
-//                    });
-
-//                    $test = Product::find(1);
-//                    $product = Product::create(array('name' => 'Tito', 'state' => 'VA'));
-                    $product = new Product();
-                    $product->title = 'My first blog post!!';
-                    $product->author_id = 5;
-                    $product->save();
+<div class="log ">
+	<?php
+	require ('functions.php');
 
 
+	//	require_once  __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
 
-                    //                    $bd = mysqli_connect('localhost', 'tst01', 'tst', 'tst01');
-                    //                    if ($bd->connect_errno) {
-                    //	                    echo "Не удалось подключиться к MySQL: (" . $bd->connect_errno . ") " . $bd->connect_error;
-                    //                    }
-                    ////                    var_dump($bd);
-                    ////                    if (!$bd->query("DROP TABLE IF EXISTS test") ||
-                    ////                        !$bd->query("CREATE TABLE test(id INT, label CHAR(1))") ||
-                    ////                        !$bd->query("INSERT INTO test(id, label) VALUES (1, 'a')")) {
-                    ////	                    echo "Не удалось создать таблицу: (" . $bd->errno . ") " . $bd->error;
-                    ////                    }
-                    //                    $bd->query("INSERT INTO test(id, label) VALUES (3, 'c')");
-                    //                    $res = $bd->query("SELECT id, label FROM test ORDER BY id ASC");
-                    //                    echo "Обратный порядок...\n";
-                    //                    for ($row_no = $res->num_rows - 1; $row_no >= 0; $row_no--) {
-                    //	                    $res->data_seek($row_no);
-                    //	                    $row = $res->fetch_assoc();
-                    //	                    echo " id = " . $row['id'] . "\n";
-                    //	                    echo " label = " . $row['label'] . "\n";
-                    //                    }
-                    //
-                    //                    echo "Исходный порядок строк...\n";
-                    //                    $res->data_seek(0);
-                    //                    while ($row = $res->fetch_assoc()) {
-                    //	                    echo " id = " . $row['id'] . "\n";
-                    //	                    echo " label = " . $row['label'] . "\n";
-                    //                    }
-                    ?>
-                </pre>
+//	require_once   __DIR__ . '/../models/Keywords.php';
+//	$product = new Product;
+//	                    $product = Product::create(array('title' => 'Tito', 'citilinkURL' => 'https://www.citilink.ru/catalog/mobile/cell#_phones/357582/', 'keywordID'=>1));
+	//                    $product = new Product();
+	//                    $product->title = 'My first blog post!!';
+	//                    $product->author_id = 5;
+	//                    $product->save();
+	//                    $product::find(1)->title = 'SUmsung S7';
+//	                    $product->save();
+//	                    var_dump($product);
+	//                    foreach ($product::find('all',array('conditions' => array('id > ?',0))) as $k => $v){
+//	foreach ($product::all() as $k => $v){
+////                        print_r($k.'<br>');
+//		print_r($v->id.' : '.$v->title.'<br>');
+//	}
+//	$product::all()[1]->update_attributes(array('title' => strftime("%Y-%m-%d %H:%M:%S")));
+//	print_r($product::all()[1]->title);
+	//                    print_r($product::first()->attributes());
+
+	?>
+                </div>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -143,7 +108,6 @@
                             <select name="category" class="custom-select">
 <!--                                <option >Open this select menu</option>-->
 	                            <?php
-	                            require_once('functions.php');
 	                            $cats = getCategoriesFromJsonFile();
 	                            foreach ($cats as $key => $it) {
 		                            print( '<option value="'.$key.'">'.$it->categoryName.'</option>'  );
