@@ -17,7 +17,11 @@ error_reporting( 0 );
 //echo( json_decode(key($_POST))->title );
 //echo( key($_POST) );
 //$q = json_decode(key($_POST)->id);
-$q = json_decode( file_get_contents( 'php://input' ), true );
+$q =$_POST;
+//$q = json_decode( file_get_contents( 'php://input' ), true )['id'];
+echo '<pre>';
+var_dump($q );
+echo '</pre>';
 //$q = json_decode(file_get_contents('php://input'),true);
 //echo '</pre>';
 
@@ -40,10 +44,10 @@ class Product extends ActiveRecord\Model {
 
 $product = new Product;
 
-echo $product::find( $q["id"] )->update_attributes( array(
+$product::find( intval($q['id']) )->update_attributes( array(
 	'title'       => $q['title'],
-	'citilinkurl' => $q['citilinkurl'],
-	'citilinkid'  => $q['citilinkid'],
-	'keywordid'   => $q['keywordid'],
+	'citilinkURL' => $q['citilinkurl'],
+	'citilinkID'  => $q['citilinkid'],
+	'keywordID'   => $q['keywordid'],
 	'synonyms'    => $q['synonyms']
 ) );
