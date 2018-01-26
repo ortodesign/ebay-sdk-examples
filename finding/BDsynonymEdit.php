@@ -136,22 +136,22 @@ class Keywords extends ActiveRecord\Model {
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div>
-                <h5 class="modal-title">Синонимы</h5>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <form id="formSaveBD" action="" data-id="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <h5 class="modal-title">Синонимы</h5>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="formSaveBD" value="Submit"  class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -177,17 +177,18 @@ class Keywords extends ActiveRecord\Model {
         position: fixed;
         left: 20px;
         top: 50px;
-        background: rgba(100,100,100,.2);
+        background: rgba(100, 100, 100, .2);
     }
 
     .modal-dialog {
         max-width: 90%;
     }
 
-    #exampleModalLongTitle .input-group{
+    #exampleModalLongTitle .input-group {
         width: 100%;
     }
-    #exampleModalLong .modal-header{
+
+    #exampleModalLong .modal-header {
         flex-wrap: wrap;
     }
 </style>
@@ -235,7 +236,7 @@ class Keywords extends ActiveRecord\Model {
                 //     $('.modal-body').append('<b>' + this + '</b><br>');
                 // });
                 // if (syn) {
-                    $('.modal-body').append('<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.synonyms + '">'+ resp.synonyms + '</textarea>');
+                $('.modal-body').append('<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.synonyms + '">' + resp.synonyms + '</textarea>');
                 // }
 
                 // $('.modal-body').html(resp);
@@ -251,6 +252,20 @@ class Keywords extends ActiveRecord\Model {
     ;
     $('#exampleModalLong').on('shown.bs.modal', function () {
         $('textarea[name="synonyms"]').focus()
+    })
+    $('#formSaveBD').on('submit',function (e) {
+        e.preventDefault();
+        console.log(e);
+        console.log($(this).serialize());
+        $.ajax({
+            type: "POST",
+            // data     : {data:values},
+            data: $(this).serialize(),
+            url: "aj_Set_BD.php",
+            success: function (data) {
+                $('#resp').html(data);
+            }
+        });
     })
     // console.log($(this).attr('data-cid'));
 </script>

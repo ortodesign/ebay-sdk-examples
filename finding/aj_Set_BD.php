@@ -5,7 +5,7 @@
  * Date: 26.01.2018
  * Time: 14:44
  */
-error_reporting(0);
+error_reporting( 0 );
 //$json = file_get_contents('php://input');
 //$dataObject = json_decode($json);
 //$dataArray = json_decode($json, true);
@@ -17,7 +17,7 @@ error_reporting(0);
 //echo( json_decode(key($_POST))->title );
 //echo( key($_POST) );
 //$q = json_decode(key($_POST)->id);
-$q = json_decode(file_get_contents('php://input'),true)["id"];
+$q = json_decode( file_get_contents( 'php://input' ), true );
 //$q = json_decode(file_get_contents('php://input'),true);
 //echo '</pre>';
 
@@ -38,6 +38,12 @@ class Product extends ActiveRecord\Model {
 	static $connection = 'production';
 }
 
-$product = new  Product;
+$product = new Product;
 
-echo $product::find($q)->to_json();
+echo $product::find( $q["id"] )->update_attributes( array(
+	'title'       => $q['title'],
+	'citilinkurl' => $q['citilinkurl'],
+	'citilinkid'  => $q['citilinkid'],
+	'keywordid'   => $q['keywordid'],
+	'synonyms'    => $q['synonyms']
+) );
