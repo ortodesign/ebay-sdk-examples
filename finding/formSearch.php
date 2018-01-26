@@ -179,10 +179,11 @@
         src="http://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-
+<!--<script type=text/javascript src=dist/static/js/manifest.45e4ac3571d40053e12d.js></script>-->
+<!--<script type=text/javascript src=dist/static/js/vendor.0d3fd674e6fcc1edd8f8.js></script>-->
+<!--<script type=text/javascript src=dist/static/js/app.be44b96a972efe3cb622.js></script>-->
 <script>
-    import VueEditortable from "vue-editortable"
-    Vue.component('vue-editortable', VueEditortable)
+
     //курс бакса аяксом
     // $.ajax({
     //     url: "https://www.cbr-xml-daily.ru/daily_jsonp.js",
