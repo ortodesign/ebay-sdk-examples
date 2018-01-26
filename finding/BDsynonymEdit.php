@@ -53,6 +53,7 @@ class Keywords extends ActiveRecord\Model {
                     <th scope="col">Имя в ситилинке</th>
                     <th scope="col">id ситилинка</th>
                     <th scope="col">ссылка на ситилинк</th>
+                    <th scope="col"></th>
                 </tr>
 				<?php
 
@@ -64,11 +65,21 @@ class Keywords extends ActiveRecord\Model {
 				//	require __DIR__ . '/../models/Product.php';
 				//	var_dump($citilink);
 				foreach ( $product->all() as $k => $v ) {
-					echo '<tr id="cid' . $v->citilinkid . '" data-cid="' . $v->citilinkid . '"">';
+
+					echo '<tr id="cid' . $v->citilinkid . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
+//					echo '<pre>';
+////					echo object_to_array($v);
+//
+//
+//					print_r( $v);
+//					echo json_encode($v->attributes());
+//
+//					echo '</pre>';
 					print_r( '<td>' . $v->id . '</td>' );
 					print_r( '<td>' . $v->title . '</td>' );
 					print_r( '<td>' . $v->citilinkid . '</td>' );
 					print_r( '<td>' . $v->citilinkurl . '</td>' );
+					print_r( '<td>' . '<button href="#">&times;</button>' . '</td>' );
 //		if (! $product::all( array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) ) ) { // если айди нет в базе
 //			$product::create( array(
 //				'title'       => $v->shortName,
@@ -106,16 +117,17 @@ class Keywords extends ActiveRecord\Model {
 
             </table>
             <!-- Button trigger modal -->
-
-        </div>
-        <div class="row">
-            <div class="justify-content-center">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong"
-                        data-cid="">
-                    Launch demo modal
-                </button>
+            <div class="d-flex align-items-center justify-content-center subm">
+                <div class="d-flex flex-column">
+                    <button type="button" class="runModal btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalLong"
+                            data-cid="">
+                        Launch modal
+                    </button>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -130,6 +142,9 @@ class Keywords extends ActiveRecord\Model {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div>
+                <h5 class="modal-title">Синонимы</h5>
+            </div>
             <div class="modal-body">
                 ...
             </div>
@@ -140,21 +155,104 @@ class Keywords extends ActiveRecord\Model {
         </div>
     </div>
 </div>
+<div id="resp">
+
+</div>
 
 <style>
     table {
         font-size: .7em;
     }
+
+    .subm {
+        min-height: 100px;
+    }
+
+    #resp {
+        max-width: 18%;
+        /*text-overflow: ellipsis;*/
+        overflow-x: scroll;
+        text-wrap: normal;
+        min-height: 100px;
+        position: fixed;
+        left: 20px;
+        top: 50px;
+        background: rgba(100,100,100,.2);
+    }
+
+    .modal-dialog {
+        max-width: 90%;
+    }
+
+    #exampleModalLongTitle .input-group{
+        width: 100%;
+    }
+    #exampleModalLong .modal-header{
+        flex-wrap: wrap;
+    }
 </style>
 <script src="jquery-3.3.1.min.js"></script>
 <script src="tether.min.js"></script>
-<script src="bootstrap.min.js"></script>
+<script src="bootstrap.js"></script>
 <script>
     $('tr[id^="cid"]').on('click', function () {
-        $('.modal-body').html('<H1>' + $(this).attr('data-cid') + '</H1>');
-        $('button').attr('data-cid', $(this).attr('data-cid')).trigger('click');
-        console.log($(this).attr('data-cid'));
+        // $('.modal-body').html('<H1>' + $(this).attr('data-cid') + '</H1>');
+        $('button.runModal').attr('data-cid', $(this).attr('data-cid'));
+        $('#exampleModalLong').modal();
+        // event.preventDefault();
+        $('#resp').html(JSON.stringify($(this).data("all")));
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify($(this).data("all")),
+            // contentType: 'application/json',
+            // dataType: 'json',
+            url: "aj_Get_BD.php",
+            success: function (data) {
+                // console.log(data);
+                // console.log(JSON.parse(data));
+                var resp = JSON.parse(data);
+                console.log(resp);
+                $('#exampleModalLongTitle').html(resp.citilinkid);
+                $('.modal-body,.modal-header').html('');
+                $.each(resp, function (k, v) {
+
+                    // if (k === 'citilinkurl') {
+                    //     $('#exampleModalLongTitle').append('<b>' + k + '</b> : <a href="' + v + '" target="_blank"> link </a><br>');
+                    // } else
+                    if (k != 'synonyms') $('.modal-header').append(
+                        '<div class="input-group ' + k + '">' +
+                        '<span class="input-group-addon ">' + k + '</span>' +
+                        '<input type="text" class="form-control" name="' + k + '"value="' + v + '">' +
+                        '</div>');
+
+
+                })
+                var syn = resp.synonyms ? resp.synonyms.split(';') : null;
+
+
+                // $.each(syn, function () {
+                //     // console.log(this);
+                //     $('.modal-body').append('<b>' + this + '</b><br>');
+                // });
+                // if (syn) {
+                    $('.modal-body').append('<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.synonyms + '">'+ resp.synonyms + '</textarea>');
+                // }
+
+                // $('.modal-body').html(resp);
+
+                // $.each(resp,function (k,v) {
+                //     $('.modal-body').append(k+' : '+v+'<br>');
+                // });
+
+            }
+        })
+        ;
     })
+    ;
+    $('#exampleModalLong').on('shown.bs.modal', function () {
+        $('textarea[name="synonyms"]').focus()
+    })
+    // console.log($(this).attr('data-cid'));
 </script>
 </body>
 </html>
