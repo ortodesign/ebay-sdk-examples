@@ -6,24 +6,7 @@
  * Time: 14:44
  */
 error_reporting( 0 );
-//$json = file_get_contents('php://input');
-//$dataObject = json_decode($json);
-//$dataArray = json_decode($json, true);
-//header('Content-type: application/json');
-
-//echo '<pre>';
-//echo( json_decode(file_get_contents('php://input'),true)["title"]);
-//echo '<br>\n\r';
-//echo( json_decode(key($_POST))->title );
-//echo( key($_POST) );
-//$q = json_decode(key($_POST)->id);
 $q =$_POST;
-//$q = json_decode( file_get_contents( 'php://input' ), true )['id'];
-echo '<pre>';
-var_dump($q );
-echo '</pre>';
-//$q = json_decode(file_get_contents('php://input'),true);
-//echo '</pre>';
 
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
 
@@ -51,3 +34,6 @@ $product::find( intval($q['id']) )->update_attributes( array(
 	'keywordID'   => $q['keywordid'],
 	'synonyms'    => $q['synonyms']
 ) );
+echo '<pre>';
+var_dump($product::find( intval($q['id']) )->attributes());
+echo '</pre>';
