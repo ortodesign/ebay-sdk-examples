@@ -104,6 +104,9 @@ class Keywords extends ActiveRecord\Model {
 
     </div>
 </div>
+<div id="ebayResults">
+<h5>Результаты поиска</h5>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -156,6 +159,19 @@ class Keywords extends ActiveRecord\Model {
         min-height: 100px;
         position: fixed;
         left: 20px;
+        bottom: 50px;
+        background: rgba(100, 100, 100, .2);
+    }
+
+    #ebayResults {
+        max-width: 18%;
+        width: 18%;
+        /*text-overflow: ellipsis;*/
+        overflow-x: scroll;
+        text-wrap: normal;
+        min-height: 85%;
+        position: fixed;
+        right: 20px;
         bottom: 50px;
         background: rgba(100, 100, 100, .2);
     }
@@ -239,6 +255,8 @@ class Keywords extends ActiveRecord\Model {
                 }
             })
             ;
+        } else {
+            //Аякс на конечный поиск
         }
     })
     ;
