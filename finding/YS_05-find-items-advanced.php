@@ -55,18 +55,20 @@ if ( isset( $_POST['citilink'] ) ) {
 				'title'       => $v->shortName,
 				'citilinkURL' => $v->url,
 				'citilinkID'  => $v->id,
+				'citilinkPrice'  => $v->price,
 				'keywordID'   => 1
 			) );
 		}
-//		else {
-//			$product::find('all', array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) )->update_attributes(array(
-//				'title'       => $v->shortName,
-//				'citilinkURL' => $v->url,
+		else {
+			$product::find(array( 'citilinkID' => $v->id ) )->update_attributes(array(
+				'title'       => $v->shortName,
+				'citilinkURL' => $v->url,
 //				'citilinkID'  => $v->id,
-//				'keywordID'   => 1
-//			) );
-//		}
-//		$product->save();
+				'citilinkPrice'  => $v->price,
+				'keywordID'   => 1
+			) );
+			$product->save();
+		}
 
 	}
 

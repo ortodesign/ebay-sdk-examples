@@ -6,7 +6,7 @@
  * Time: 14:44
  */
 error_reporting( 0 );
-$q =$_POST;
+$q = $_POST;
 
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
 
@@ -27,13 +27,14 @@ class Product extends ActiveRecord\Model {
 
 $product = new Product;
 
-$product::find( intval($q['id']) )->update_attributes( array(
-	'title'       => $q['title'],
-	'citilinkURL' => $q['citilinkurl'],
-	'citilinkID'  => $q['citilinkid'],
-	'keywordID'   => $q['keywordid'],
-	'synonyms'    => $q['synonyms']
+$product::find( intval( $q['id'] ) )->update_attributes( array(
+	'title'         => $q['title'],
+	'citilinkURL'   => $q['citilinkurl'],
+	'citilinkID'    => $q['citilinkid'],
+	'citilinkPrice' => $q['citilinkprice'],
+	'keywordID'     => $q['keywordid'],
+	'synonyms'      => $q['synonyms']
 ) );
 echo '<pre>';
-var_dump($product::find( intval($q['id']) )->attributes());
+var_dump( $product::find( intval( $q['id'] ) )->attributes() );
 echo '</pre>';
