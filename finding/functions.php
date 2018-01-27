@@ -73,4 +73,45 @@ function object_to_array($data)
 	return $data;
 }
 
+
+/*
+ * EBAY functions from forums etc...
+ */
+
+function timeLeft($target)
+{
+	$return_value = "";
+	$diff = $target['endTime']->diff($target['timeStamp']);
+	$doPlural = function($nb,$str){return $nb>1?$str.'s':$str;}; // adds plurals
+
+	$format = array();
+	if($diff->y !== 0) {
+		$format[] = "%y ".$doPlural($diff->y, "year");
+	}
+	if($diff->m !== 0) {
+		$format[] = "%m ".$doPlural($diff->m, "month");
+	}
+	if($diff->d !== 0) {
+		$format[] = "%d ".$doPlural($diff->d, "day");
+	}
+	if($diff->h !== 0) {
+		$format[] = "%h ".$doPlural($diff->h, "hour");
+	}
+	if($diff->i !== 0) {
+		$format[] = "%i ".$doPlural($diff->i, "minute");
+	}
+	if($diff->s !== 0) {
+		if(!count($format)) {
+			return "less than a minute ago";
+		} else {
+			$format[] = "%s ".$doPlural($diff->s, "second");
+		}
+	}
+
+	// Prepend 'since ' or whatever you like from the calling function
+	return $diff->format(implode (" ",$format));
+
+}
+
+
 //}

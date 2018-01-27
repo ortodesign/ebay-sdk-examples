@@ -222,7 +222,9 @@ if ( $response->ack !== 'Failure' ) {
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
 		printf(
-			"(%s) %s: %s %.2f\n<br>",
+			"(%s - %s)(%s)<br> %s: %s %.2f\n<br><br>",
+			$item->sellingStatus->timeLeft,
+			$item->listingInfo->endTime->format('d/m/Y h:m:s'),
 			$item->itemId,
 			$item->title,
 			$item->sellingStatus->currentPrice->currencyId,
