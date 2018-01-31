@@ -78,7 +78,7 @@ class Keywords extends ActiveRecord\Model {
 					print_r( '<td>' . $v->title . '</td>' );
 					print_r( '<td>' . $v->citilinkprice . '</td>' );
 					print_r( '<td>' . $v->citilinkid . '</td>' );
-					print_r( '<td>' . $v->synonyms . '</td>' );
+					print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
 					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
 					print_r( '<td>' . '<button class="runIt">&rarr;</button>' . '</td>' );
@@ -172,7 +172,7 @@ class Keywords extends ActiveRecord\Model {
         min-height: 85%;
         position: fixed;
         right: 20px;
-        bottom: 50px;
+        top: 50px;
         background: rgba(100, 100, 100, .2);
     }
 
@@ -257,6 +257,19 @@ class Keywords extends ActiveRecord\Model {
             ;
         } else {
             //Аякс на конечный поиск
+            console.log('search in Ebay');
+            console.log($(this).data().all.synonyms);
+            $.ajax({
+                type: "POST",
+                // data     : {data:values},
+                data: $(this).data().all,
+                url: "aj_Get_ebay.php",
+                success: function (data) {
+                    $('#ebayResults').html(data);
+                }
+            });
+
+
         }
     })
     ;

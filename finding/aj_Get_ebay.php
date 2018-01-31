@@ -1,13 +1,7 @@
 <?php
-echo '<br>';
 require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
-echo 'Смещение времени окончания аукциона: ' . $timeOffset / 60 / 60 . ' час.';
-echo '<br>';
 $dollar = getDollarCourse();
-print( 'Dollar: ' );
-print( $dollar );
-print( '<br>' );
 echo '<h5>POST - дата:</h5>';
 var_dump( $_POST );
 print( '<br>' );
@@ -141,7 +135,7 @@ $service = new Services\FindingService( [
  */
 $request = new Types\FindItemsAdvancedRequest();
 
-$request->keywords = $_POST['name'] ? '(' . $_POST['name'] . ')' : '(iPhone 7, iphone 6)';
+$request->keywords = $_POST['synonyms'] ? '(' . $_POST['synonyms'] . ')' : '(iPhone 7, iphone 6)';
 
 /**
  * Search across two categories.
@@ -165,15 +159,21 @@ $request->itemFilter[] = $itemFilter;
  *
  * Notice that we can take advantage of the fact that the SDK allows object properties to be assigned via the class constructor.
  */
-$request->itemFilter[] = new Types\ItemFilter( [
-	'name'  => 'MinPrice',
-	'value' => [ $_POST['price_min'] ? $_POST['price_min'] : '100.00' ]
-] );
+//$request->itemFilter[] = new Types\ItemFilter( [
+//	'name'  => 'MinPrice',
+//	'value' => [ $_POST['price_min'] ? $_POST['price_min'] : '100.00' ]
+//] );
+//
+//$request->itemFilter[] = new Types\ItemFilter( [
+//	'name'  => 'MaxPrice',
+//	'value' => [ $_POST['price_max'] ? $_POST['price_max'] : '1000.00' ]
+//] );
 
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MaxPrice',
-	'value' => [ $_POST['price_max'] ? $_POST['price_max'] : '1000.00' ]
+	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.2) : '100.00' ]
 ] );
+
 
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'EndTimeTo',
