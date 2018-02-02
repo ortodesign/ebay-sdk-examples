@@ -6,7 +6,6 @@ echo '<h5>POST - дата:</h5>';
 var_dump( $_POST );
 print( '<br>' );
 
-echo '<h5>citilink - дата:</h5><pre>';
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
 //require_once   __DIR__ . '/../models/Product.php';
@@ -217,19 +216,24 @@ printf(
 );
 
 echo "<br>==================\nResults for page 1\n==================\n<br>";
-
+echo '<table>';
 if ( $response->ack !== 'Failure' ) {
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
+		echo '<tr class="ebayid_'.$item->itemId.'">';
 		printf(
-			"(%s) %s: %s %.2f\n<br>",
+			'<td><input class="" type="checkbox"></td><td>(%s)</td><td>(%s)</td> <td>%s</td> <td>%s</td> <td>%.2f</td>',
+//			$item->sellingStatus->timeLeft,
+			$item->listingInfo->endTime->format('d/m/Y h:m:s'),
 			$item->itemId,
 			$item->title,
 			$item->sellingStatus->currentPrice->currencyId,
 			$item->sellingStatus->currentPrice->value
 		);
+		echo '</tr>';
 	}
 }
+echo '</table>';
 
 /**
  * Paginate through 2 more pages worth of results.
