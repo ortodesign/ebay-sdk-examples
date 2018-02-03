@@ -2,9 +2,6 @@
 require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
 $dollar = getDollarCourse();
-echo '<h5>POST - дата:</h5>';
-var_dump( $_POST );
-print( '<br>' );
 
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
@@ -169,8 +166,13 @@ $request->itemFilter[] = $itemFilter;
 //] );
 
 $request->itemFilter[] = new Types\ItemFilter( [
+	'name'  => 'MinPrice',
+	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.5) : '100.00' ]
+] );
+
+$request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MaxPrice',
-	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.2) : '100.00' ]
+	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.8) : '100.00' ]
 ] );
 
 
@@ -215,9 +217,22 @@ printf(
 	$response->paginationOutput->totalPages
 );
 
-echo "<br>==================\nResults for page 1\n==================\n<br>";
-echo '<table>';
+//echo "<br>==================\nResults \n==================\n<br>";
+echo '<table id="tableEbayResults">';
 if ( $response->ack !== 'Failure' ) {
+	print_r('<thead>');
+	printf(
+		'<th></th><th>(%s)</th><th>(%s)</th> <th>%s</th> <th>%s</th> <th>%s</th>',
+////			$item->sellingStatus->timeLeft,
+//		$item->listingInfo->endTime->format('d/m/Y h:m:s'),
+//		$item->itemId,
+//		$item->title,
+//		$item->sellingStatus->currentPrice->currencyId,
+//		$item->sellingStatus->currentPrice->value
+		'timeleft','itemId','title','currencyId','value'
+	);
+	print_r('</thead>');
+	print_r('<tbody>');
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
 		echo '<tr class="ebayid_'.$item->itemId.'">';
@@ -232,8 +247,14 @@ if ( $response->ack !== 'Failure' ) {
 		);
 		echo '</tr>';
 	}
+	print_r('</tbody>');
+
 }
 echo '</table>';
+print( '<br>' );
+echo '<h5>POST - дата:</h5>';
+var_dump( $_POST );
+print( '<br>' );
 
 /**
  * Paginate through 2 more pages worth of results.

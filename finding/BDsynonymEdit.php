@@ -14,7 +14,7 @@ $connections = array(
 	'test'        => 'mysql://tst01:tst@localhost/tst01',
 	'production'  => 'mysql://tst01:tst@localhost/tst01'
 );
-
+$dollar      = getDollarCourse();
 // initialize ActiveRecord
 ActiveRecord\Config::initialize( function ( $cfg ) use ( $connections ) {
 //	$cfg->set_model_directory( __DIR__ . '/../models');
@@ -39,27 +39,38 @@ class Keywords extends ActiveRecord\Model {
 <?php include 'menu.php'; ?>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-5">
+            <hr>
             <!-- Button trigger modal -->
-            <div class="d-flex align-items-center justify-content-center subm">
-                <div class="d-flex flex-column">
-                    <form id="formaddCol" action="" data-id="">
-                        <input type="text" name="addCol" id="addCol">
-<!--                        <button type="button" class="runModalAdd btn btn-primary" data-toggle="modal"-->
-<!--                                data-target="#exampleModalLongAdd"-->
-<!--                                data-cid="">-->
-<!--                            ДОБАВИТЬ-->
-<!--                        </button>-->
-                        <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">ДОБАВИТЬ</button>
-                    </form>
+            <!--            <div class="d-flex align-items-center justify-content-center subm">-->
+            <!--                <div class="d-flex flex-column">-->
+            <form id="formaddCol" action="" data-id="" class="form-inline">
+                <label for="addCol">Ссылка на <br>ситилинк &nbsp;</label>
+                <input type="text" name="addCol" id="addCol" class="form-control">
+
+                <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">Искать</button>
+            </form>
+            <form id="formaddColEdited" action="" data-id="" class="">
+                <img src="loading2.gif" alt="" class="loader">
+                <div id="resultCity" class="wrapword">
+
                 </div>
+            </form>
+            <div id="ebayResults">
+                <h5>Результаты поиска</h5>
+                <img src="loading2.gif" alt="" class="loader">
             </div>
+            <!--                </div>-->
+            <!--            </div>-->
+
         </div>
         <div class="col-sm-7">
             <hr>
 
-            <table class="table table-striped table-dark table-hover table-inverse" id="citiList">
-                <!--                <thead>-->
+            <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
+<!--            <table id="citiList" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
+<!--            <table class="table table-striped table-dark table-hover table-inverse" id="citiList">-->
+                <thead>
                 <tr class="table-primary">
                     <th>наш id</th>
                     <th>Имя в ситилинке</th>
@@ -68,8 +79,10 @@ class Keywords extends ActiveRecord\Model {
                     <th>синонимы для поиска</th>
                     <th>ссылка на ситилинк</th>
                     <th>RUN</th>
-                    <th></th>
+
                 </tr>
+                </thead>
+                <tbody>
 				<?php
 				$product = new  Product;
 				//				foreach ( $product->all() as $k => $v ) {
@@ -83,12 +96,12 @@ class Keywords extends ActiveRecord\Model {
 					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
 					print_r( '<td>' . '<button class="runIt">&rarr;</button>' . '</td>' );
-					echo '<tr>';
+					echo '</tr>';
 				}
 
 
 				?>
-                <!--                </tbody>-->
+                                </tbody>
             </table>
             <!-- Button trigger modal -->
             <div class="d-flex align-items-center justify-content-center subm">
@@ -101,12 +114,13 @@ class Keywords extends ActiveRecord\Model {
                 </div>
             </div>
         </div>
+        <!--        <div class="col-sm-2">-->
+        <!---->
+        <!--        </div>-->
 
     </div>
 </div>
-<div id="ebayResults">
-    <h5>Результаты поиска</h5>
-</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -165,8 +179,13 @@ class Keywords extends ActiveRecord\Model {
         font-size: .7em;
     }
 
+    .loader {
+        display: none;
+        max-width: 50px;
+    }
+
     .subm {
-        min-height: 100px;
+        /*min-height: 100px;*/
     }
 
     .wrapword {
@@ -176,6 +195,7 @@ class Keywords extends ActiveRecord\Model {
     }
 
     #resp {
+        display: none;
         max-width: 18%;
         /*text-overflow: ellipsis;*/
         overflow-x: scroll;
@@ -188,16 +208,31 @@ class Keywords extends ActiveRecord\Model {
     }
 
     #ebayResults {
-        max-width: 18%;
-        width: 18%;
+        max-width: 95%;
+        width: 95%;
+        /*text-overflow: ellipsis;*/
+        overflow-x: scroll;
+        overflow-y: scroll;
+        text-wrap: normal;
+        /*min-height: 85%;*/
+        position: static;
+        /*right: 20px;*/
+        /*top: 60px;*/
+        background: rgba(100, 100, 100, .2);
+        /*z-index: 1;*/
+    }
+
+    #resultCity {
+        max-width: 95%;
+        width: 95%;
         /*text-overflow: ellipsis;*/
         overflow-x: scroll;
         overflow-y: scroll;
         text-wrap: normal;
         min-height: 85%;
-        position: absolute;
-        right: 20px;
-        top: 60px;
+        /*position: absolute;*/
+        /*left: 20px;*/
+        /*top: 80px;*/
         background: rgba(100, 100, 100, .2);
         z-index: 1;
     }
@@ -214,18 +249,23 @@ class Keywords extends ActiveRecord\Model {
         flex-wrap: wrap;
     }
 </style>
+<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
 <script src="jquery-3.3.1.min.js"></script>
 <script src="tether.min.js"></script>
 <script src="bootstrap.js"></script>
-
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!--<script src="https://cdn.datatables.net/1.10.16/js/dataTables.jqueryui.min.js"></script>-->
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <!--<script type="text/javascript" src="jQuery-3.2.1/jquery-3.2.1.js"></script>-->
 <!--<script type="text/javascript" src="DataTables-1.10.16/js/jquery.dataTables.js"></script>-->
 <!--<script type="text/javascript" src="DataTables-1.10.16/js/dataTables.bootstrap4.js"></script>-->
 <script>
-    // $(document).ready(function(){
-    //     $('#citiList').DataTable();
-    // });
 
+    $(document).ready(function() {
+        $('#citiList').DataTable({
+            "order": [[ 0, "desc" ]]
+        });
+    } );
 
     $('tr[id^="cid"]').on('click', function (e) {
         console.log($(e.target)[0].tagName);
@@ -266,7 +306,11 @@ class Keywords extends ActiveRecord\Model {
                 // data     : {data:values},
                 data: $(this).data().all,
                 url: "aj_Get_ebay.php",
+                beforeSend: function () {
+                    $('.loader').show();
+                },
                 success: function (data) {
+                    $('.loader').hide();
                     $('#ebayResults').html(data);
                 }
             });
@@ -286,15 +330,66 @@ class Keywords extends ActiveRecord\Model {
         $.ajax({
             type: "POST",
             // data     : {data:values},
-            data: {'target' : $(this).find('input#addCol').val()},
+            data: {'target': $(this).find('input#addCol').val()},
             url: "aj_find_citilink_byCurl.php",
+            beforeSend: function () {
+                $('.loader').show();
+            },
             success: function (data) {
-                $('#ebayResults').html(data);
+                var resp = JSON.parse(data);
+                // $('#resultCity').html(resp.productName);
+                $('.loader').hide();
+                $('#resultCity').html(
+                    '<h5>Данные по запросу от ситилинка:</h5>' +
+                    '<img src="' + resp.productPictureUrl + '" width="100">' +
+                    '<p><b>Название </b><input class="form-control" type="text" value="' + resp.productName + '"></p>' +
+                    '<p><b>Цена: </b>' + resp.productPrice + ' руб. В долларах: <span id="priceFromCity">' + resp.productPrice / <?php echo $dollar;?> +'</span> USD</p>' +
+                    '<p><b>id продукта: </b>' + resp.productId + '</p>' +
+                    '<p><b>Категория: </b>' + resp.categoryName + ' (id категории : ' + resp.categoryId + ')</p>' +
+                    '<p><b>Синонимы: </b>' + '<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.productName + '">' + resp.productName + '</textarea></p>' +
+                    '<button type="submit" form="formaddColEdited" value="Submit" class="btn btn-primary">Сохранить в БД</button>' +
+                    '<button id="preSearchEbay" type="button" class="btn btn-primary">Искать по ebay</button>' +
+                    // '<p><b>Название</b>' + resp.productName + '</p>' +
+                    // '<p><b>Название</b>' + resp.productName + '</p>' +
+                    ''
+                );
             }
         });
         //не парси с БД - руками забей тут поля и сериализуй на aj_Set_BD.php быстрее будет (или парсить?)
 
 
+    });
+    $('body').on('click', '#preSearchEbay', function (e) {
+        console.log('Предварительный поиск в ebay из формы поиска по ссылке ситилинка');
+        var formFromCity = $(this).closest('form');
+        var synonymsFromCity = formFromCity.find('[name="synonyms"]').val();
+        var priceFromCity = formFromCity.find('#priceFromCity').eq(0).text();
+        console.log(priceFromCity);
+        $.ajax({
+            type: "POST",
+            // data     : {data:values},
+            data: {
+                'synonyms': synonymsFromCity,
+                'citilinkprice': priceFromCity
+            },
+            url: "aj_Get_ebay.php",
+            beforeSend: function () {
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('.loader').hide();
+                $('#ebayResults').html(data);
+                $('#tableEbayResults').DataTable({
+                    "order": [[ 5, "asc" ]]
+                });
+            }
+        });
+
+    });
+
+    $('#formaddColEdited').on('submit', function (e) {
+        e.preventDefault();
+        console.log($(this));
     });
     $('#formSaveBD').on('submit', function (e) {
         e.preventDefault();
@@ -303,6 +398,7 @@ class Keywords extends ActiveRecord\Model {
             // data     : {data:values},
             data: $(this).serialize(),
             url: "aj_Set_BD.php",
+
             success: function (data) {
                 $('#resp').html(data);
                 $('#exampleModalLong').modal('hide')
