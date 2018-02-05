@@ -17,6 +17,7 @@ if ( $_POST['target'] ) {
 	$dom->loadHTML( $html );
 	libxml_clear_errors();
 	$finder = new DOMXPath( $dom );
+	//По сути ищем готовый json с данными из исходного кода страницы в тегах <script> и обрезаем строку регулярками.
 	$rows   = $finder->query( "//script[contains(text(),'pageData = ')]" )->item( 0 )->nodeValue;;
 
 //$doc->getElementsByTagName('script'); //->item(0)->nodeValue

@@ -164,15 +164,23 @@ $request->itemFilter[] = $itemFilter;
 //	'name'  => 'MaxPrice',
 //	'value' => [ $_POST['price_max'] ? $_POST['price_max'] : '1000.00' ]
 //] );
+$priceIn =  $_POST['citilinkprice'];
+//Проценты по дефолту мин - 50, макс - 80
 
+$priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;
+$priceMax = $_POST['max_procent'] ? $priceIn * $_POST['max_procent'] / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
+
+//	$_POST['min_procent'] ? $_POST['min_procent'] :
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MinPrice',
-	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.5) : '100.00' ]
+	'value' => [ (string)$priceMin ]
+//	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.5) : '100.00' ]
 ] );
 
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MaxPrice',
-	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.8) : '100.00' ]
+	'value' => [ (string)$priceMax ]
+//	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.8) : '100.00' ]
 ] );
 
 
@@ -216,8 +224,9 @@ printf(
 	$response->paginationOutput->totalEntries,
 	$response->paginationOutput->totalPages
 );
-
+printf( '<script> gl.eresp = %s ; </script>' , $response->paginationOutput->totalEntries);
 //echo "<br>==================\nResults \n==================\n<br>";
+echo '<form id="formTableEbayResults">';
 echo '<table id="tableEbayResults">';
 if ( $response->ack !== 'Failure' ) {
 	print_r('<thead>');
@@ -251,9 +260,15 @@ if ( $response->ack !== 'Failure' ) {
 
 }
 echo '</table>';
+echo '<button id="ebaySubmit" class="btn btn-primary">Добавить отмеченные в БД</button>';
+echo '</form>';
+
 print( '<br>' );
 echo '<h5>POST - дата:</h5>';
-var_dump( $_POST );
+echo '<pre>';
+var_dump($_POST);
+//print_r( json_encode($_POST, JSON_PRETTY_PRINT) );
+echo '</pre>';
 print( '<br>' );
 
 /**

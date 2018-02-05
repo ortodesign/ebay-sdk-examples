@@ -26,8 +26,14 @@ class Product extends ActiveRecord\Model {
 	static $connection = 'production';
 }
 
-class Keywords extends ActiveRecord\Model {
-	static $table_name = 'keywords';
+//
+//class Keywords extends ActiveRecord\Model {
+//	static $table_name = 'keywords';
+//	static $connection = 'production';
+//}
+
+class Category extends ActiveRecord\Model {
+	static $table_name = 'category';
 	static $connection = 'production';
 }
 
@@ -37,6 +43,7 @@ class Keywords extends ActiveRecord\Model {
 
 <body>
 <?php include 'menu.php'; ?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-5">
@@ -68,16 +75,19 @@ class Keywords extends ActiveRecord\Model {
             <hr>
 
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
-<!--            <table id="citiList" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
-<!--            <table class="table table-striped table-dark table-hover table-inverse" id="citiList">-->
+                <!--            <table id="citiList" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
+                <!--            <table class="table table-striped table-dark table-hover table-inverse" id="citiList">-->
                 <thead>
                 <tr class="table-primary">
                     <th>наш id</th>
+                    <th>Категория</th>
                     <th>Имя в ситилинке</th>
                     <th>цена на ситилинке (USD)</th>
                     <th>id ситилинка</th>
                     <th>синонимы для поиска</th>
-                    <th>ссылка на ситилинк</th>
+                    <th>Результаты выдачи</th>
+                    <th>Min/Max процент (дефолт 50/80)</th>
+                    <!--                    <th>ссылка на ситилинк</th>-->
                     <th>RUN</th>
 
                 </tr>
@@ -85,15 +95,23 @@ class Keywords extends ActiveRecord\Model {
                 <tbody>
 				<?php
 				$product = new  Product;
+				$category = new  Category;
+
 				//				foreach ( $product->all() as $k => $v ) {
 				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
 					echo '<tr id="cid' . $v->citilinkid . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
 					print_r( '<td>' . $v->id . '</td>' );
-					print_r( '<td>' . $v->title . '</td>' );
+					print_r( '<td>' . $category::all( array(
+							'conditions' => array('citi_category_id = ?',$v->categoryid)
+						) )[0]->name . '</td>' );
+//					print_r( '<td>' . $category::find( $v->categoryid )[0]->name . '</td>' );
+					print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
 					print_r( '<td>' . $v->citilinkprice . '</td>' );
 					print_r( '<td>' . $v->citilinkid . '</td>' );
 					print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
-					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
+					print_r( '<td>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</td>' );
+					print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
+//					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
 					print_r( '<td>' . '<button class="runIt">&rarr;</button>' . '</td>' );
 					echo '</tr>';
@@ -101,7 +119,7 @@ class Keywords extends ActiveRecord\Model {
 
 
 				?>
-                                </tbody>
+                </tbody>
             </table>
             <!-- Button trigger modal -->
             <div class="d-flex align-items-center justify-content-center subm">
@@ -181,7 +199,14 @@ class Keywords extends ActiveRecord\Model {
 
     .loader {
         display: none;
-        max-width: 50px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        max-width: 200px;
+        z-index: 99;
     }
 
     .subm {
@@ -204,7 +229,8 @@ class Keywords extends ActiveRecord\Model {
         position: fixed;
         left: 20px;
         bottom: 50px;
-        background: rgba(100, 100, 100, .2);
+        border: 2px solid red;
+        background: rgba(255, 255, 255, .2);
     }
 
     #ebayResults {
@@ -260,12 +286,12 @@ class Keywords extends ActiveRecord\Model {
 <!--<script type="text/javascript" src="DataTables-1.10.16/js/jquery.dataTables.js"></script>-->
 <!--<script type="text/javascript" src="DataTables-1.10.16/js/dataTables.bootstrap4.js"></script>-->
 <script>
-
-    $(document).ready(function() {
+    var gl = {};
+    $(document).ready(function () {
         $('#citiList').DataTable({
-            "order": [[ 0, "desc" ]]
+            "order": [[0, "desc"]]
         });
-    } );
+    });
 
     $('tr[id^="cid"]').on('click', function (e) {
         console.log($(e.target)[0].tagName);
@@ -298,7 +324,7 @@ class Keywords extends ActiveRecord\Model {
             })
             ;
         } else {
-            //Аякс на конечный поиск
+            //Аякс на конечный поиск "клик по стрелочке"
             // console.log('search in Ebay');
             // console.log($(this).data().all.synonyms);
             $.ajax({
@@ -312,6 +338,9 @@ class Keywords extends ActiveRecord\Model {
                 success: function (data) {
                     $('.loader').hide();
                     $('#ebayResults').html(data);
+                    gl.etable = $('#tableEbayResults').DataTable({
+                        "order": [[5, "asc"]]
+                    });
                 }
             });
 
@@ -337,16 +366,18 @@ class Keywords extends ActiveRecord\Model {
             },
             success: function (data) {
                 var resp = JSON.parse(data);
+                gl.resp = resp;
                 // $('#resultCity').html(resp.productName);
                 $('.loader').hide();
                 $('#resultCity').html(
                     '<h5>Данные по запросу от ситилинка:</h5>' +
-                    '<img src="' + resp.productPictureUrl + '" width="100">' +
-                    '<p><b>Название </b><input class="form-control" type="text" value="' + resp.productName + '"></p>' +
-                    '<p><b>Цена: </b>' + resp.productPrice + ' руб. В долларах: <span id="priceFromCity">' + resp.productPrice / <?php echo $dollar;?> +'</span> USD</p>' +
-                    '<p><b>id продукта: </b>' + resp.productId + '</p>' +
-                    '<p><b>Категория: </b>' + resp.categoryName + ' (id категории : ' + resp.categoryId + ')</p>' +
-                    '<p><b>Синонимы: </b>' + '<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.productName + '">' + resp.productName + '</textarea></p>' +
+                    '<img src="' + gl.resp.productPictureUrl + '" width="100">' +
+                    '<p><b>Название </b><input class="form-control" type="text" value="' + gl.resp.productName + '"></p>' +
+                    '<p><b>Цена: </b>' + gl.resp.productPrice + ' руб. В долларах: <span id="priceFromCity">' + (gl.resp.productPrice / <?php echo $dollar;?>).toFixed() + '</span> USD</p>' +
+                    '<p><b>id продукта: </b>' + gl.resp.productId + '</p>' +
+                    '<p><b>Категория: </b>' + gl.resp.categoryName + ' (id категории : ' + gl.resp.categoryId + ')</p>' +
+                    '<p><b>fullRealCategoryName: </b>' + gl.resp.fullRealCategoryName + '</p>' +
+                    '<p><b>Синонимы: </b>' + '<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + gl.resp.productName + '">' + gl.resp.productName + '</textarea></p>' +
                     '<button type="submit" form="formaddColEdited" value="Submit" class="btn btn-primary">Сохранить в БД</button>' +
                     '<button id="preSearchEbay" type="button" class="btn btn-primary">Искать по ebay</button>' +
                     // '<p><b>Название</b>' + resp.productName + '</p>' +
@@ -379,17 +410,67 @@ class Keywords extends ActiveRecord\Model {
             success: function (data) {
                 $('.loader').hide();
                 $('#ebayResults').html(data);
-                $('#tableEbayResults').DataTable({
-                    "order": [[ 5, "asc" ]]
+                gl.etable = $('#tableEbayResults').DataTable({
+                    "order": [[5, "asc"]]
                 });
             }
         });
-
     });
+
+    $('body').on('click', '#ebaySubmit', function (e) {
+        e.preventDefault();
+        $("input:checked", gl.etable.rows().nodes()).each(function(){
+            console.log($(this).val());
+        });
+        console.log(gl.eresp );
+    });
+
 
     $('#formaddColEdited').on('submit', function (e) {
         e.preventDefault();
-        console.log($(this));
+
+        var senddata = {
+            'title': gl.resp.productName,
+            'citilinkurl': gl.resp.productUrl,
+            'citilinkid': gl.resp.productId,
+            'citilinkprice': (gl.resp.productPrice / <?php echo $dollar;?>).toFixed(),
+            'categoryid': gl.resp.categoryId,
+            'picture_url': gl.resp.productPictureUrl,
+            'synonyms': $(this).find('textarea[name="synonyms"]').val()
+        };
+        console.log(senddata);
+        $.ajax({
+            type: "POST",
+            // dataType: "json",
+            data: {data: senddata},
+            url: "aj_Set_BD.php",
+
+            success: function (data) {
+                // $('#resp').html(data);
+                console.log(data);
+            },
+            error: function (jqXHR, exception) {
+                $('#resp').show();
+
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('#resp').html(msg);
+            },
+        });
     });
     $('#formSaveBD').on('submit', function (e) {
         e.preventDefault();
