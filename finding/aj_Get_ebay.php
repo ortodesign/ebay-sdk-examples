@@ -1,4 +1,11 @@
 <?php
+$ebayTime = new DateTime();
+//print_r($ebayTime);
+echo '<br>';
+require_once ('../shopping/01-get-ebay-time.php');
+//echo '<br>';
+print_r($ebayTime);
+echo '<br>';
 require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
 $dollar = getDollarCourse();
@@ -246,9 +253,11 @@ if ( $response->ack !== 'Failure' ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
 		echo '<tr id="ebayid_'.$item->itemId.'">';
 		printf(
-			'<td><input class="" type="checkbox"></td><td>(%s)</td><td>(%s)</td> <td>%s</td> <td>%s</td> <td>%.2f</td>',
+			'<td><input class="" type="checkbox"></td><td>(%1s)</td><td>(%2s)</td> <td>%3s</td> <td>%4s</td> <td>%5.2f</td>',
 //			$item->sellingStatus->timeLeft,
-			$item->listingInfo->endTime->format('d/m/Y h:m:s'),
+//			$item->listingInfo->endTime->format(DateTime::ISO8601),
+			$item->listingInfo->endTime->format(DateTime::ISO8601),
+//			$item->listingInfo->endTime->format('d h:m:s'),
 			$item->itemId,
 			$item->title,
 			$item->sellingStatus->currentPrice->currencyId,
@@ -263,13 +272,13 @@ echo '</table>';
 echo '<button id="ebaySubmit" class="btn btn-primary">Добавить отмеченные в БД</button>';
 echo '</form>';
 
-print( '<br>' );
-echo '<h5>POST - дата:</h5>';
-echo '<pre>';
-var_dump($_POST);
-//print_r( json_encode($_POST, JSON_PRETTY_PRINT) );
-echo '</pre>';
-print( '<br>' );
+//print( '<br>' );
+//echo '<h5>POST - дата:</h5>';
+//echo '<pre>';
+//var_dump($_POST);
+////print_r( json_encode($_POST, JSON_PRETTY_PRINT) );
+//echo '</pre>';
+//print( '<br>' );
 
 /**
  * Paginate through 2 more pages worth of results.

@@ -66,5 +66,7 @@ if (isset($response->Errors)) {
 }
 
 if ($response->Ack !== 'Failure') {
-    printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
+//    printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
+//    print_r($response->Timestamp->format(DateTime::ISO8601)); //YS
+    $ebayTime = $response->Timestamp;
 }

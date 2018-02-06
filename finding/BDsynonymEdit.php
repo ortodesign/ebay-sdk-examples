@@ -75,15 +75,13 @@ class Category extends ActiveRecord\Model {
             <hr>
 
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
-                <!--            <table id="citiList" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
-                <!--            <table class="table table-striped table-dark table-hover table-inverse" id="citiList">-->
                 <thead>
                 <tr class="table-primary">
                     <th>наш id</th>
                     <th>Категория</th>
                     <th>Имя в ситилинке</th>
-                    <th>цена на ситилинке (USD)</th>
-                    <th>id ситилинка</th>
+                    <th>цена (USD)</th>
+<!--                    <th>id ситилинка</th>-->
                     <th>синонимы для поиска</th>
                     <th>Результаты выдачи</th>
                     <th>Min/Max процент (дефолт 50/80)</th>
@@ -97,8 +95,9 @@ class Category extends ActiveRecord\Model {
 				$product  = new  Product;
 				$category = new  Category;
 
-				//				foreach ( $product->all() as $k => $v ) {
-				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
+//				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
+				//обратный ордер по id подхватывается из js datatable
+				foreach ( $product->all() as $k => $v ) {
 					echo '<tr id="cid' . $v->citilinkid . '" data-id="' . $v->id . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
 					print_r( '<td>' . $v->id . '</td>' );
 					print_r( '<td>' . $category::all( array(
@@ -107,7 +106,7 @@ class Category extends ActiveRecord\Model {
 //					print_r( '<td>' . $category::find( $v->categoryid )[0]->name . '</td>' );
 					print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
 					print_r( '<td>' . $v->citilinkprice . '</td>' );
-					print_r( '<td>' . $v->citilinkid . '</td>' );
+//					print_r( '<td>' . $v->citilinkid . '</td>' );
 					print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
 					print_r( '<td>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</td>' );
 					print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
@@ -121,21 +120,7 @@ class Category extends ActiveRecord\Model {
 				?>
                 </tbody>
             </table>
-            <!-- Button trigger modal -->
-<!--            <div class="d-flex align-items-center justify-content-center subm">-->
-<!--                <div class="d-flex flex-column">-->
-<!--                    <button type="button" class="runModal btn btn-primary" data-toggle="modal"-->
-<!--                            data-target="#exampleModalLong"-->
-<!--                            data-cid="">-->
-<!--                        Launch modal-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
-        <!--        <div class="col-sm-2">-->
-        <!---->
-        <!--        </div>-->
-
     </div>
 </div>
 
@@ -349,6 +334,7 @@ class Category extends ActiveRecord\Model {
         $('[name="synonyms"]').focus()
     })
     $('#formaddCol').on('submit', function (e) {
+        //кнопка ИСКАТЬ по линку ситили
         e.preventDefault();
 
         // $('[name="synonyms"]').focus()
@@ -364,6 +350,7 @@ class Category extends ActiveRecord\Model {
             success: function (data) {
                 var resp = JSON.parse(data);
                 gl.resp = resp;
+                console.log(gl.resp);
                 // $('#resultCity').html(resp.productName);
                 $('.loader').hide();
                 $('#resultCity').html(
@@ -381,12 +368,28 @@ class Category extends ActiveRecord\Model {
                     // '<p><b>Название</b>' + resp.productName + '</p>' +
                     ''
                 );
+                gl.senddataCiti = {
+                    'title': gl.resp.productName,
+                    'citilinkurl': gl.resp.productUrl,
+                    'citilinkid': gl.resp.productId,
+                    'citilinkprice': (gl.resp.productPrice / <?php echo $dollar;?>).toFixed(),
+                    'categoryid': gl.resp.categoryId,
+                    'picture_url': gl.resp.productPictureUrl,
+                    'synonyms': $('#formaddColEdited').find('textarea[name="synonyms"]').val()
+                };
+                console.log(gl.senddataCiti.synonyms);
+
             }
         });
-        //не парси с БД - руками забей тут поля и сериализуй на aj_Set_BD.php быстрее будет (или парсить?)
-
-
     });
+
+    //Обрабатываем изменение ввода синониммов, чтоб занести в глобал
+    $('#formaddColEdited').on('change', '[name=synonyms]', function (e) {
+        gl.senddataCiti.synonyms = $(this).val();
+        console.log(gl.senddataCiti['synonyms']);
+    });
+
+
     $('body').on('click', '#preSearchEbay', function (e) {
         console.log('Предварительный поиск в ebay из формы поиска по ссылке ситилинка');
         var formFromCity = $(this).closest('form');
@@ -427,12 +430,13 @@ class Category extends ActiveRecord\Model {
         var curID = ($('#tableEbayResults').attr('data-id'));
         console.log(gl.eresp);
 
-        var senddata = {
+        var predata = {
             'id': curID,
             'ebay_ids': gl.ebayIDs.join(),
             'last_all_ebay_count': gl.eresp,
             'last_approve_ebay_count': gl.ebayIDs.length,
         };
+        var senddata = Object.assign({}, gl.senddataCiti, predata);
         console.log(senddata);
         $.ajax({
             type: "POST",
@@ -449,20 +453,12 @@ class Category extends ActiveRecord\Model {
     $('#formaddColEdited').on('submit', function (e) {
         e.preventDefault();
 
-        var senddata = {
-            'title': gl.resp.productName,
-            'citilinkurl': gl.resp.productUrl,
-            'citilinkid': gl.resp.productId,
-            'citilinkprice': (gl.resp.productPrice / <?php echo $dollar;?>).toFixed(),
-            'categoryid': gl.resp.categoryId,
-            'picture_url': gl.resp.productPictureUrl,
-            'synonyms': $(this).find('textarea[name="synonyms"]').val()
-        };
-        console.log(senddata);
+
+        console.log(gl.senddataCiti);
         $.ajax({
             type: "POST",
             // dataType: "json",
-            data: {data: senddata},
+            data: {data: gl.senddataCiti},
             url: "aj_Set_BD.php",
 
             success: function (data) {
