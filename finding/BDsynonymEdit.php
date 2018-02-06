@@ -94,15 +94,15 @@ class Category extends ActiveRecord\Model {
                 </thead>
                 <tbody>
 				<?php
-				$product = new  Product;
+				$product  = new  Product;
 				$category = new  Category;
 
 				//				foreach ( $product->all() as $k => $v ) {
 				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
-					echo '<tr id="cid' . $v->citilinkid . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
+					echo '<tr id="cid' . $v->citilinkid . '" data-id="' . $v->id . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
 					print_r( '<td>' . $v->id . '</td>' );
 					print_r( '<td>' . $category::all( array(
-							'conditions' => array('citi_category_id = ?',$v->categoryid)
+							'conditions' => array( 'citi_category_id = ?', $v->categoryid )
 						) )[0]->name . '</td>' );
 //					print_r( '<td>' . $category::find( $v->categoryid )[0]->name . '</td>' );
 					print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
@@ -122,15 +122,15 @@ class Category extends ActiveRecord\Model {
                 </tbody>
             </table>
             <!-- Button trigger modal -->
-            <div class="d-flex align-items-center justify-content-center subm">
-                <div class="d-flex flex-column">
-                    <button type="button" class="runModal btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModalLong"
-                            data-cid="">
-                        Launch modal
-                    </button>
-                </div>
-            </div>
+<!--            <div class="d-flex align-items-center justify-content-center subm">-->
+<!--                <div class="d-flex flex-column">-->
+<!--                    <button type="button" class="runModal btn btn-primary" data-toggle="modal"-->
+<!--                            data-target="#exampleModalLong"-->
+<!--                            data-cid="">-->
+<!--                        Launch modal-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <!--        <div class="col-sm-2">-->
         <!---->
@@ -275,16 +275,11 @@ class Category extends ActiveRecord\Model {
         flex-wrap: wrap;
     }
 </style>
-<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
 <script src="jquery-3.3.1.min.js"></script>
 <script src="tether.min.js"></script>
 <script src="bootstrap.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<!--<script src="https://cdn.datatables.net/1.10.16/js/dataTables.jqueryui.min.js"></script>-->
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<!--<script type="text/javascript" src="jQuery-3.2.1/jquery-3.2.1.js"></script>-->
-<!--<script type="text/javascript" src="DataTables-1.10.16/js/jquery.dataTables.js"></script>-->
-<!--<script type="text/javascript" src="DataTables-1.10.16/js/dataTables.bootstrap4.js"></script>-->
 <script>
     var gl = {};
     $(document).ready(function () {
@@ -322,11 +317,12 @@ class Category extends ActiveRecord\Model {
                     $('.modal-body').append('<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.synonyms + '">' + resp.synonyms + '</textarea>');
                 }
             })
-            ;
         } else {
             //Аякс на конечный поиск "клик по стрелочке"
             // console.log('search in Ebay');
             // console.log($(this).data().all.synonyms);
+            var thatID = $(this).attr('data-id');
+            console.log(thatID);
             $.ajax({
                 type: "POST",
                 // data     : {data:values},
@@ -338,6 +334,7 @@ class Category extends ActiveRecord\Model {
                 success: function (data) {
                     $('.loader').hide();
                     $('#ebayResults').html(data);
+                    $('#tableEbayResults').attr('data-id', thatID);
                     gl.etable = $('#tableEbayResults').DataTable({
                         "order": [[5, "asc"]]
                     });
@@ -418,11 +415,34 @@ class Category extends ActiveRecord\Model {
     });
 
     $('body').on('click', '#ebaySubmit', function (e) {
+        // Вычленяем адишники ебея по отмеченным чекбоксам. Общее кол-во найденных - костылем с пхп приезжает в gl.eresp
         e.preventDefault();
-        $("input:checked", gl.etable.rows().nodes()).each(function(){
-            console.log($(this).val());
+        gl.ebayIDs = [];
+        $("input:checked", gl.etable.rows().nodes()).each(function () {
+            var e = $(this).closest('tr').attr('id');
+            var eid = e.substring(7, e.length);
+            gl.ebayIDs.push(eid);
         });
-        console.log(gl.eresp );
+        console.log(gl.ebayIDs);
+        var curID = ($('#tableEbayResults').attr('data-id'));
+        console.log(gl.eresp);
+
+        var senddata = {
+            'id': curID,
+            'ebay_ids': gl.ebayIDs.join(),
+            'last_all_ebay_count': gl.eresp,
+            'last_approve_ebay_count': gl.ebayIDs.length,
+        };
+        console.log(senddata);
+        $.ajax({
+            type: "POST",
+            data: {data: senddata},
+            url: "aj_Set_BD.php",
+            success: function (data) {
+                console.log(data);
+            },
+        });
+
     });
 
 

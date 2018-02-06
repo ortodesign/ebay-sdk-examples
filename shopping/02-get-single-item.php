@@ -50,7 +50,8 @@ $request = new Types\GetSingleItemRequestType();
 /**
  * Specify the item ID of the listing.
  */
-$request->ItemID = '111111111111';
+//$request->ItemID = '111111111111';
+$request->ItemID = '222826845545';
 
 /**
  * Specify that additional fields need to be returned in the response.
@@ -144,4 +145,7 @@ if ($response->Ack !== 'Failure') {
             printf("Notes: %s \n", $compatibility->CompatibilityNotes);
         }
     }
+echo '<pre>';
+    var_dump($item);
+echo '</pre>';
 }

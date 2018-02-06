@@ -244,7 +244,7 @@ if ( $response->ack !== 'Failure' ) {
 	print_r('<tbody>');
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
-		echo '<tr class="ebayid_'.$item->itemId.'">';
+		echo '<tr id="ebayid_'.$item->itemId.'">';
 		printf(
 			'<td><input class="" type="checkbox"></td><td>(%s)</td><td>(%s)</td> <td>%s</td> <td>%s</td> <td>%.2f</td>',
 //			$item->sellingStatus->timeLeft,
