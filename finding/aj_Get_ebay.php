@@ -2,13 +2,13 @@
 $ebayTime = new DateTime();
 //print_r($ebayTime);
 echo '<br>';
-require_once ('../shopping/01-get-ebay-time.php');
+require_once( '../shopping/01-get-ebay-time.php' );
 //echo '<br>';
-print_r($ebayTime);
+print_r( 'Время на eBay: ' . $ebayTime->format(DateTime::ISO8601) );
 echo '<br>';
 require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
-$dollar = getDollarCourse();
+$dollar     = getDollarCourse();
 
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
@@ -30,6 +30,7 @@ class Product extends ActiveRecord\Model {
 	static $table_name = 'Product';
 	static $connection = 'production';
 }
+
 class Keywords extends ActiveRecord\Model {
 	static $table_name = 'keywords';
 	static $connection = 'production';
@@ -47,22 +48,21 @@ if ( isset( $_POST['citilink'] ) ) {
 		print_r( $v->shortName . ' : ' );
 		print_r( $v->id . ' : ' );
 		print_r( $v->url . '<br>' );
-		if (! $product::all( array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) ) ) { // если айди нет в базе
+		if ( ! $product::all( array( 'conditions' => array( 'citilinkID = ?', $v->id ) ) ) ) { // если айди нет в базе
 			$product::create( array(
-				'title'       => $v->shortName,
-				'citilinkURL' => $v->url,
-				'citilinkID'  => $v->id,
-				'citilinkPrice'  => $v->price,
-				'keywordID'   => 1
+				'title'         => $v->shortName,
+				'citilinkURL'   => $v->url,
+				'citilinkID'    => $v->id,
+				'citilinkPrice' => $v->price,
+				'keywordID'     => 1
 			) );
-		}
-		else {
-			$product::find(array( 'citilinkID' => $v->id ) )->update_attributes(array(
-				'title'       => $v->shortName,
-				'citilinkURL' => $v->url,
+		} else {
+			$product::find( array( 'citilinkID' => $v->id ) )->update_attributes( array(
+				'title'         => $v->shortName,
+				'citilinkURL'   => $v->url,
 //				'citilinkID'  => $v->id,
-				'citilinkPrice'  => $v->price,
-				'keywordID'   => 1
+				'citilinkPrice' => $v->price,
+				'keywordID'     => 1
 			) );
 			$product->save();
 		}
@@ -171,7 +171,7 @@ $request->itemFilter[] = $itemFilter;
 //	'name'  => 'MaxPrice',
 //	'value' => [ $_POST['price_max'] ? $_POST['price_max'] : '1000.00' ]
 //] );
-$priceIn =  $_POST['citilinkprice'];
+$priceIn = $_POST['citilinkprice'];
 //Проценты по дефолту мин - 50, макс - 80
 
 $priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;
@@ -180,13 +180,13 @@ $priceMax = $_POST['max_procent'] ? $priceIn * $_POST['max_procent'] / 100 : $pr
 //	$_POST['min_procent'] ? $_POST['min_procent'] :
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MinPrice',
-	'value' => [ (string)$priceMin ]
+	'value' => [ (string) $priceMin ]
 //	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.5) : '100.00' ]
 ] );
 
 $request->itemFilter[] = new Types\ItemFilter( [
 	'name'  => 'MaxPrice',
-	'value' => [ (string)$priceMax ]
+	'value' => [ (string) $priceMax ]
 //	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.8) : '100.00' ]
 ] );
 
@@ -231,46 +231,55 @@ printf(
 	$response->paginationOutput->totalEntries,
 	$response->paginationOutput->totalPages
 );
-printf( '<script> gl.eresp = %s ; </script>' , $response->paginationOutput->totalEntries);
+printf( '<script> gl.eresp = %s ; </script>', $response->paginationOutput->totalEntries );
 //echo "<br>==================\nResults \n==================\n<br>";
 echo '<form id="formTableEbayResults">';
 echo '<table id="tableEbayResults">';
 if ( $response->ack !== 'Failure' ) {
-	print_r('<thead>');
+	print_r( '<thead>' );
 	printf(
-		'<th></th><th>(%s)</th><th>(%s)</th> <th>%s</th> <th>%s</th> <th>%s</th>',
+		'<th></th><th>(%s)</th><th>(%s)</th><th>(%s)</th> <th>%s</th> <th>%s</th> <th>%s</th> <th>%s</th>',
 ////			$item->sellingStatus->timeLeft,
 //		$item->listingInfo->endTime->format('d/m/Y h:m:s'),
 //		$item->itemId,
 //		$item->title,
 //		$item->sellingStatus->currentPrice->currencyId,
 //		$item->sellingStatus->currentPrice->value
-		'timeleft','itemId','title','currencyId','value'
+		'time', 'timeleft', 'itemId', 'title', 'ebayURL', 'currencyId', 'value'
 	);
-	print_r('</thead>');
-	print_r('<tbody>');
+	print_r( '</thead>' );
+	print_r( '<tbody>' );
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
-		echo '<tr id="ebayid_'.$item->itemId.'">';
+		echo '<tr id="ebayid_' . $item->itemId . '">';
+		$diff = $ebayTime->diff( $item->listingInfo->endTime );
 		printf(
-			'<td><input class="" type="checkbox"></td><td>(%1s)</td><td>(%2s)</td> <td>%3s</td> <td>%4s</td> <td>%5.2f</td>',
+			'<td><input class="" type="checkbox"></td><td>%s</td><td>%s</td><td>(%s)</td> <td>%s</td> <td><a href="%s" target="_blank">link</a></td> <td>%s</td> <td>%.2f</td>',
 //			$item->sellingStatus->timeLeft,
-//			$item->listingInfo->endTime->format(DateTime::ISO8601),
-			$item->listingInfo->endTime->format(DateTime::ISO8601),
+			$item->listingInfo->endTime->format( DateTime::ISO8601 ),
 //			$item->listingInfo->endTime->format('d h:m:s'),
+//			$diff->format(DateTime::ISO8601),
+			$diff->format( '%h ч. %i м.' ),
 			$item->itemId,
 			$item->title,
+			$item->viewItemURL,
 			$item->sellingStatus->currentPrice->currencyId,
 			$item->sellingStatus->currentPrice->value
 		);
 		echo '</tr>';
 	}
-	print_r('</tbody>');
-
+	print_r( '</tbody>' );
+	echo '</table>';
+	echo '<button id="ebaySubmit" class="btn btn-primary">Добавить отмеченные в БД</button>';
+	echo '<button type="button" class="btn btn-secondary pr-4" onclick="$(this).closest(\'#ebayResults\').collapse(\'hide\');">Close</button>';
+	echo '<button type="button" class="btn btn-secondary close closeabs" onclick="$(this).closest(\'#ebayResults\').collapse(\'hide\');">&times;</button>';
+	echo '</form>';
+//	$tt = $response->searchResult->item;
+//	echo '<pre>';
+//	var_dump(  json_encode((array)$tt) );
+//	echo '</pre>';
 }
-echo '</table>';
-echo '<button id="ebaySubmit" class="btn btn-primary">Добавить отмеченные в БД</button>';
-echo '</form>';
+
 
 //print( '<br>' );
 //echo '<h5>POST - дата:</h5>';

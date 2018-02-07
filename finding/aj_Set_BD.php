@@ -29,6 +29,10 @@ if ( $q ) {
 		static $table_name = 'Product';
 		static $connection = 'production';
 	}
+	class Ebay extends ActiveRecord\Model {
+		static $table_name = 'ebay';
+		static $connection = 'production';
+	}
 
 	$product = new Product;
 	if ( $q['id'] ) {

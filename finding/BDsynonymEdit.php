@@ -27,10 +27,10 @@ class Product extends ActiveRecord\Model {
 }
 
 //
-//class Keywords extends ActiveRecord\Model {
-//	static $table_name = 'keywords';
-//	static $connection = 'production';
-//}
+class Ebay extends ActiveRecord\Model {
+	static $table_name = 'ebay';
+	static $connection = 'production';
+}
 
 class Category extends ActiveRecord\Model {
 	static $table_name = 'category';
@@ -43,6 +43,7 @@ class Category extends ActiveRecord\Model {
 
 <body>
 <?php include 'menu.php'; ?>
+<img src="loading2.gif" alt="" class="loader">
 
 <div class="container-fluid">
     <div class="row">
@@ -57,15 +58,17 @@ class Category extends ActiveRecord\Model {
 
                 <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">Искать</button>
             </form>
-            <form id="formaddColEdited" action="" data-id="" class="">
-                <img src="loading2.gif" alt="" class="loader">
+            <form id="formaddColEdited" action="" data-id="" class="collapse" style="position:relative;">
                 <div id="resultCity" class="wrapword">
 
                 </div>
+                <button type="button" class="btn btn-secondary close closeabs"
+                        onclick="$(this).parent().collapse('hide');">&times;
+                </button>
             </form>
-            <div id="ebayResults">
+            <div id="ebayResults" class="collapse">
+
                 <h5>Результаты поиска</h5>
-                <img src="loading2.gif" alt="" class="loader">
             </div>
             <!--                </div>-->
             <!--            </div>-->
@@ -79,9 +82,11 @@ class Category extends ActiveRecord\Model {
                 <tr class="table-primary">
                     <th>наш id</th>
                     <th>Категория</th>
+                    <th>Оставшееся время</th>
+                    <th>цена на eBay</th>
+                    <th>цена ситилинк (USD)</th>
                     <th>Имя в ситилинке</th>
-                    <th>цена (USD)</th>
-<!--                    <th>id ситилинка</th>-->
+                    <!--                    <th>id ситилинка</th>-->
                     <th>синонимы для поиска</th>
                     <th>Результаты выдачи</th>
                     <th>Min/Max процент (дефолт 50/80)</th>
@@ -95,7 +100,7 @@ class Category extends ActiveRecord\Model {
 				$product  = new  Product;
 				$category = new  Category;
 
-//				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
+				//				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
 				//обратный ордер по id подхватывается из js datatable
 				foreach ( $product->all() as $k => $v ) {
 					echo '<tr id="cid' . $v->citilinkid . '" data-id="' . $v->id . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
@@ -103,12 +108,14 @@ class Category extends ActiveRecord\Model {
 					print_r( '<td>' . $category::all( array(
 							'conditions' => array( 'citi_category_id = ?', $v->categoryid )
 						) )[0]->name . '</td>' );
+					print_r( '<td>' . $v->min_lefttime . '</td>' );
+					print_r( '<td>' . $v->ebay_price . '</td>' );
+					print_r( '<td>' . $v->citilinkprice . '</td>' );
 //					print_r( '<td>' . $category::find( $v->categoryid )[0]->name . '</td>' );
 					print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
-					print_r( '<td>' . $v->citilinkprice . '</td>' );
 //					print_r( '<td>' . $v->citilinkid . '</td>' );
 					print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
-					print_r( '<td>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</td>' );
+					print_r( '<td><button>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</button></td>' );
 					print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
 //					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
@@ -131,16 +138,21 @@ class Category extends ActiveRecord\Model {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form id="formSaveBD" action="" data-id="">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <h5 class="modal-title">Синонимы</h5>
                 <div class="modal-body">
                     ...
                 </div>
+                <div class="text-right px-4">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="formSaveBD" value="Submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Редактирование полей</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" form="formSaveBD" value="Submit" class="btn btn-primary">Save changes</button>
@@ -180,6 +192,15 @@ class Category extends ActiveRecord\Model {
 <style>
     table {
         font-size: .7em;
+    }
+
+    .closeabs {
+        /*for relative parent*/
+        position: absolute;
+        top: 10px;
+        right: 70px;
+        color: red;
+        font-size: 2.6rem;
     }
 
     .loader {
@@ -226,7 +247,7 @@ class Category extends ActiveRecord\Model {
         overflow-y: scroll;
         text-wrap: normal;
         /*min-height: 85%;*/
-        position: static;
+        position: relative;
         /*right: 20px;*/
         /*top: 60px;*/
         background: rgba(100, 100, 100, .2);
@@ -268,8 +289,10 @@ class Category extends ActiveRecord\Model {
 <script>
     var gl = {};
     $(document).ready(function () {
+        $('#formaddColEdited').collapse('hide'); //Рез-ты по сити
+        $('#ebayResults').collapse('hide'); //Рез-ты по ебею
         $('#citiList').DataTable({
-            "order": [[0, "desc"]]
+            "order": [[2, "asc"]]
         });
     });
 
@@ -308,6 +331,7 @@ class Category extends ActiveRecord\Model {
             // console.log($(this).data().all.synonyms);
             var thatID = $(this).attr('data-id');
             console.log(thatID);
+
             $.ajax({
                 type: "POST",
                 // data     : {data:values},
@@ -318,25 +342,27 @@ class Category extends ActiveRecord\Model {
                 },
                 success: function (data) {
                     $('.loader').hide();
-                    $('#ebayResults').html(data);
+                    $('#ebayResults').collapse('show').html(data);
                     $('#tableEbayResults').attr('data-id', thatID);
                     gl.etable = $('#tableEbayResults').DataTable({
-                        "order": [[5, "asc"]]
+                        "order": [[1, "asc"]]
                     });
                 }
             });
 
 
         }
-    })
-    ;
+    });
+
     $('#exampleModalLong').on('shown.bs.modal', function () {
         $('[name="synonyms"]').focus()
-    })
+    });
+
     $('#formaddCol').on('submit', function (e) {
         //кнопка ИСКАТЬ по линку ситили
+        $('#formaddColEdited').collapse('show');//.css({display:'flex'});
         e.preventDefault();
-
+        // $('<div class="cclose">').text('X').css({position:'absolute',right:'0',top:'0'});
         // $('[name="synonyms"]').focus()
         console.log('input val', $(this).find('input#addCol').val());
         $.ajax({
@@ -377,7 +403,7 @@ class Category extends ActiveRecord\Model {
                     'picture_url': gl.resp.productPictureUrl,
                     'synonyms': $('#formaddColEdited').find('textarea[name="synonyms"]').val()
                 };
-                console.log(gl.senddataCiti.synonyms);
+                // console.log(gl.senddataCiti.synonyms);
 
             }
         });
@@ -409,29 +435,47 @@ class Category extends ActiveRecord\Model {
             },
             success: function (data) {
                 $('.loader').hide();
-                $('#ebayResults').html(data);
+                $('#ebayResults').collapse('show').html(data);
                 gl.etable = $('#tableEbayResults').DataTable({
-                    "order": [[5, "asc"]]
+                    "order": [[1, "asc"]]
                 });
             }
         });
     });
 
     $('body').on('click', '#ebaySubmit', function (e) {
-        // Вычленяем адишники ебея по отмеченным чекбоксам. Общее кол-во найденных - костылем с пхп приезжает в gl.eresp
+        // [BUTTON] Добавить отмеченные в БД
         e.preventDefault();
+        gl.ebay = [];
         gl.ebayIDs = [];
+        // Вычленяем адишники ебея по отмеченным чекбоксам. Общее кол-во найденных - с пхп приезжает в gl.eresp //TODO Убреть бы это из пхп
         $("input:checked", gl.etable.rows().nodes()).each(function () {
             var e = $(this).closest('tr').attr('id');
             var eid = e.substring(7, e.length);
+            var etimeleft = $(this).closest('tr').find('td').eq(1).text();
+            var eprice = $(this).closest('tr').find('td').eq(-1).text();
+            gl.ebay.push({
+                'id': eid,
+                'timeleft': etimeleft,
+                'price': eprice
+            });
             gl.ebayIDs.push(eid);
         });
-        console.log(gl.ebayIDs);
+        gl.ebay.sort(function (a, b) {
+            if (a.timeleft > b.timeleft) {
+                return 1;
+            }
+            if (a.timeleft < b.timeleft) {
+                return -1;
+            }
+            return 0; //a = b
+        });
         var curID = ($('#tableEbayResults').attr('data-id'));
         console.log(gl.eresp);
-
         var predata = {
             'id': curID,
+            'min_lefttime': gl.ebay[0].timeleft,
+            'ebay_price': gl.ebay[0].price,
             'ebay_ids': gl.ebayIDs.join(),
             'last_all_ebay_count': gl.eresp,
             'last_approve_ebay_count': gl.ebayIDs.length,
@@ -443,17 +487,16 @@ class Category extends ActiveRecord\Model {
             data: {data: senddata},
             url: "aj_Set_BD.php",
             success: function (data) {
+                $('#formTableEbayResults').append('<p>' + data + '</p>');
                 console.log(data);
             },
         });
 
     });
 
-
+    // Сохраняем в БД из поиска ситилинка, без предварительных eBay ласк.
     $('#formaddColEdited').on('submit', function (e) {
         e.preventDefault();
-
-
         console.log(gl.senddataCiti);
         $.ajax({
             type: "POST",
@@ -488,6 +531,7 @@ class Category extends ActiveRecord\Model {
             },
         });
     });
+
     $('#formSaveBD').on('submit', function (e) {
         e.preventDefault();
         $.ajax({
