@@ -60,10 +60,10 @@ foreach ( $product->all() as $k => $v ) {
 	print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
 //					print_r( '<td>' . $v->citilinkid . '</td>' );
 	print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
-	print_r( '<td><button>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</button></td>' );
+	print_r( '<td><button class="runIt">' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</button></td>' );
 	print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
 //					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
-	print_r( '<td>' . '<button class="runIt">&rarr;</button>' . '</td>' );
+	print_r( '<td>' . '<button class="runCiti">&rarr;</button>' . '</td>' );
 	echo '</tr>';
 }

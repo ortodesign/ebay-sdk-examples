@@ -60,15 +60,14 @@
                     <th>Результаты выдачи</th>
                     <th>Min/Max процент (дефолт 50/80)</th>
                     <!--                    <th>ссылка на ситилинк</th>-->
-                    <th>RUN</th>
+                    <th>Спарсить с ситилинка</th>
 
                 </tr>
                 </thead>
                 <tbody>
-				<?php
-                    require_once 'aj_get_Product_table.php'
 
-				?>
+                <?php require_once 'aj_get_Product_table.php' ?>
+
                 </tbody>
             </table>
         </div>
@@ -150,8 +149,8 @@
     });
 
     $('tr[id^="cid"]').on('click', function (e) {
-        console.log($(e.target)[0].tagName);
-        if ($(e.target)[0].tagName != 'BUTTON') {
+        //Если не нажата кнопка на результах выдачи или Поиска по ситилинку
+        if (!($(e.target).hasClass('runIt') || $(e.target).hasClass('runCiti'))) {
             $('button.runModal').attr('data-cid', $(this).attr('data-cid'));
             $('#exampleModalLong').modal();
             // event.preventDefault();
@@ -178,10 +177,8 @@
                     $('.modal-body').append('<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + resp.synonyms + '">' + resp.synonyms + '</textarea>');
                 }
             })
-        } else {
-            //Аякс на конечный поиск "клик по стрелочке"
-            // console.log('search in Ebay');
-            // console.log($(this).data().all.synonyms);
+        } else if ($(e.target).hasClass('runIt')) {
+            //окно и аякс на Поиск по eBay
             var thatID = $(this).attr('data-id');
             console.log(thatID);
 
@@ -202,9 +199,11 @@
                     });
                 }
             });
-
-
+        } else if ($(e.target).hasClass('runCiti')) {
+            //Аякс на конечный поиск "клик по стрелочке"
+            console.log('runCiti');
         }
+
     });
 
     $('#exampleModalLong').on('shown.bs.modal', function () {
