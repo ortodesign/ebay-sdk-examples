@@ -5,37 +5,6 @@
  * Date: 26.01.2018
  * Time: 11:21
  */
-require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
-require_once 'functions.php';
-//require_once   __DIR__ . '/../models/Product.php';
-
-$connections = array(
-	'development' => 'mysql://tst01:tst@localhost/tst01',
-	'test'        => 'mysql://tst01:tst@localhost/tst01',
-	'production'  => 'mysql://tst01:tst@localhost/tst01'
-);
-$dollar      = getDollarCourse();
-// initialize ActiveRecord
-ActiveRecord\Config::initialize( function ( $cfg ) use ( $connections ) {
-//	$cfg->set_model_directory( __DIR__ . '/../models');
-	$cfg->set_connections( $connections );
-} );
-
-class Product extends ActiveRecord\Model {
-	static $table_name = 'Product';
-	static $connection = 'production';
-}
-
-//
-class Ebay extends ActiveRecord\Model {
-	static $table_name = 'ebay';
-	static $connection = 'production';
-}
-
-class Category extends ActiveRecord\Model {
-	static $table_name = 'category';
-	static $connection = 'production';
-}
 
 
 ?>
@@ -47,35 +16,35 @@ class Category extends ActiveRecord\Model {
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-5">
-            <hr>
+
+        <div class="col-sm-12">
+
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
             <!--                <div class="d-flex flex-column">-->
             <form id="formaddCol" action="" data-id="" class="form-inline">
                 <label for="addCol">Ссылка на <br>ситилинк &nbsp;</label>
                 <input type="text" name="addCol" id="addCol" class="form-control">
-
                 <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">Искать</button>
             </form>
-            <form id="formaddColEdited" action="" data-id="" class="collapse" style="position:relative;">
-                <div id="resultCity" class="wrapword">
+
+            <form id="formaddColEdited" action="" data-id="" class="collapse width">
+                <div id="resultCity" class="wrapword p-3">
 
                 </div>
                 <button type="button" class="btn btn-secondary close closeabs"
                         onclick="$(this).parent().collapse('hide');">&times;
                 </button>
             </form>
-            <div id="ebayResults" class="collapse">
+            <div id="ebayResults" class="collapse width p-3">
 
                 <h5>Результаты поиска</h5>
             </div>
             <!--                </div>-->
             <!--            </div>-->
 
-        </div>
-        <div class="col-sm-7">
-            <hr>
+
+
 
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
                 <thead>
@@ -97,32 +66,7 @@ class Category extends ActiveRecord\Model {
                 </thead>
                 <tbody>
 				<?php
-				$product  = new  Product;
-				$category = new  Category;
-
-				//				foreach ( $product::find( 'all', array( 'order' => 'id desc' ) ) as $k => $v ) {
-				//обратный ордер по id подхватывается из js datatable
-				foreach ( $product->all() as $k => $v ) {
-					echo '<tr id="cid' . $v->citilinkid . '" data-id="' . $v->id . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
-					print_r( '<td>' . $v->id . '</td>' );
-					print_r( '<td>' . $category::all( array(
-							'conditions' => array( 'citi_category_id = ?', $v->categoryid )
-						) )[0]->name . '</td>' );
-					print_r( '<td>' . $v->min_lefttime . '</td>' );
-					print_r( '<td>' . $v->ebay_price . '</td>' );
-					print_r( '<td>' . $v->citilinkprice . '</td>' );
-//					print_r( '<td>' . $category::find( $v->categoryid )[0]->name . '</td>' );
-					print_r( '<td><a target="_blank" href="' . $v->citilinkurl . '">' . $v->title . '</a></td>' );
-//					print_r( '<td>' . $v->citilinkid . '</td>' );
-					print_r( '<td class="synonyms">' . $v->synonyms . '</td>' );
-					print_r( '<td><button>' . $v->last_approve_ebay_count . ' / ' . $v->last_all_ebay_count . '</button></td>' );
-					print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
-//					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
-//					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
-					print_r( '<td>' . '<button class="runIt">&rarr;</button>' . '</td>' );
-					echo '</tr>';
-				}
-
+                    require_once 'aj_get_Product_table.php'
 
 				?>
                 </tbody>
@@ -189,98 +133,7 @@ class Category extends ActiveRecord\Model {
 
 </div>
 
-<style>
-    table {
-        font-size: .7em;
-    }
 
-    .closeabs {
-        /*for relative parent*/
-        position: absolute;
-        top: 10px;
-        right: 70px;
-        color: red;
-        font-size: 2.6rem;
-    }
-
-    .loader {
-        display: none;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
-        max-width: 200px;
-        z-index: 99;
-    }
-
-    .subm {
-        /*min-height: 100px;*/
-    }
-
-    .wrapword {
-        word-wrap: break-word;
-        word-break: break-all;
-        white-space: pre-wrap;
-    }
-
-    #resp {
-        display: none;
-        max-width: 18%;
-        /*text-overflow: ellipsis;*/
-        overflow-x: scroll;
-        text-wrap: normal;
-        min-height: 100px;
-        position: fixed;
-        left: 20px;
-        bottom: 50px;
-        border: 2px solid red;
-        background: rgba(255, 255, 255, .2);
-    }
-
-    #ebayResults {
-        max-width: 95%;
-        width: 95%;
-        /*text-overflow: ellipsis;*/
-        overflow-x: scroll;
-        overflow-y: scroll;
-        text-wrap: normal;
-        /*min-height: 85%;*/
-        position: relative;
-        /*right: 20px;*/
-        /*top: 60px;*/
-        background: rgba(100, 100, 100, .2);
-        /*z-index: 1;*/
-    }
-
-    #resultCity {
-        max-width: 95%;
-        width: 95%;
-        /*text-overflow: ellipsis;*/
-        overflow-x: scroll;
-        overflow-y: scroll;
-        text-wrap: normal;
-        min-height: 85%;
-        /*position: absolute;*/
-        /*left: 20px;*/
-        /*top: 80px;*/
-        background: rgba(100, 100, 100, .2);
-        z-index: 1;
-    }
-
-    .modal-dialog {
-        max-width: 90%;
-    }
-
-    .modal .input-group {
-        width: 100%;
-    }
-
-    .modal .modal-header {
-        flex-wrap: wrap;
-    }
-</style>
 <script src="jquery-3.3.1.min.js"></script>
 <script src="tether.min.js"></script>
 <script src="bootstrap.js"></script>
@@ -291,7 +144,7 @@ class Category extends ActiveRecord\Model {
     $(document).ready(function () {
         $('#formaddColEdited').collapse('hide'); //Рез-ты по сити
         $('#ebayResults').collapse('hide'); //Рез-ты по ебею
-        $('#citiList').DataTable({
+        gl.mainTable = $('#citiList').DataTable({
             "order": [[2, "asc"]]
         });
     });
@@ -360,8 +213,9 @@ class Category extends ActiveRecord\Model {
 
     $('#formaddCol').on('submit', function (e) {
         //кнопка ИСКАТЬ по линку ситили
-        $('#formaddColEdited').collapse('show');//.css({display:'flex'});
         e.preventDefault();
+        $('#resultCity').html('');
+        $('#formaddColEdited').collapse('show');//.css({display:'flex'});
         // $('<div class="cclose">').text('X').css({position:'absolute',right:'0',top:'0'});
         // $('[name="synonyms"]').focus()
         console.log('input val', $(this).find('input#addCol').val());
@@ -388,7 +242,7 @@ class Category extends ActiveRecord\Model {
                     '<p><b>Категория: </b>' + gl.resp.categoryName + ' (id категории : ' + gl.resp.categoryId + ')</p>' +
                     '<p><b>fullRealCategoryName: </b>' + gl.resp.fullRealCategoryName + '</p>' +
                     '<p><b>Синонимы: </b>' + '<textarea rows="3" class="form-control" name="' + 'synonyms' + '"value="' + gl.resp.productName + '">' + gl.resp.productName + '</textarea></p>' +
-                    '<button type="submit" form="formaddColEdited" value="Submit" class="btn btn-primary">Сохранить в БД</button>' +
+                    '<button type="submit" form="formaddColEdited" value="Submit" class="btn btn-primary">Сохранить в БД (без eBay)</button>' +
                     '<button id="preSearchEbay" type="button" class="btn btn-primary">Искать по ebay</button>' +
                     // '<p><b>Название</b>' + resp.productName + '</p>' +
                     // '<p><b>Название</b>' + resp.productName + '</p>' +
@@ -415,9 +269,8 @@ class Category extends ActiveRecord\Model {
         console.log(gl.senddataCiti['synonyms']);
     });
 
-
+    //Предварительный поиск в ebay из формы поиска по ссылке ситилинка
     $('body').on('click', '#preSearchEbay', function (e) {
-        console.log('Предварительный поиск в ebay из формы поиска по ссылке ситилинка');
         var formFromCity = $(this).closest('form');
         var synonymsFromCity = formFromCity.find('[name="synonyms"]').val();
         var priceFromCity = formFromCity.find('#priceFromCity').eq(0).text();
@@ -489,6 +342,7 @@ class Category extends ActiveRecord\Model {
             success: function (data) {
                 $('#formTableEbayResults').append('<p>' + data + '</p>');
                 console.log(data);
+                // gl.mainTable.ajax.reload();
             },
         });
 
@@ -507,6 +361,8 @@ class Category extends ActiveRecord\Model {
             success: function (data) {
                 // $('#resp').html(data);
                 console.log(data);
+                $('#resultCity').append('<p>' + data + '</p>');
+                // gl.mainTable.ajax.reload();
             },
             error: function (jqXHR, exception) {
                 $('#resp').show();
@@ -532,6 +388,7 @@ class Category extends ActiveRecord\Model {
         });
     });
 
+    //сохраняем поля в БД из модалки
     $('#formSaveBD').on('submit', function (e) {
         e.preventDefault();
         $.ajax({
@@ -542,7 +399,8 @@ class Category extends ActiveRecord\Model {
 
             success: function (data) {
                 $('#resp').html(data);
-                $('#exampleModalLong').modal('hide')
+                $('#exampleModalLong').modal('hide');
+                // gl.mainTable.ajax.reload();
             }
         });
     })

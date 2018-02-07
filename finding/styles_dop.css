@@ -1,0 +1,138 @@
+table {
+    font-size: .7em;
+}
+
+.closeabs {
+    /*for relative parent*/
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: red;
+    font-size: 2.6rem;
+}
+
+.loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    max-width: 200px;
+    z-index: 99;
+}
+
+.subm {
+    /*min-height: 100px;*/
+}
+
+.wrapword {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+#resp {
+    display: none;
+    max-width: 18%;
+    /*text-overflow: ellipsis;*/
+    overflow-x: scroll;
+    text-wrap: normal;
+    min-height: 100px;
+    position: fixed;
+    left: 20px;
+    bottom: 50px;
+    border: 2px solid red;
+    background: rgba(255, 255, 255, .2);
+}
+
+#ebayResults {
+    /*max-width: 95%;*/
+    /*width: 95%;*/
+    /*text-overflow: ellipsis;*/
+    overflow-x: scroll;
+    overflow-y: scroll;
+    text-wrap: normal;
+    /*min-height: 85%;*/
+    position: fixed;
+    z-index: 10;
+    /*right: 20px;*/
+    /*top: 60px;*/
+    background: rgba(255, 255, 255, 0.92);
+    /*z-index: 1;*/
+}
+#formaddColEdited{
+    position: fixed;
+    right: 0;
+    z-index: 10;
+}
+#resultCity {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    text-wrap: normal;
+    position: relative;
+    /*z-index: 10;*/
+    background: rgba(255, 255, 255, 0.92);
+    /*max-width: 95%;*/
+    /*width: 95%;*/
+    /*!*text-overflow: ellipsis;*!*/
+    /*overflow-x: scroll;*/
+    /*overflow-y: scroll;*/
+    /*text-wrap: normal;*/
+    /*min-height: 85%;*/
+    /*!*position: absolute;*!*/
+    /*!*left: 20px;*!*/
+    /*!*top: 80px;*!*/
+    /*background: rgba(100, 100, 100, .2);*/
+    /*z-index: 1;*/
+}
+
+.modal-dialog {
+    max-width: 90%;
+}
+
+.modal .input-group {
+    width: 100%;
+}
+
+.modal .modal-header {
+    flex-wrap: wrap;
+}
+
+
+
+/*-------------DOP--------------*/
+
+.collapse {
+    visibility: hidden;
+}
+.collapse.show {
+    visibility: visible;
+    display: block;
+}
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition-property: height, visibility;
+    transition-property: height, visibility;
+    -webkit-transition-duration: 0.35s;
+    transition-duration: 0.35s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+.collapsing.width {
+    -webkit-transition-property: width, visibility;
+    transition-property: width, visibility;
+    width: 0;
+    height: auto;
+}
+
+table.dataTable {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+table.dataTable th {
+    width: auto !important;
+}

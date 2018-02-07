@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="styles_dop.css">
 
     <title>Редактируем синонимы</title>
 </head>
