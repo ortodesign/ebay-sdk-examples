@@ -18,7 +18,32 @@
     <div class="row">
 
         <div class="col-sm-12">
+            <hr>
+            <table id="example" class="display" cellspacing="0" width="100%">
+                <thead>
+                <tr>
 
+                    <th>id</th>
+                    <th>title</th>
+                    <th>Время</th>
+                    <th>citilinkurl</th>
+                    <th>synonyms</th>
+                    <th>categoryid</th>
+                    <th>citilinkprice</th>
+                    <th>picture_url</th>
+                    <th>last_all_ebay_count</th>
+                    <th>last_approve_ebay_count</th>
+                    <th>min_procent</th>
+                    <th>max_procent</th>
+                    <th>ebay_ids</th>
+                    <th>citilinkid</th>
+                    <th>ebay_price</th>
+
+                </tr>
+                </thead>
+
+            </table>
+            <hr>
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
             <!--                <div class="d-flex flex-column">-->
@@ -146,6 +171,33 @@
         gl.mainTable = $('#citiList').DataTable({
             "order": [[2, "asc"]]
         });
+
+        var exampleTable = $('#example').DataTable( {
+            "paging": false,
+            "ajax": {
+                url: "http://ebay-sdk-examples/finding/aj_get_Product_json.php",
+                dataSrc: ''
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "title" },
+                { "data": "min_lefttime" },
+                { "data": "citilinkurl" },
+                { "data": "synonyms" },
+                { "data": "categoryid" },
+                { "data": "citilinkprice" },
+                { "data": "picture_url" },
+                { "data": "last_all_ebay_count" },
+                { "data": "last_approve_ebay_count" },
+                { "data": "min_procent" },
+                { "data": "max_procent" },
+                { "data": "ebay_ids" },
+                { "data": "citilinkid" },
+                { "data": "ebay_price" }
+            ]
+        } );
+
+
     });
 
     $('tr[id^="cid"]').on('click', function (e) {
