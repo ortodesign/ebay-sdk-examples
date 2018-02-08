@@ -18,32 +18,32 @@
     <div class="row">
 
         <div class="col-sm-12">
-            <hr>
-            <table id="example" class="display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-
-                    <th>id</th>
-                    <th>title</th>
-                    <th>Время</th>
-                    <th>citilinkurl</th>
-                    <th>synonyms</th>
-                    <th>categoryid</th>
-                    <th>citilinkprice</th>
-                    <th>picture_url</th>
-                    <th>last_all_ebay_count</th>
-                    <th>last_approve_ebay_count</th>
-                    <th>min_procent</th>
-                    <th>max_procent</th>
-                    <th>ebay_ids</th>
-                    <th>citilinkid</th>
-                    <th>ebay_price</th>
-
-                </tr>
-                </thead>
-
-            </table>
-            <hr>
+            <!--            <hr>-->
+            <!--            <table id="example"   class="display table table-striped table-hover table-inverse" cellspacing="0" width="100%">-->
+            <!--                <thead>-->
+            <!--                <tr>-->
+            <!---->
+            <!--                    <th>id</th>-->
+            <!--                    <th>title</th>-->
+            <!--                    <th>Время</th>-->
+            <!--                    <th>citilinkurl</th>-->
+            <!--                    <th>synonyms</th>-->
+            <!--                    <th>categoryid</th>-->
+            <!--                    <th>citilinkprice</th>-->
+            <!--                    <th>picture_url</th>-->
+            <!--                    <th>last_all_ebay_count</th>-->
+            <!--                    <th>last_approve_ebay_count</th>-->
+            <!--                    <th>min_procent</th>-->
+            <!--                    <th>max_procent</th>-->
+            <!--                    <th>ebay_ids</th>-->
+            <!--                    <th>citilinkid</th>-->
+            <!--                    <th>ebay_price</th>-->
+            <!---->
+            <!--                </tr>-->
+            <!--                </thead>-->
+            <!---->
+            <!--            </table>-->
+            <!--            <hr>-->
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
             <!--                <div class="d-flex flex-column">-->
@@ -69,8 +69,6 @@
             <!--            </div>-->
 
 
-
-
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
                 <thead>
                 <tr class="table-primary">
@@ -91,7 +89,7 @@
                 </thead>
                 <tbody>
 
-                <?php require_once 'aj_get_Product_table.php' ?>
+				<?php require_once 'aj_get_Product_table.php' ?>
 
                 </tbody>
             </table>
@@ -163,44 +161,73 @@
 <script src="bootstrap.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="node_modules/handsontable/dist/handsontable.full.js"></script>
 <script>
     var gl = {};
     $(document).ready(function () {
         $('#formaddColEdited').collapse('hide'); //Рез-ты по сити
         $('#ebayResults').collapse('hide'); //Рез-ты по ебею
         gl.mainTable = $('#citiList').DataTable({
-            "order": [[2, "asc"]]
+            "order": [[2, "desc"]],
+            paging: false
         });
 
-        var exampleTable = $('#example').DataTable( {
-            "paging": false,
-            "ajax": {
-                url: "http://ebay-sdk-examples/finding/aj_get_Product_json.php",
-                dataSrc: ''
-            },
-            "columns": [
-                { "data": "id" },
-                { "data": "title" },
-                { "data": "min_lefttime" },
-                { "data": "citilinkurl" },
-                { "data": "synonyms" },
-                { "data": "categoryid" },
-                { "data": "citilinkprice" },
-                { "data": "picture_url" },
-                { "data": "last_all_ebay_count" },
-                { "data": "last_approve_ebay_count" },
-                { "data": "min_procent" },
-                { "data": "max_procent" },
-                { "data": "ebay_ids" },
-                { "data": "citilinkid" },
-                { "data": "ebay_price" }
-            ]
-        } );
-
+        // //Оставить пока как ексемпл да json
+        // var exampleTable = $('#example').DataTable( {
+        //     "paging": false,
+        //     "ajax": {
+        //         url: "http://ebay-sdk-examples/finding/aj_get_Product_json.php",
+        //         dataSrc: ''
+        //     },
+        //     "columns": [
+        //         { "data": "id" },
+        //         { "data": "title" },
+        //         { "data": "min_lefttime" },
+        //         { "data": "citilinkurl" },
+        //         { "data": "synonyms" },
+        //         { "data": "categoryid" },
+        //         { "data": "citilinkprice" },
+        //         { "data": "picture_url" },
+        //         { "data": "last_all_ebay_count" },
+        //         { "data": "last_approve_ebay_count" },
+        //         { "data": "min_procent" },
+        //         { "data": "max_procent" },
+        //         { "data": "ebay_ids" },
+        //         { "data": "citilinkid" },
+        //         { "data": "ebay_price" }
+        //     ]
+        // } );
+        //
 
     });
 
-    $('tr[id^="cid"]').on('click', function (e) {
+    // setInterval(function () {
+    //     refreshMainTable();
+    // },3000);
+
+    function refreshMainTable() {
+        // options = tableVar.settings();
+        gl.mainTable.destroy();
+        $.ajax({
+            url: "aj_get_Product_table.php",
+            beforeSend: function () {
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('.loader').hide();
+                $('#citiList tbody').empty().html(data);
+                // setTimeout(function () {
+                    gl.mainTable = $('#citiList').DataTable({
+                        "order": [[2, "desc"]],
+                        paging: false
+                    });
+                // },1000)
+            }
+        });
+
+    }
+
+    $('body').on('click', 'tr[id^="cid"]',function (e) {
         //Если не нажата кнопка на результах выдачи или Поиска по ситилинку
         if (!($(e.target).hasClass('runIt') || $(e.target).hasClass('runCiti'))) {
             $('button.runModal').attr('data-cid', $(this).attr('data-cid'));
@@ -393,6 +420,8 @@
             success: function (data) {
                 $('#formTableEbayResults').append('<p>' + data + '</p>');
                 console.log(data);
+                refreshMainTable();
+
                 // gl.mainTable.ajax.reload();
             },
         });

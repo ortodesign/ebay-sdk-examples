@@ -64,7 +64,8 @@ table {
 }
 #formaddColEdited{
     position: fixed;
-    right: 0;
+    top: 30px;
+    right: 10px;
     z-index: 10;
 }
 #resultCity {
