@@ -52,25 +52,25 @@ $eBay    = new  Ebay;
 $data = Product::all( array(
 	'select'     => 'Product.*, `category`.name, ebay.datetimeleft',
 	'from'       => '`Product`, `category`, `ebay`',
-	'conditions' => 'Product.categoryID = category.citi_category_id',
-	'order' => 'ebay.datetimeleft desc'
+	'conditions' => 'Product.categoryID = category.citi_category_id AND Product.id = ebay.pid',
+	'order'      => 'ebay.datetimeleft desc'
 ) );
 
 foreach ( $data as &$result ) {
 
-	$result                   = $result->to_array();
+	$result = $result->to_array();
 
-	$result['link']     = '<a target="_blank" href="'. $result['citilinkurl'] . '">' . $result['title'] . '</a>';
+	$result['link'] = '<a target="_blank" href="' . $result['citilinkurl'] . '">' . $result['title'] . '</a>';
 
 	$result['ebay_count']     = $result['last_approve_ebay_count'] . ' / ' . $result['last_all_ebay_count'];
-	$result['ebay_count']     = ('<button class="runIt">' . $result['ebay_count'] . '</button>');
-	$result['minmax_procent'] = ($result['min_procent'] . ' / ' . $result['max_procent']);
+	$result['ebay_count']     = ( '<button class="runIt">' . $result['ebay_count'] . '</button>' );
+	$result['minmax_procent'] = ( $result['min_procent'] . ' / ' . $result['max_procent'] );
 	unset( $result['last_approve_ebay_count'], $result['last_all_ebay_count'] );
 	unset( $result['min_procent'], $result['max_procent'] );
 
 }
 
 
-echo( json_encode( $data ) );
+echo ( json_encode( $data ) );
 
 

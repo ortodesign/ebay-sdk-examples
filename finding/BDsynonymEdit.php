@@ -194,6 +194,7 @@
                 { "data": "name" },
                 { "data": "ebay_count" },
                 { "data": "minmax_procent" },
+                { "data": "datetimeleft" },
 
                     //     id: 1,
                         // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
