@@ -18,32 +18,31 @@
     <div class="row">
 
         <div class="col-sm-12">
-            <!--            <hr>-->
-            <!--            <table id="example"   class="display table table-striped table-hover table-inverse" cellspacing="0" width="100%">-->
-            <!--                <thead>-->
-            <!--                <tr>-->
-            <!---->
-            <!--                    <th>id</th>-->
-            <!--                    <th>title</th>-->
-            <!--                    <th>Время</th>-->
-            <!--                    <th>citilinkurl</th>-->
-            <!--                    <th>synonyms</th>-->
-            <!--                    <th>categoryid</th>-->
-            <!--                    <th>citilinkprice</th>-->
-            <!--                    <th>picture_url</th>-->
-            <!--                    <th>last_all_ebay_count</th>-->
-            <!--                    <th>last_approve_ebay_count</th>-->
-            <!--                    <th>min_procent</th>-->
-            <!--                    <th>max_procent</th>-->
-            <!--                    <th>ebay_ids</th>-->
-            <!--                    <th>citilinkid</th>-->
-            <!--                    <th>ebay_price</th>-->
-            <!---->
-            <!--                </tr>-->
-            <!--                </thead>-->
-            <!---->
-            <!--            </table>-->
-            <!--            <hr>-->
+                        <hr>
+                        <table id="example"   class="display table table-striped table-hover table-inverse" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+
+                                <th>id</th>
+                                <th>title link(citi)</th>
+                                <th>Время</th>
+                                <th>citilinkurl</th>
+                                <th>synonyms</th>
+                                <th>categoryid</th>
+                                <th>name</th>
+                                <th>citilinkprice</th>
+                                <th>picture_url</th>
+                                <th>ebay_count</th>
+                                <th>minmax_procent</th>
+                                <th>ebay_ids</th>
+                                <th>citilinkid</th>
+                                <th>ebay_price</th>
+
+                            </tr>
+                            </thead>
+
+                        </table>
+                        <hr>
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
             <!--                <div class="d-flex flex-column">-->
@@ -172,32 +171,48 @@
             paging: false
         });
 
-        // //Оставить пока как ексемпл да json
-        // var exampleTable = $('#example').DataTable( {
-        //     "paging": false,
-        //     "ajax": {
-        //         url: "http://ebay-sdk-examples/finding/aj_get_Product_json.php",
-        //         dataSrc: ''
-        //     },
-        //     "columns": [
-        //         { "data": "id" },
-        //         { "data": "title" },
-        //         { "data": "min_lefttime" },
-        //         { "data": "citilinkurl" },
-        //         { "data": "synonyms" },
-        //         { "data": "categoryid" },
-        //         { "data": "citilinkprice" },
-        //         { "data": "picture_url" },
-        //         { "data": "last_all_ebay_count" },
-        //         { "data": "last_approve_ebay_count" },
-        //         { "data": "min_procent" },
-        //         { "data": "max_procent" },
-        //         { "data": "ebay_ids" },
-        //         { "data": "citilinkid" },
-        //         { "data": "ebay_price" }
-        //     ]
-        // } );
-        //
+        //Оставить пока как ексемпл да json
+        var exampleTable = $('#example').DataTable( {
+            "paging": false,
+            "ajax": {
+                url: "aj_get_Mix_Product_json.php",
+                dataSrc: ''
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "link" },
+                // { "data": "title" },
+                { "data": "min_lefttime" },
+                // { "data": "citilinkurl" },
+                { "data": "synonyms" },
+                { "data": "categoryid" },
+                { "data": "citilinkprice" },
+                { "data": "picture_url" },
+                { "data": "ebay_ids" },
+                { "data": "citilinkid" },
+                { "data": "ebay_price" },
+                { "data": "name" },
+                { "data": "ebay_count" },
+                { "data": "minmax_procent" },
+
+                    //     id: 1,
+                        // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
+                        // min_lefttime: "2018-02-08T17:26:04+0000",
+                        // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
+                        // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
+                        // categoryid: 214,
+                        // citilinkprice: 531.843,
+                        // picture_url: "null",
+                        // ebay_ids: "132490654126,282836792358,122945859123",
+                        // citilinkid: 357582,
+                        // ebay_price: "405.00",
+                        // name: "Мобильные телефоны",
+                        // ebay_count: "<button class="runIt">3 / 7</button>",
+                        // minmax_procent: "0 / 0"
+
+            ]
+        } );
+
 
     });
 
