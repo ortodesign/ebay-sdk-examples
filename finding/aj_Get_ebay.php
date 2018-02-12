@@ -4,7 +4,7 @@ $ebayTime = new DateTime();
 echo '<br>';
 require_once( '../shopping/01-get-ebay-time.php' );
 //echo '<br>';
-print_r( 'Время на eBay: ' . $ebayTime->format(DateTime::ISO8601) );
+print_r( 'Время на eBay: ' . $ebayTime->format( DateTime::ISO8601 ) );
 echo '<br>';
 require_once( 'functions.php' );
 $timeOffset = $_POST['EndTimeTo'] ? $_POST['EndTimeTo'] * 60 * 60 : 24 * 60 * 60; // offset Ending within
@@ -251,7 +251,7 @@ if ( $response->ack !== 'Failure' ) {
 	print_r( '<tbody>' );
 	foreach ( $response->searchResult->item as $item ) {
 //			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
-		echo '<tr id="ebayid_' . $item->itemId . '">';
+		echo '<tr id="ebayid_' . $item->itemId . '" data="' . htmlspecialchars( json_encode( $item->toArray() ) ) . '">';
 		$diff = $ebayTime->diff( $item->listingInfo->endTime );
 		printf(
 			'<td><input class="" type="checkbox"></td><td>%s</td><td>%s</td><td>(%s)</td> <td>%s</td> <td><a href="%s" target="_blank">link</a></td> <td>%s</td> <td>%.2f</td>',

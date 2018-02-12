@@ -11,6 +11,9 @@
 <?php include 'header.php'; ?>
 
 <body>
+<div id="root"></div>
+
+
 <?php include 'menu.php'; ?>
 <img src="loading2.gif" alt="" class="loader">
 
@@ -18,31 +21,32 @@
     <div class="row">
 
         <div class="col-sm-12">
-                        <hr>
-                        <table id="example"   class="display table table-striped table-hover table-inverse" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
+            <hr>
+            <table id="example" class="display table table-striped table-hover table-inverse" cellspacing="0"
+                   width="100%">
+                <thead>
+                <tr>
 
-                                <th>id</th>
-                                <th>title link(citi)</th>
-                                <th>Время</th>
-                                <th>citilinkurl</th>
-                                <th>synonyms</th>
-                                <th>categoryid</th>
-                                <th>name</th>
-                                <th>citilinkprice</th>
-                                <th>picture_url</th>
-                                <th>ebay_count</th>
-                                <th>minmax_procent</th>
-                                <th>ebay_ids</th>
-                                <th>citilinkid</th>
-                                <th>ebay_price</th>
+                    <!--                                <th>id</th>-->
+                    <th>title link(citi)</th>
+                    <th>Время</th>
+                    <th>citilinkurl</th>
+                    <th>synonyms</th>
+                    <th>categoryid</th>
+                    <th>name</th>
+                    <th>citilinkprice</th>
+                    <th>picture_url</th>
+                    <th>ebay_count</th>
+                    <th>minmax_procent</th>
+                    <th>ebay_ids</th>
+                    <th>citilinkid</th>
+                    <th>ebay_price</th>
 
-                            </tr>
-                            </thead>
+                </tr>
+                </thead>
 
-                        </table>
-                        <hr>
+            </table>
+            <hr>
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
             <!--                <div class="d-flex flex-column">-->
@@ -172,47 +176,47 @@
         });
 
         //Оставить пока как ексемпл да json
-        var exampleTable = $('#example').DataTable( {
+        var exampleTable = $('#example').DataTable({
             "paging": false,
             "ajax": {
                 url: "aj_get_Mix_Product_json.php",
                 dataSrc: ''
             },
             "columns": [
-                { "data": "id" },
-                { "data": "link" },
+                // { "data": "id" },
+                {"data": "link"},
                 // { "data": "title" },
-                { "data": "min_lefttime" },
+                {"data": "min_lefttime"},
                 // { "data": "citilinkurl" },
-                { "data": "synonyms" },
-                { "data": "categoryid" },
-                { "data": "citilinkprice" },
-                { "data": "picture_url" },
-                { "data": "ebay_ids" },
-                { "data": "citilinkid" },
-                { "data": "ebay_price" },
-                { "data": "name" },
-                { "data": "ebay_count" },
-                { "data": "minmax_procent" },
-                { "data": "datetimeleft" },
+                {"data": "synonyms"},
+                {"data": "categoryid"},
+                {"data": "ebay_price"},
+                {"data": "citilinkprice"},
+                {"data": "picture_url"},
+                {"data": "ebay_ids"},
+                {"data": "citilinkid"},
+                {"data": "name"},
+                {"data": "ebay_count"},
+                {"data": "minmax_procent"},
+                {"data": "datetimeleft"},
 
-                    //     id: 1,
-                        // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
-                        // min_lefttime: "2018-02-08T17:26:04+0000",
-                        // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
-                        // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
-                        // categoryid: 214,
-                        // citilinkprice: 531.843,
-                        // picture_url: "null",
-                        // ebay_ids: "132490654126,282836792358,122945859123",
-                        // citilinkid: 357582,
-                        // ebay_price: "405.00",
-                        // name: "Мобильные телефоны",
-                        // ebay_count: "<button class="runIt">3 / 7</button>",
-                        // minmax_procent: "0 / 0"
+                //     id: 1,
+                // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
+                // min_lefttime: "2018-02-08T17:26:04+0000",
+                // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
+                // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
+                // categoryid: 214,
+                // citilinkprice: 531.843,
+                // picture_url: "null",
+                // ebay_ids: "132490654126,282836792358,122945859123",
+                // citilinkid: 357582,
+                // ebay_price: "405.00",
+                // name: "Мобильные телефоны",
+                // ebay_count: "<button class="runIt">3 / 7</button>",
+                // minmax_procent: "0 / 0"
 
             ]
-        } );
+        });
 
 
     });
@@ -233,17 +237,17 @@
                 $('.loader').hide();
                 $('#citiList tbody').empty().html(data);
                 // setTimeout(function () {
-                    gl.mainTable = $('#citiList').DataTable({
-                        "order": [[2, "desc"]],
-                        paging: false
-                    });
+                gl.mainTable = $('#citiList').DataTable({
+                    "order": [[2, "desc"]],
+                    paging: false
+                });
                 // },1000)
             }
         });
 
     }
 
-    $('body').on('click', 'tr[id^="cid"]',function (e) {
+    $('body').on('click', 'tr[id^="cid"]', function (e) {
         //Если не нажата кнопка на результах выдачи или Поиска по ситилинку
         if (!($(e.target).hasClass('runIt') || $(e.target).hasClass('runCiti'))) {
             $('button.runModal').attr('data-cid', $(this).attr('data-cid'));
@@ -397,35 +401,45 @@
         gl.ebayIDs = [];
         // Вычленяем адишники ебея по отмеченным чекбоксам. Общее кол-во найденных - с пхп приезжает в gl.eresp //TODO Убреть бы это из пхп
         $("input:checked", gl.etable.rows().nodes()).each(function () {
-            var e = $(this).closest('tr').attr('id');
-            var eid = e.substring(7, e.length);
-            var etimeleft = $(this).closest('tr').find('td').eq(1).text();
-            var eprice = $(this).closest('tr').find('td').eq(-1).text();
+            console.log($.parseJSON($(this).closest('tr').attr('data')));
+            // var e = $(this).closest('tr').attr('id');
+            // var eid = e.substring(7, e.length);
+            // var etimeleft = $(this).closest('tr').find('td').eq(1).text();
+            // var eprice = $(this).closest('tr').find('td').eq(-1).text();
+            e = $.parseJSON($(this).closest('tr').attr('data'));
             gl.ebay.push({
-                'id': eid,
-                'timeleft': etimeleft,
-                'price': eprice
+                e
+                // 'id': e.itemId,
+                // 'timeleft': e.listingInfo.endTime,
+                // 'price': e.sellingStatus.currentPrice.value
             });
-            gl.ebayIDs.push(eid);
+            console.log(gl.ebay);
+            gl.ebayIDs.push(e.itemId);
         });
         gl.ebay.sort(function (a, b) {
-            if (a.timeleft > b.timeleft) {
+            // debugger;
+            // if (a.timeleft > b.timeleft) {
+            if (a.e.listingInfo.endTime > b) {
                 return 1;
             }
-            if (a.timeleft < b.timeleft) {
+            // if (a.timeleft < b.timeleft) {
+            if (a.e.listingInfo.endTime < b.e.listingInfo.endTime) {
                 return -1;
             }
             return 0; //a = b
         });
         var curID = ($('#tableEbayResults').attr('data-id'));
+        console.log('gl.ebay');
+        console.log(gl.ebay);
         console.log(gl.eresp);
         var predata = {
             'id': curID,
-            'min_lefttime': gl.ebay[0].timeleft,
-            'ebay_price': gl.ebay[0].price,
+            'min_lefttime': gl.ebay[0].e.listingInfo.endTime,
+            'ebay_price': e.sellingStatus.currentPrice.value,
             'ebay_ids': gl.ebayIDs.join(),
             'last_all_ebay_count': gl.eresp,
-            'last_approve_ebay_count': gl.ebayIDs.length,
+            'last_approve_ebay_count': gl.eresp,
+            'ebaydata':gl.ebay
         };
         var senddata = Object.assign({}, gl.senddataCiti, predata);
         console.log(senddata);
@@ -502,5 +516,20 @@
     })
     // console.log($(this).attr('data-cid'));
 </script>
+
+<!--REACT will be here-->
+<!--<script src="libs2/react.development.js"></script>-->
+<!--<script src="libs2/react-dom.development.js"></script>-->
+<!--<script src="libs2/babel.min.js"></script>-->
+<!--<script type="text/babel">-->
+<!---->
+<!--    ReactDOM.render(-->
+<!--        <div className="text-right">-->
+<!--            <h6>React here</h6>-->
+<!--        </div>-->
+<!--        , document.getElementById('root')-->
+<!--    );-->
+<!---->
+<!--</script>-->
 </body>
 </html>
