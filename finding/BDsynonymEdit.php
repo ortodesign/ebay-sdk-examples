@@ -21,7 +21,23 @@
     <div class="row">
 
         <div class="col-sm-12">
+
             <hr>
+            <table id="timelineEbayTable" class="display table table-striped table-hover table-inverse" cellspacing="0"
+                   width="100%">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>datetimeleft</th>
+                    <th>url</th>
+                    <th>pid</th>
+                    <th>timestamp</th>
+                    <th>ebaydata</th>
+                </tr>
+                </thead>
+            </table>
+            <hr>
+
             <table id="example" class="display table table-striped table-hover table-inverse" cellspacing="0"
                    width="100%">
                 <thead>
@@ -174,6 +190,52 @@
             "order": [[2, "desc"]],
             paging: false
         });
+        var timelineEbayTable = $('#timelineEbayTable').DataTable({
+            "paging": false,
+            ordering: false,
+            "ajax": {
+                url: "aj_Get_BD_ebay.php",
+                dataSrc: ''
+            },
+            "columns": [
+                {"data": "ebaydata.itemId"},
+                {"data": "ebaydata.title"},
+                {
+                    "data": "datetimeleft",
+                    "render": {
+                        // "_": "plain",
+                        // "filter": "filter",
+                        // "display": "display"
+                    }
+                },
+                // {"data": "ebaydata.galleryURL"},
+                {
+                    "data": "ebaydata",
+                    render: function (data, type, row, meta) {
+                        // return '<a href="' + data.galleryURL + '" target="_blank">' + data.viewItemURL + '</a>';
+                        return '<img src="' + data.galleryURL + '">';
+                    }
+                },
+                {
+                    "data": "ebaydata.viewItemURL",
+                    render: function (data, type, row, meta) {
+                        return '<a href="' + data + '" target="_blank">Link (eBay)</a>';
+                    }
+                },
+                {"data": "ebaydata.postalCode"},
+            ]
+            //     dataSrc: ''
+            // },
+            // "columns": [
+            //     {"data": "id" },
+            //     {"data": "datetimeleft"},
+            //     {"data": "url"},
+            //     {"data": "pid"},
+            //     {"data": "timestamp"},
+            //     {"data": "ebaydata.title"},
+            // ]
+        });
+
 
         //Оставить пока как ексемпл да json
         var exampleTable = $('#example').DataTable({
@@ -407,23 +469,23 @@
             // var etimeleft = $(this).closest('tr').find('td').eq(1).text();
             // var eprice = $(this).closest('tr').find('td').eq(-1).text();
             e = $.parseJSON($(this).closest('tr').attr('data'));
-            gl.ebay.push({
+            gl.ebay.push(
                 e
                 // 'id': e.itemId,
                 // 'timeleft': e.listingInfo.endTime,
                 // 'price': e.sellingStatus.currentPrice.value
-            });
+            );
             console.log(gl.ebay);
             gl.ebayIDs.push(e.itemId);
         });
         gl.ebay.sort(function (a, b) {
             // debugger;
             // if (a.timeleft > b.timeleft) {
-            if (a.e.listingInfo.endTime > b) {
+            if (a.listingInfo.endTime > b.listingInfo.endTime) {
                 return 1;
             }
             // if (a.timeleft < b.timeleft) {
-            if (a.e.listingInfo.endTime < b.e.listingInfo.endTime) {
+            if (a.listingInfo.endTime < b.listingInfo.endTime) {
                 return -1;
             }
             return 0; //a = b
@@ -434,12 +496,12 @@
         console.log(gl.eresp);
         var predata = {
             'id': curID,
-            'min_lefttime': gl.ebay[0].e.listingInfo.endTime,
+            'min_lefttime': gl.ebay[0].listingInfo.endTime,
             'ebay_price': e.sellingStatus.currentPrice.value,
             'ebay_ids': gl.ebayIDs.join(),
             'last_all_ebay_count': gl.eresp,
-            'last_approve_ebay_count': gl.eresp,
-            'ebaydata':gl.ebay
+            'last_approve_ebay_count': gl.ebay.length,
+            'ebaydata': gl.ebay
         };
         var senddata = Object.assign({}, gl.senddataCiti, predata);
         console.log(senddata);

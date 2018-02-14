@@ -48,7 +48,7 @@ table {
 }
 
 #ebayResults {
-    /*max-width: 95%;*/
+    max-width: 60%;
     /*width: 95%;*/
     /*text-overflow: ellipsis;*/
     overflow-x: scroll;
