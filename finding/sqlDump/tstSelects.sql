@@ -36,10 +36,10 @@
 # on pe.id= eb.pid
 
 
-SELECT
-  Product.id,
-  Product.title,
-  datetimeleft
+# SELECT
+#   Product.id,
+#   Product.title,
+#   datetimeleft
 #   pid
 # FROM Product,ebay
 # WHERE Product.id IN (SELECT pid
