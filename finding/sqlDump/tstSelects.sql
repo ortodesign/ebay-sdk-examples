@@ -62,11 +62,23 @@
 # ORDER BY RAND()
 # LIMIT 1
 
-select * from ebay_products
-inner join Product ON product_id = Product.id
-inner join ebay ON  ebay.id = ebay_id
-GROUP BY product_id
-# ORDER BY datetimeleft
+
+# select * FROM
+# (select * FROM
+# (select Product.*, ebay.datetimeleft, product_id as ppid, ebay_id as eeid  from ebay_products
+# inner join Product ON product_id = Product.id
+# inner join ebay ON  ebay.id = ebay_id
+# ) tt2
+# ORDER BY datetimeleft) tt3
+# GROUP BY ppid
+
+SELECT * from
+(select Product.*, ebay.datetimeleft, ebay_products.product_id as ppid, ebay_products.ebay_id as eeid  from Product
+inner join ebay_products ON product_id = Product.id
+  inner join ebay ON  ebay.id = ebay_id
+ ORDER BY datetimeleft) as t1
+GROUP BY ppid
+
 
 # ORDER BY `ebay`.datetimeleft LIMIT 1
 
