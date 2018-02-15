@@ -22,7 +22,7 @@ if ( $_POST['target'] ) {
 
 //$doc->getElementsByTagName('script'); //->item(0)->nodeValue
 //echo '<pre>';
-	preg_match( '\'pageData = {"pageType".+;\'', $rows, $matches );
+	preg_match( '/pageData = {"pageType".+;/', $rows, $matches );
 //print_r(json_decode(substr($matches[0],10,strlen($matches)-1)));
 	print_r( substr( $matches[0], 10, strlen( $matches ) - 1 ) );
 //echo '</pre>';

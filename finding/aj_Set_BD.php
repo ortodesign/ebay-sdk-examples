@@ -80,6 +80,7 @@ if ( $q ) {
 					$ebayProduct::create( array(
 						'ebay_id'    => $e['itemId'],
 						'product_id' => $q['id'],
+						'datetimeleft' => $e['listingInfo']['endTime'],
 					) );
 //					$ebay::query(
 //						'INSERT INTO ebay (id, pid, datetimeleft, ebaydata) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE id=?, pid=?, datetimeleft=?, ebaydata=?',
@@ -107,7 +108,7 @@ if ( $q ) {
 							'ebaydata'     => htmlspecialchars( json_encode( $e ) ) //вся дата из ебея сюда жсоном
 						) );
 					} catch ( ActiveRecord\DatabaseException $exception ) {
-//						echo 'Oh no! I`m a moron!' . $exception;
+						echo 'Exeption' . $exception;
 						$ebay::find( intval( $e['itemId'] ) )->update_attributes( array(
 //							'id'           => $e['itemId'],
 							'pid'          => $q['id'],

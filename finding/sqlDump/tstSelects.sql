@@ -72,12 +72,26 @@
 # ORDER BY datetimeleft) tt3
 # GROUP BY ppid
 
-SELECT * from
-(select Product.*, ebay.datetimeleft, ebay_products.product_id as ppid, ebay_products.ebay_id as eeid  from Product
-inner join ebay_products ON product_id = Product.id
-  inner join ebay ON  ebay.id = ebay_id
- ORDER BY datetimeleft) as t1
-GROUP BY ppid
+# SELECT * from
+# (select Product.*, ebay.datetimeleft, ebay_products.product_id as ppid, ebay_products.ebay_id as eeid  from Product
+# inner join ebay_products ON product_id = Product.id
+#   inner join ebay ON  ebay.id = ebay_id
+#   GROUP BY product_id
+# #  ORDER BY datetimeleft,pid
+# ) as t1
+# GROUP BY ppid
+
+# SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+# select * from
+#   (
+    SELECT *
+    FROM ebay_products,Product,ebay
+    WHERE (ebay_products.product_id = Product.id) and (ebay_products.ebay_id = ebay.id)
+  GROUP BY product_id
+    ORDER BY ebay_products.datetimeleft
+
+#   ) as t1
 
 
 # ORDER BY `ebay`.datetimeleft LIMIT 1

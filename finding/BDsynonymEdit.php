@@ -23,49 +23,44 @@
         <div class="col-sm-12">
 
             <hr>
+            <h3>Таймлайн eBay
+                <small>- показаны самые близкие к окончанию аукциона лоты из группы связанной с нашим названием</small>
+            </h3>
             <table id="timelineEbayTable" class="display table table-striped table-hover table-inverse" cellspacing="0"
                    width="100%">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>datetimeleft</th>
-                    <th>url</th>
-                    <th>pid</th>
-                    <th>timestamp</th>
-                    <th>ebaydata</th>
-                </tr>
-                </thead>
-            </table>
-            <hr>
-
-            <table id="example" class="display table table-striped table-hover table-inverse" cellspacing="0"
-                   width="100%">
-                <thead>
-                <tr>
-
-                    <!--                                <th>id</th>-->
-                    <th>title link(citi)</th>
-                    <th>Время</th>
-                    <th>citilinkurl</th>
-                    <th>synonyms</th>
-                    <th>categoryid</th>
-                    <th>name</th>
-                    <th>citilinkprice</th>
-                    <th>picture_url</th>
-                    <th>ebay_count</th>
-                    <th>minmax_procent</th>
-                    <th>ebay_ids</th>
-                    <th>citilinkid</th>
-                    <th>ebay_price</th>
-
-                </tr>
-                </thead>
+                <!--Таблица конфигурируется в js-->
 
             </table>
             <hr>
+            <!--            <table id="example" class="display table table-striped table-hover table-inverse" cellspacing="0"-->
+            <!--                   width="100%">-->
+            <!--                <thead>-->
+            <!--                <tr>-->
+            <!---->
+            <!--                                                    <th>id</th>-->
+            <!--                    <th>title link(citi)</th>-->
+            <!--                    <th>Время</th>-->
+            <!--                    <th>citilinkurl</th>-->
+            <!--                    <th>synonyms</th>-->
+            <!--                    <th>categoryid</th>-->
+            <!--                    <th>name</th>-->
+            <!--                    <th>citilinkprice</th>-->
+            <!--                    <th>picture_url</th>-->
+            <!--                    <th>ebay_count</th>-->
+            <!--                    <th>minmax_procent</th>-->
+            <!--                    <th>ebay_ids</th>-->
+            <!--                    <th>citilinkid</th>-->
+            <!--                    <th>ebay_price</th>-->
+            <!---->
+            <!--                </tr>-->
+            <!--                </thead>-->
+            <!---->
+            <!--            </table>-->
+            <!--            <hr>-->
+
             <!-- Button trigger modal -->
             <!--            <div class="d-flex align-items-center justify-content-center subm">-->
-            <!--                <div class="d-flex flex-column">-->
+            <!--                <div class="d-flex flex-column"> -->
             <form id="formaddCol" action="" data-id="" class="form-inline">
                 <label for="addCol">Ссылка на <br>ситилинк &nbsp;</label>
                 <input type="text" name="addCol" id="addCol" class="form-control">
@@ -180,105 +175,243 @@
 <script src="bootstrap.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script src="node_modules/handsontable/dist/handsontable.full.js"></script>
+<script src="libs2/moment.js"></script>
+<script src="libs2/locale/ru.js"></script>
+<!--<script src="node_modules/handsontable/dist/handsontable.full.js"></script>-->
 <script>
     var gl = {};
+    String.format = function () {
+        var s = arguments[0];
+        for (var i = 0; i < arguments.length - 1; i++) {
+            var reg = new RegExp("\\{" + i + "\\}", "gm");
+            s = s.replace(reg, arguments[i + 1]);
+        }
+
+        return s;
+    }
     $(document).ready(function () {
+        var timelineEbayTable;
         $('#formaddColEdited').collapse('hide'); //Рез-ты по сити
         $('#ebayResults').collapse('hide'); //Рез-ты по ебею
         gl.mainTable = $('#citiList').DataTable({
             "order": [[2, "desc"]],
             paging: false
         });
-        var timelineEbayTable = $('#timelineEbayTable').DataTable({
+
+        var sampleDataFromBackend = {
+            id: 162887919038,
+            ebay_id: 162887919038,
+            product_id: 18,
+            datetimeleft: "2018-02-15T13:08:02.000Z",
+            title: "Смартфон MEIZU M5s 16Gb, M612H, золотистый",
+            min_lefttime: "2018-02-15T13:08:02.000Z",
+            citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/495436/",
+            synonyms: "MEIZU M5s, 16Gb, M612H, золотистый",
+            categoryid: "214",
+            citilinkprice: "189",
+            picture_url: null,
+            last_all_ebay_count: "201",
+            last_approve_ebay_count: "3",
+            min_procent: null,
+            max_procent: null,
+            ebay_ids: "292444407279,162887919038,173148389054",
+            citilinkid: "495436",
+            ebay_price: "129.99",
+            url: null,
+            pid: "18",
+            timestamp: null,
+            ebaydata: {
+                itemId: "162887919038",
+                title: "Corsair Dominator Platinum DDR3 16GB 2400MHz (4x4gb) (CMD16GX3M4A2400C10)",
+                globalId: "EBAY-US",
+                primaryCategory: {
+                    categoryId: "170083",
+                    categoryName: "Memory (RAM)"
+                },
+                galleryURL: "http://thumbs3.ebaystatic.com/m/m9Lv7NU9DB4155F3PSGFuUQ/140.jpg",
+                viewItemURL: "http://www.ebay.com/itm/Corsair-Dominator-Platinum-DDR3-16GB-2400MHz-4x4gb-CMD16GX3M4A2400C10-/162887919038",
+                paymentMethod: [
+                    "PayPal"
+                ],
+                autoPay: "false",
+                postalCode: "92649",
+                location: "Huntington Beach,CA,USA",
+                country: "US",
+                shippingInfo: {
+                    shippingServiceCost: {
+                        value: "0",
+                        currencyId: "USD"
+                    },
+                    shippingType: "FreePickup",
+                    shipToLocations: [
+                        "Worldwide"
+                    ],
+                    expeditedShipping: "false",
+                    oneDayShippingAvailable: "false",
+                    handlingTime: "3"
+                },
+                sellingStatus: {
+                    currentPrice: {
+                        value: "150",
+                        currencyId: "USD"
+                    },
+                    convertedCurrentPrice: {
+                        value: "150",
+                        currencyId: "USD"
+                    },
+                    bidCount: "1",
+                    sellingState: "Active",
+                    timeLeft: "P0DT2H59M10S"
+                },
+                listingInfo: {
+                    bestOfferEnabled: "false",
+                    buyItNowAvailable: "false",
+                    startTime: "2018-02-05T13:08:02.000Z",
+                    endTime: "2018-02-15T13:08:02.000Z",
+                    listingType: "Auction",
+                    gift: "false"
+                },
+                returnsAccepted: "false",
+                condition: {
+                    conditionId: "3000",
+                    conditionDisplayName: "Used"
+                },
+                isMultiVariationListing: "false",
+                topRatedListing: "false"
+            }
+        };
+        timelineEbayTable = $('#timelineEbayTable').DataTable({
             "paging": false,
-            ordering: false,
+            "ordering": false,
             "ajax": {
                 url: "aj_Get_BD_ebay.php",
                 dataSrc: ''
             },
             "columns": [
-                {"data": "ebaydata.itemId"},
-                {"data": "ebaydata.title"},
                 {
+                    "width": "2%",
+                    "title": "наш id",
+                    "data": "product_id",
+                },
+                {
+                    "width": "2%",
+                    "title": "Время окончания",
                     "data": "datetimeleft",
-                    "render": {
-                        // "_": "plain",
-                        // "filter": "filter",
-                        // "display": "display"
+                    "render": function (data, type, row, meta) {
+                        return moment(data, moment.ISO_8601, 'ru').format("MMM DD HH:mm");
                     }
                 },
-                // {"data": "ebaydata.galleryURL"},
                 {
+                    "title": "Категория ebay",
+                    "data": "ebaydata.primaryCategory.categoryName"
+                },
+                {
+                    "title": "Цена отсчета (ситилинк)",
+                    "data": "citilinkprice"
+                },
+                {
+                    "title": "Цена ebay",
+                    "data": "ebaydata.sellingStatus.currentPrice.value"
+                },
+                {
+                    "title": "Картинка с ebay",
                     "data": "ebaydata",
                     render: function (data, type, row, meta) {
-                        // return '<a href="' + data.galleryURL + '" target="_blank">' + data.viewItemURL + '</a>';
-                        return '<img src="' + data.galleryURL + '">';
+                        return '<img src="' + data.galleryURL + '" height="70">';
                     }
                 },
                 {
-                    "data": "ebaydata.viewItemURL",
+                    "title": "Название и ссылка(…) ebay",
+                    "data": "ebaydata",
                     render: function (data, type, row, meta) {
-                        return '<a href="' + data + '" target="_blank">Link (eBay)</a>';
+                        return `${data.title} <a href="${data.viewItemURL}" target="_blank">…</a>`;
                     }
                 },
-                {"data": "ebaydata.postalCode"},
-            ]
-            //     dataSrc: ''
-            // },
-            // "columns": [
-            //     {"data": "id" },
-            //     {"data": "datetimeleft"},
-            //     {"data": "url"},
-            //     {"data": "pid"},
-            //     {"data": "timestamp"},
-            //     {"data": "ebaydata.title"},
-            // ]
-        });
+                {
+                    "title": "Наше название",
+                    "data": "title"
+                },
+                {
+                    "title": "Синонимы",
+                    "data": "synonyms"
+                },
 
+
+                {
+                    "title": "Результаты выдачи",
+                    "data": null,
+                    render: function (data, type, row, meta) {
+                        return '<button class="runIt btn btn-outline-info btn-sm">' + data.last_approve_ebay_count + ' / ' + data.last_all_ebay_count + '</button>';
+                    }
+                },
+                {
+                    "title": "Минимальный и максимальный % (по дефолту 50/80)",
+                    "data": null,
+                    render: function (data, type, row, meta) {
+                        return (data.min_procent ? '<span class="badge badge-primary">' + data.min_procent + '</span> / ' : '') + (data.max_procent ? '<span class="badge badge-primary">' + data.max_procent+ '</span>' : '');
+                    }
+                }, {
+                    "title": "(chexbox = автоматом) Отправить в торги",
+                    "data": null,
+                    render: function (data, type, row, meta) {
+                        return '<input type="checkbox" class="form-check-input"><button type="button" class="btn btn-primary btn-sm">&rarr;</button>';
+                    }
+                },
+            ]
+        });
+        setInterval(function () {
+            console.log('timelineEbayTable redraw');
+            timelineEbayTable.ajax.reload();
+        }, 5000);
+
+        $('#timelineEbayTable').on('click','.runIt',function (e) {
+            console.log($(e.target).closest('tr').find('td').eq(0).text()); //в первой колонке должен быть наш id
+
+        })
 
         //Оставить пока как ексемпл да json
-        var exampleTable = $('#example').DataTable({
-            "paging": false,
-            "ajax": {
-                url: "aj_get_Mix_Product_json.php",
-                dataSrc: ''
-            },
-            "columns": [
-                // { "data": "id" },
-                {"data": "link"},
-                // { "data": "title" },
-                {"data": "min_lefttime"},
-                // { "data": "citilinkurl" },
-                {"data": "synonyms"},
-                {"data": "categoryid"},
-                {"data": "ebay_price"},
-                {"data": "citilinkprice"},
-                {"data": "picture_url"},
-                {"data": "ebay_ids"},
-                {"data": "citilinkid"},
-                {"data": "name"},
-                {"data": "ebay_count"},
-                {"data": "minmax_procent"},
-                {"data": "datetimeleft"},
 
-                //     id: 1,
-                // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
-                // min_lefttime: "2018-02-08T17:26:04+0000",
-                // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
-                // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
-                // categoryid: 214,
-                // citilinkprice: 531.843,
-                // picture_url: "null",
-                // ebay_ids: "132490654126,282836792358,122945859123",
-                // citilinkid: 357582,
-                // ebay_price: "405.00",
-                // name: "Мобильные телефоны",
-                // ebay_count: "<button class="runIt">3 / 7</button>",
-                // minmax_procent: "0 / 0"
-
-            ]
-        });
+        // var exampleTable = $('#example').DataTable({
+        //     "paging": false,
+        //     "ajax": {
+        //         url: "aj_get_Mix_Product_json.php",
+        //         dataSrc: ''
+        //     },
+        //     "columns": [
+        //         // { "data": "id" },
+        //         {"data": "link"},
+        //         // { "data": "title" },
+        //         {"data": "min_lefttime"},
+        //         // { "data": "citilinkurl" },
+        //         {"data": "synonyms"},
+        //         {"data": "categoryid"},
+        //         {"data": "ebay_price"},
+        //         {"data": "citilinkprice"},
+        //         {"data": "picture_url"},
+        //         {"data": "ebay_ids"},
+        //         {"data": "citilinkid"},
+        //         {"data": "name"},
+        //         {"data": "ebay_count"},
+        //         {"data": "minmax_procent"},
+        //         {"data": "datetimeleft"},
+        //
+        //         //     id: 1,
+        //         // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
+        //         // min_lefttime: "2018-02-08T17:26:04+0000",
+        //         // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
+        //         // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
+        //         // categoryid: 214,
+        //         // citilinkprice: 531.843,
+        //         // picture_url: "null",
+        //         // ebay_ids: "132490654126,282836792358,122945859123",
+        //         // citilinkid: 357582,
+        //         // ebay_price: "405.00",
+        //         // name: "Мобильные телефоны",
+        //         // ebay_count: "<button class="runIt">3 / 7</button>",
+        //         // minmax_procent: "0 / 0"
+        //
+        //     ]
+        // });
 
 
     });

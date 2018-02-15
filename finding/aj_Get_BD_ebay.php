@@ -54,22 +54,37 @@ $product     = new Product;
 $ebay        = new Ebay;
 $ebayProduct = new EbayProduct;
 
-$data = EbayProduct::all( array(
-	'select'     => 'Product.*, `category`.name, ebay.datetimeleft',
-	'from'       => '`Product`, `category`, `ebay`',
-	'conditions' => 'Product.categoryID = category.citi_category_id AND Product.id = ebay.pid',
-	'order'      => 'ebay.datetimeleft desc'
-) );
+//$data = EbayProduct::all( array(
+//	'select'     => 'Product.*, `category`.name, ebay.datetimeleft',
+//	'from'       => '`Product`, `category`, `ebay`',
+//	'conditions' => 'Product.categoryID = category.citi_category_id AND Product.id = ebay.pid',
+//	'order'      => 'ebay.datetimeleft desc'
+//) );
 
-
-$eb = $ebay::all( array(
-	'order' => 'ebay.datetimeleft asc'
-) );
+$eb = EbayProduct::find_by_sql( '
+	SELECT *
+    FROM ebay_products,Product,ebay
+    WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id)
+  	GROUP BY product_id
+    ORDER BY ebay_products.datetimeleft
+    ' );
 
 foreach ( $eb as &$e ) {
 //	$tmpstr = str_replace('&quot;', '"', $e->ebaydata);
-	$tmp_ebay      = json_decode( html_entity_decode( $e->ebaydata ), true );
+	$tmp_ebay      = json_decode( html_entity_decode( $e->ebaydata ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
 	$e             = $e->to_array();
 	$e['ebaydata'] = $tmp_ebay;
 }
 echo json_encode( $eb );
+
+//$eb = $ebay::all( array(
+//	'order' => 'ebay.datetimeleft asc'
+//) );
+//
+//foreach ( $eb as &$e ) {
+////	$tmpstr = str_replace('&quot;', '"', $e->ebaydata);
+//	$tmp_ebay      = json_decode( html_entity_decode( $e->ebaydata ), true );
+//	$e             = $e->to_array();
+//	$e['ebaydata'] = $tmp_ebay;
+//}
+//echo json_encode( $eb );
