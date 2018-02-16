@@ -1,0 +1,457 @@
+[
+  {
+    "our_name": "iPad Pro",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/483073/",
+    "synonyms": "APPLE iPad Pro 10.5"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy Tab S2",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/375973/",
+    "synonyms": "SAMSUNG Galaxy Tab S2"
+  },
+  {
+    "our_name": "iPad mini 4",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/330231/",
+    "synonyms": "APPLE iPad mini 4"
+  },
+  {
+    "our_name": "HUAWEI MediaPad M3",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/426019/",
+    "synonyms": "HUAWEI MediaPad M3"
+  },
+  {
+    "our_name": "LENOVO Yoga Tablet 3",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/385999/",
+    "synonyms": "ENOVO Yoga Tablet 3"
+  },
+  {
+    "our_name": "GeForce GTX 1050TI",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/parts/videocards/405786/",
+    "synonyms": "GIGABYTE nVidia GeForce GTX 1050TI"
+  },
+  {
+    "our_name": "GIGABYTE nVidia GeForce GTX 1060",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/parts/videocards/385651/",
+    "synonyms": "GIGABYTE nVidia GeForce GTX 1060"
+  },
+  {
+    "our_name": "SAPPHIRE AMD Radeon RX",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/parts/videocards/1031427/",
+    "synonyms": "SAPPHIRE AMD Radeon RX Vega 56"
+  },
+  {
+    "our_name": "ASUS nVidia GeForce GTX 1060",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/parts/videocards/391431/",
+    "synonyms": "ASUS nVidia GeForce GTX 1060 , DUAL-GTX1060-O6G"
+  },
+  {
+    "our_name": "ASUS nVidia GeForce GTX 1080Ti",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/parts/videocards/474827/",
+    "synonyms": "ASUS nVidia GeForce GTX 1080Ti"
+  },
+  {
+    "our_name": "XIAOMI Mi Max 2",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/488927/",
+    "synonyms": "XIAOMI Mi Max 2"
+  },
+  {
+    "our_name": "HUAWEI Honor 9",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/484317/",
+    "synonyms": "HUAWEI Honor 9"
+  },
+  {
+    "our_name": "HTC U11",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/488192/",
+    "synonyms": "HTC U11"
+  },
+  {
+    "our_name": "Samsung Galaxy S8",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/458023/",
+    "synonyms": "SAMSUNG Galaxy S8"
+  },
+  {
+    "our_name": "iPhone 8",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/499077/",
+    "synonyms": "APPLE iPhone 8 Plus"
+  },
+  {
+    "our_name": "ASUS ZenFone Max ZF4",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/478703/",
+    "synonyms": "ASUS ZenFone Max ZF4"
+  },
+  {
+    "our_name": "LENOVO K6 Power",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/415148/",
+    "synonyms": "LENOVO K6 Power"
+  },
+  {
+    "our_name": "XIAOMI Redmi Note 5A",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/1029308/",
+    "synonyms": "XIAOMI Redmi Note 5A"
+  },
+  {
+    "our_name": "XIAOMI Redmi Note 4",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/405621/",
+    "synonyms": "XIAOMI Redmi Note 4"
+  },
+  {
+    "our_name": "MOTOROLA MOTO Z Play",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/407009/",
+    "synonyms": "MOTOROLA MOTO Z Play"
+  },
+  {
+    "our_name": "HUAWEI Honor 8 Lite",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/479069/",
+    "synonyms": "HUAWEI Honor 8 Lite"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy S7",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/357581/",
+    "synonyms": "SAMSUNG Galaxy S7"
+  },
+  {
+    "our_name": "LENOVO IdeaCentre 910-27ISH",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/427863/",
+    "synonyms": "LENOVO IdeaCentre 910-27ISH"
+  },
+  {
+    "our_name": "APPLE iMac MNDY2RU/A",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/493965/",
+    "synonyms": "APPLE iMac MNDY2RU/A"
+  },
+  {
+    "our_name": "ACER Aspire Z24-880",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/472742/",
+    "synonyms": "ACER Aspire Z24-880"
+  },
+  {
+    "our_name": "DELL XPS 7760",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/496741/",
+    "synonyms": "DELL XPS 7760"
+  },
+  {
+    "our_name": "Œ®­®¡«®ª APPLE iMac MNE92",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/496560/",
+    "synonyms": "Œ®­®¡«®ª APPLE iMac MNE92"
+  },
+  {
+    "our_name": "LENOVO IdeaCentre 720-24IKB",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/427876/",
+    "synonyms": "LENOVO IdeaCentre 720-24IKB"
+  },
+  {
+    "our_name": "HP EliteOne 800 G3",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/490622/",
+    "synonyms": "HP EliteOne 800 G3"
+  },
+  {
+    "our_name": "DELL Inspiron 5475",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/498306/",
+    "synonyms": "DELL Inspiron 5475"
+  },
+  {
+    "our_name": "LENOVO V510z",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/all_in_one_desktops/484939/",
+    "synonyms": "LENOVO V510z"
+  },
+  {
+    "our_name": "SONY FDR-AX100",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/videocams/929451/",
+    "synonyms": "SONY FDR-AX100"
+  },
+  {
+    "our_name": "CANON Legria HF G40",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/videocams/383790/",
+    "synonyms": "CANON Legria HF G40"
+  },
+  {
+    "our_name": "ONY FDR-AX33",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/videocams/390390/",
+    "synonyms": "ONY FDR-AX33"
+  },
+  {
+    "our_name": "SONY PlayStation 4 Slim",
+    "citilinkURL": "https://www.citilink.ru/catalog/for_gamers/games_consoles/consoles/1002911/",
+    "synonyms": "SONY PlayStation 4 Slim"
+  },
+  {
+    "our_name": "MICROSOFT Xbox One S",
+    "citilinkURL": "https://www.citilink.ru/catalog/for_gamers/games_consoles/consoles/1010022/",
+    "synonyms": "MICROSOFT Xbox One S"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy Tab S3",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/tablet_pc/470272/",
+    "synonyms": "SAMSUNG Galaxy Tab S3"
+  },
+  {
+    "our_name": "SONY PlayStation VR",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/virtualnye_ochki/407935/",
+    "synonyms": "SONY PlayStation VR"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy Gear VR",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/virtualnye_ochki/462039/",
+    "synonyms": "SAMSUNG Galaxy Gear VR"
+  },
+  {
+    "our_name": "LG V30",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/1015914/",
+    "synonyms": "LG V30"
+  },
+  {
+    "our_name": "iPhone 6s Plu",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/328083/",
+    "synonyms": "APPLE iPhone 6s Plus"
+  },
+  {
+    "our_name": "LG G6 H870S",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/1015904/",
+    "synonyms": "LG G6 H870S"
+  },
+  {
+    "our_name": "MEIZU Pro 7 Plus",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/1002066/",
+    "synonyms": "MEIZU Pro 7 Plus"
+  },
+  {
+    "our_name": "HTC U Ultra",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/cell_phones/473030/",
+    "synonyms": "HTC U Ultra"
+  },
+  {
+    "our_name": "Blu-ray SAMSUNG BD-J7500",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/dvd_and_br_players/blu_ray_players/317107/",
+    "synonyms": "Blu-ray SAMSUNG BD-J7500"
+  },
+  {
+    "our_name": "Blu-ray SONY BDP-S6500",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/dvd_and_br_players/blu_ray_players/340330/",
+    "synonyms": "Blu-ray SONY BDP-S6500"
+  },
+  {
+    "our_name": "SONY HT-CT390",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/zvukovye_paneli/394020/",
+    "synonyms": "SONY HT-CT390"
+  },
+  {
+    "our_name": "SAMSUNG TW-H5500",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/zvukovye_paneli/984313/",
+    "synonyms": "SAMSUNG TW-H5500"
+  },
+  {
+    "our_name": "YAMAHA YAS-105",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/zvukovye_paneli/347734/",
+    "synonyms": "YAMAHA YAS-105"
+  },
+  {
+    "our_name": "SAMSUNG HW-M360",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/zvukovye_paneli/476493/",
+    "synonyms": "SAMSUNG HW-M360"
+  },
+  {
+    "our_name": "SONY MHC-GT4D",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/audio_systems/399946/",
+    "synonyms": "SONY MHC-GT4D"
+  },
+  {
+    "our_name": "SONY GTK-XB7",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/audio_systems/389662/",
+    "synonyms": "SONY GTK-XB7"
+  },
+  {
+    "our_name": "PIONEER X-HM51-K",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/audio_systems/854316/",
+    "synonyms": "PIONEER X-HM51-K"
+  },
+  {
+    "our_name": "BBK AMS110BT",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/audio_systems/961311/",
+    "synonyms": "BBK AMS110BT"
+  },
+  {
+    "our_name": "SONY NW-A45HN",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/audio/mp3pleers/1009932/",
+    "synonyms": "SONY NW-A45HN"
+  },
+  {
+    "our_name": "APPLE TV 4K",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/dvd_and_br_players/mplayers/1014569/",
+    "synonyms": "APPLE TV 4K"
+  },
+  {
+    "our_name": "APPLE MR912RS",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/dvd_and_br_players/mplayers/1013966/",
+    "synonyms": "APPLE MR912RS/A"
+  },
+  {
+    "our_name": "HUAWEI WATCH 2 Sport",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/smart_chasy/475469/",
+    "synonyms": "HUAWEI WATCH 2 Sport 4G"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy Gear S3",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/smart_chasy/397664/",
+    "synonyms": "SAMSUNG Galaxy Gear S3 Frontier SM-R760"
+  },
+  {
+    "our_name": "SAMSUNG Galaxy Gear Gear Sport",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/smart_chasy/499097/",
+    "synonyms": "SAMSUNG Galaxy Gear Gear Sport"
+  },
+  {
+    "our_name": "XIAOMI Amazfit PACE",
+    "citilinkURL": "https://www.citilink.ru/catalog/mobile/phone_gadgets/smart_chasy/1015332/",
+    "synonyms": "XIAOMI Amazfit PACE"
+  },
+  {
+    "our_name": "ASUS ROG Spatha",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/periferiya/mouses/365390/",
+    "synonyms": "ASUS ROG Spatha"
+  },
+  {
+    "our_name": "RAZER Lancehead",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/periferiya/mouses/493602/",
+    "synonyms": "RAZER Lancehead"
+  },
+  {
+    "our_name": "RAZER Mamba Chroma",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/periferiya/mouses/354071/",
+    "synonyms": "RAZER Mamba Chroma"
+  },
+  {
+    "our_name": "APPLE MJ2R2ZM/A",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/periferiya/mouses/341949/",
+    "synonyms": "APPLE MJ2R2ZM/A"
+  },
+  {
+    "our_name": "ASUS ROG Gladius II",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/periferiya/mouses/435804/",
+    "synonyms": "ASUS ROG Gladius II"
+  },
+  {
+    "our_name": "SONY FDR-X3000R",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/action_cams/419220/",
+    "synonyms": "SONY FDR-X3000R UHD 4K"
+  },
+  {
+    "our_name": "GOPRO HERO6",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/action_cams/1002652/",
+    "synonyms": "GOPRO HERO6"
+  },
+  {
+    "our_name": "SONY HDR-AS300R",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/action_cams/402228/",
+    "synonyms": "SONY HDR-AS300R"
+  },
+  {
+    "our_name": "SAMSUNG Gear 360",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/action_cams/373634/",
+    "synonyms": "AMSUNG Gear 360 SM-C200N"
+  },
+  {
+    "our_name": "XIAOMI YI 4K",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/action_cams/420965/",
+    "synonyms": "XIAOMI YI 4K Travel Edition"
+  },
+  {
+    "our_name": "ACER X125H",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/393930/",
+    "synonyms": "ACER X125H"
+  },
+  {
+    "our_name": "EPSON EB-S31",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/372830/",
+    "synonyms": "EPSON EB-S31"
+  },
+  {
+    "our_name": "ACER H6517ABD",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/402916/",
+    "synonyms": "ACER H6517ABD"
+  },
+  {
+    "our_name": "CANON LV-WX310ST",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/391148/",
+    "synonyms": "CANON LV-WX310ST"
+  },
+  {
+    "our_name": "BENQ MS527",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/361108/",
+    "synonyms": "BENQ MS527"
+  },
+  {
+    "our_name": "CANON WX520",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/470729/",
+    "synonyms": "CANON WX520"
+  },
+  {
+    "our_name": "CANON LX-MU500",
+    "citilinkURL": "https://www.citilink.ru/catalog/audio_and_digits/projectors_and_screens/proectors/416219/",
+    "synonyms": "CANON LX-MU500"
+  },
+  {
+    "our_name": "CANON EOS 1300D",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/dslr/428915/",
+    "synonyms": "CANON EOS 1300D KIT kit"
+  },
+  {
+    "our_name": "NIKON D3400 kit",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/dslr/396878/",
+    "synonyms": "NIKON D3400 kit"
+  },
+  {
+    "our_name": "CANON EOS 200D",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/dslr/487359/",
+    "synonyms": "CANON EOS 200D kit"
+  },
+  {
+    "our_name": "SONY Alpha ILCA-68K",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/dslr/388495/",
+    "synonyms": "SONY Alpha ILCA-68K kit"
+  },
+  {
+    "our_name": "CANON EOS 750D",
+    "citilinkURL": "https://www.citilink.ru/catalog/photo_and_video/dslr/304316/",
+    "synonyms": "CANON EOS 750D kit"
+  },
+  {
+    "our_name": "ASUS ROG Centurion",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/428329/",
+    "synonyms": "ASUS ROG Centurion"
+  },
+  {
+    "our_name": "STEELSERIES Siberia 800",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/352677/",
+    "synonyms": "STEELSERIES Siberia 800"
+  },
+  {
+    "our_name": "SENNHEISER GAME ONE",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/499579/",
+    "synonyms": "SENNHEISER GAME ONE"
+  },
+  {
+    "our_name": "RAZER ManOWar",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/493571/",
+    "synonyms": "RAZER ManOWar"
+  },
+  {
+    "our_name": "LOGITECH G933 Artemis Spectrum",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/499485/",
+    "synonyms": "LOGITECH G933 Artemis Spectrum"
+  },
+  {
+    "our_name": "SENNHEISER GAME ZERO",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/391695/",
+    "synonyms": "SENNHEISER GAME ZERO"
+  },
+  {
+    "our_name": "ASUS Strix DSP",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/285378/",
+    "synonyms": "ASUS Strix DSP"
+  },
+  {
+    "our_name": "RAZER Kraken Pro",
+    "citilinkURL": "https://www.citilink.ru/catalog/computers_and_notebooks/pc_headset/493569/",
+    "synonyms": "RAZER Kraken Pro"
+  }
+]

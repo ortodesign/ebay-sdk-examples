@@ -100,3 +100,9 @@
 # 			 (SELECT column FROM table WHERE [condition] ORDER BY column DESC LIMIT 1) as 'last'
 #  FROM `ebay_products`, `Product`, `ebay`
 #  WHERE (ebay_id = ebay.id) AND (product_id = Product.id)
+
+
+SELECT `COLUMN_NAME`
+FROM `INFORMATION_SCHEMA`.`COLUMNS`
+WHERE `TABLE_SCHEMA`='tst01'
+      AND `TABLE_NAME`='Product';

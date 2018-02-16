@@ -65,15 +65,17 @@ $eb = EbayProduct::find_by_sql( '
 	SELECT *
     FROM ebay_products,Product,ebay
     WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id)
-  	GROUP BY product_id
+  	# GROUP BY product_id
     ORDER BY ebay_products.datetimeleft
     ' );
 
 foreach ( $eb as &$e ) {
 //	$tmpstr = str_replace('&quot;', '"', $e->ebaydata);
 	$tmp_ebay      = json_decode( html_entity_decode( $e->ebaydata ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
+	$tmp_ebay_citi = json_decode( html_entity_decode( $e->citilink_data ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
 	$e             = $e->to_array();
 	$e['ebaydata'] = $tmp_ebay;
+	$e['citilink_data'] = $tmp_ebay_citi;
 }
 echo json_encode( $eb );
 

@@ -65,7 +65,18 @@
                 <label for="addCol">Ссылка на <br>ситилинк &nbsp;</label>
                 <input type="text" name="addCol" id="addCol" class="form-control">
                 <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">Искать</button>
+                <div class="pl-4">
+                <button type="button" form="addManualy" class="btn btn-primary">Добавить позицию вручную (in progress)</button>
+                </div>
+                <div class="pl-4">
+                    <button type="button" form="addFromJson" class="btn btn-primary">Спарсить <small>json список с ситилинка <br> (парсит из файла spisok.json) <br> (Формат: our_name,citilinkURL,synonyms)</small></button>
+                </div>
+                <div class="pl-4">
+                    <button type="button" form="addFromJson" class="btn btn-primary">Запустить автозаполнение eBay</button>
+                </div>
+
             </form>
+
 
             <form id="formaddColEdited" action="" data-id="" class="collapse width">
                 <div id="resultCity" class="wrapword p-3">
@@ -81,8 +92,10 @@
             </div>
             <!--                </div>-->
             <!--            </div>-->
-
-
+            <hr>
+            <h3>Наша база
+                <small>- клик по кнопке в колонке "Результаты выдачи" - запускает запрос списка с eBay</small>
+            </h3>
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
                 <thead>
                 <tr class="table-primary">
@@ -190,6 +203,10 @@
         return s;
     }
     $(document).ready(function () {
+
+        // $.fn.dataTable.ext.errMode = 'none'; //Выключить алерт ошибок таблиц
+
+
         var timelineEbayTable;
         $('#formaddColEdited').collapse('hide'); //Рез-ты по сити
         $('#ebayResults').collapse('hide'); //Рез-ты по ебею
@@ -329,7 +346,11 @@
                 },
                 {
                     "title": "Наше название",
-                    "data": "title"
+                    "data": "our_name"
+                },
+                {
+                    "title": "Название ситилинка",
+                    "data": "citilink_data.productName"
                 },
                 {
                     "title": "Синонимы",
@@ -354,7 +375,7 @@
                     "title": "(chexbox = автоматом) Отправить в торги",
                     "data": null,
                     render: function (data, type, row, meta) {
-                        return '<input type="checkbox" class="form-check-input"><button type="button" class="btn btn-primary btn-sm">&rarr;</button>';
+                        return '<input type="checkbox" class="form-check-input"><button type="button" class="btn btn-primary btn-sm">&rarr; (in progress)</button>';
                     }
                 },
             ]
@@ -364,55 +385,12 @@
             timelineEbayTable.ajax.reload();
         }, 5000);
 
-        $('#timelineEbayTable').on('click','.runIt',function (e) {
-            console.log($(e.target).closest('tr').find('td').eq(0).text()); //в первой колонке должен быть наш id
+        $('#timelineEbayTable tbody').on('click','.runIt',function (e) {
+            var ourID = $(e.target).closest('tr').find('td').eq(0).text(); //в первой колонке должен быть наш id
+            console.log(ourID);
+
 
         })
-
-        //Оставить пока как ексемпл да json
-
-        // var exampleTable = $('#example').DataTable({
-        //     "paging": false,
-        //     "ajax": {
-        //         url: "aj_get_Mix_Product_json.php",
-        //         dataSrc: ''
-        //     },
-        //     "columns": [
-        //         // { "data": "id" },
-        //         {"data": "link"},
-        //         // { "data": "title" },
-        //         {"data": "min_lefttime"},
-        //         // { "data": "citilinkurl" },
-        //         {"data": "synonyms"},
-        //         {"data": "categoryid"},
-        //         {"data": "ebay_price"},
-        //         {"data": "citilinkprice"},
-        //         {"data": "picture_url"},
-        //         {"data": "ebay_ids"},
-        //         {"data": "citilinkid"},
-        //         {"data": "name"},
-        //         {"data": "ebay_count"},
-        //         {"data": "minmax_procent"},
-        //         {"data": "datetimeleft"},
-        //
-        //         //     id: 1,
-        //         // title: "Смартфон SAMSUNG Galaxy S7 32Gb, SM-G930FD, черный",
-        //         // min_lefttime: "2018-02-08T17:26:04+0000",
-        //         // citilinkurl: "https://www.citilink.ru/catalog/mobile/cell_phones/357582/",
-        //         // synonyms: "SM-G930FD,G930FD,SAMSUNG Galaxy S7 ",
-        //         // categoryid: 214,
-        //         // citilinkprice: 531.843,
-        //         // picture_url: "null",
-        //         // ebay_ids: "132490654126,282836792358,122945859123",
-        //         // citilinkid: 357582,
-        //         // ebay_price: "405.00",
-        //         // name: "Мобильные телефоны",
-        //         // ebay_count: "<button class="runIt">3 / 7</button>",
-        //         // minmax_procent: "0 / 0"
-        //
-        //     ]
-        // });
-
 
     });
 
@@ -441,7 +419,10 @@
         });
 
     }
-
+    function get_eBay() {
+        
+    }
+    
     $('body').on('click', 'tr[id^="cid"]', function (e) {
         //Если не нажата кнопка на результах выдачи или Поиска по ситилинку
         if (!($(e.target).hasClass('runIt') || $(e.target).hasClass('runCiti'))) {
@@ -529,7 +510,8 @@
                 $('#resultCity').html(
                     '<h5>Данные по запросу от ситилинка:</h5>' +
                     '<img src="' + gl.resp.productPictureUrl + '" width="100">' +
-                    '<p><b>Название </b><input class="form-control" type="text" value="' + gl.resp.productName + '"></p>' +
+                    '<p><b>Название ситилинка </b><input class="form-control" type="text" value="' + gl.resp.productName + '"></p>' +
+                    '<p><b>Наше название  </b><input id="ourName" class="form-control" type="text" value="' + gl.resp.productName + '"></p>' +
                     '<p><b>Цена: </b>' + gl.resp.productPrice + ' руб. В долларах: <span id="priceFromCity">' + (gl.resp.productPrice / <?php echo $dollar;?>).toFixed() + '</span> USD</p>' +
                     '<p><b>id продукта: </b>' + gl.resp.productId + '</p>' +
                     '<p><b>Категория: </b>' + gl.resp.categoryName + ' (id категории : ' + gl.resp.categoryId + ')</p>' +
@@ -544,11 +526,13 @@
                 gl.senddataCiti = {
                     'title': gl.resp.productName,
                     'citilinkurl': gl.resp.productUrl,
+                    'our_name': $('#formaddColEdited').find('#ourName').val(),
                     'citilinkid': gl.resp.productId,
                     'citilinkprice': (gl.resp.productPrice / <?php echo $dollar;?>).toFixed(),
                     'categoryid': gl.resp.categoryId,
                     'picture_url': gl.resp.productPictureUrl,
-                    'synonyms': $('#formaddColEdited').find('textarea[name="synonyms"]').val()
+                    'synonyms': $('#formaddColEdited').find('textarea[name="synonyms"]').val(),
+                    'citilink_data': gl.resp
                 };
                 // console.log(gl.senddataCiti.synonyms);
 
@@ -634,7 +618,7 @@
             'ebay_ids': gl.ebayIDs.join(),
             'last_all_ebay_count': gl.eresp,
             'last_approve_ebay_count': gl.ebay.length,
-            'ebaydata': gl.ebay
+            'ebaydata': gl.ebay,
         };
         var senddata = Object.assign({}, gl.senddataCiti, predata);
         console.log(senddata);

@@ -27,6 +27,7 @@ if ( $q ) {
 
 //TODO Добить в БД до timestamp 4 bytes (https://stackoverflow.com/posts/28289860/revisions)
 	ActiveRecord\DateTime::$DEFAULT_FORMAT = 'iso8601';
+
 //	ActiveRecord\DateTime::$DEFAULT_FORMAT = 'Y-m-d H:i:s';
 
 
@@ -55,6 +56,9 @@ if ( $q ) {
 	if ( $q['id'] ) {
 		$productFind = $product::find( intval( $q['id'] ) );
 		if ( $productFind ) {
+//			if ( $q['citilink_data'] ) {
+//				$q['citilink_data'] = htmlspecialchars( json_encode( $q['citilink_data'] ));
+//				}
 			$productFind->update_attributes( $q );
 //			$productFind->update_attributes( array(
 //				'title'         => $q['title'],
@@ -68,6 +72,7 @@ if ( $q ) {
 //			echo '<pre>';
 //			var_dump( $product::find( intval( $q['id'] ) )->attributes() );
 //			echo '</pre>';
+
 			if ( $q['ebaydata'] ) {
 				echo '<pre>';
 				$ebaydata = $q['ebaydata'];
@@ -78,8 +83,8 @@ if ( $q ) {
 ////					echo DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', strtotime($e['listingInfo']['endTime']));
 //					echo '<br>';
 					$ebayProduct::create( array(
-						'ebay_id'    => $e['itemId'],
-						'product_id' => $q['id'],
+						'ebay_id'      => $e['itemId'],
+						'product_id'   => $q['id'],
 						'datetimeleft' => $e['listingInfo']['endTime'],
 					) );
 //					$ebay::query(
@@ -118,6 +123,7 @@ if ( $q ) {
 //						'datetimeleft' => DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $e['listingInfo']['endTime']),
 //						'datetimeleft' => strtotime($e['listingInfo']['endTime']),
 							'ebaydata'     => htmlspecialchars( json_encode( $e ) ) //вся дата из ебея сюда жсоном
+
 						) );
 
 					}
@@ -131,6 +137,9 @@ if ( $q ) {
 		}
 
 	} else {
+		if ( $q['citilink_data'] ) {
+			$q['citilink_data'] = htmlspecialchars( json_encode( $q['citilink_data'] ));
+		}
 		$product::create( $q );
 		if ( $q['ebaydata'] ) {
 			echo '<pre>';
