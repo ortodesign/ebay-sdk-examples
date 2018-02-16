@@ -47,13 +47,13 @@
             var $cont = $('<div>');
             for (var i = 0; i < $out.length; i++) {
                 if (i % 3 == 0) {
-                    var row = $('<div class="d-flex  justify-content-center align-items-stretch">');
+                    var row = $('<div class="d-flex  justify-content-center align-items-stretch" style="height: 40rem">');
                     $cont.append(row);
                 }
                 row.append(`
 
                     <div class="card" style="width: 20rem;margin: 1rem;" >
-                    <div style="height: 30rem; overflow: hidden">
+                    <div style="height: 30rem; overflow: hidden;display: flex;justify-content: center">
                         <img class="card-img-top embed-responsive" src="${$out[i].ebaydata.galleryURL}" alt="Card image">
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between" style="padding: 1rem; height: 100%">
