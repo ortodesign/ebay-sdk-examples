@@ -96,6 +96,9 @@
             <h3>Наша база
                 <small>- клик по кнопке в колонке "Результаты выдачи" - запускает запрос списка с eBay</small>
             </h3>
+	        <?php
+	        echo (__DIR__.'/aj_get_Product_table.php');
+	        ?>
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
                 <thead>
                 <tr class="table-primary">
@@ -116,7 +119,9 @@
                 </thead>
                 <tbody>
 
-				<?php require_once 'aj_get_Product_table.php' ?>
+				<?php
+				include 'aj_get_Product_table.php';
+                ?>
 
                 </tbody>
             </table>
@@ -186,8 +191,8 @@
 <script src="jquery-3.3.1.min.js"></script>
 <script src="tether.min.js"></script>
 <script src="bootstrap.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="jquery.dataTables.min.js"></script>
+<script src="dataTables.bootstrap4.min.js"></script>
 <script src="libs2/moment.js"></script>
 <script src="libs2/locale/ru.js"></script>
 <!--<script src="node_modules/handsontable/dist/handsontable.full.js"></script>-->

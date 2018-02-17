@@ -1,33 +1,24 @@
-CREATE TABLE tst01.Product
+CREATE TABLE Product
 (
-    id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    title varchar(500),
-    min_lefttime varchar(50),
-    citilinkURL varchar(500),
-    synonyms text,
-    categoryID int(11),
-    citilinkPrice float,
-    picture_url varchar(1024),
-    last_all_ebay_count int(11),
-    last_approve_ebay_count int(11),
-    min_procent int(11),
-    max_procent int(11),
-    ebay_ids text,
-    citilinkID int(11),
-    ebay_price varchar(10)
-);
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (1, 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  черный', '2018-02-06T20:02:24+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/357582/', 'SM-G930FD,G930FD,SAMSUNG Galaxy S7 ', 214, 531.843, 'null', 8, 4, 0, 0, '282830401856,302621905591,162882063536,232645818266', 357582, '306.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (2, 'Смартфон APPLE iPhone 6 32Gb,  MQ3D2RU/A,  серый', 'null', 'https://www.citilink.ru/catalog/mobile/cell_phones/470887/', 'iPhone 6; MQ3D2RU', 214, 0, 'null', 0, 0, 0, 0, 'null', 470887, 'null');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (3, 'Смартфон APPLE iPhone 6s Plus 128Gb,  MKUE2RU/A,  серебристый', 'null', 'https://www.citilink.ru/catalog/mobile/cell_phones/328084/', 'iPhone 6s Plus 128Gb, MKUE2RU/A', 214, 0, 'null', 0, 0, 0, 0, 'null', 328084, 'null');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (4, 'Смартфон APPLE iPhone X 256Gb,  MQAF2RU/A,  серый', 'null', 'https://www.citilink.ru/catalog/mobile/cell_phones/499093/', 'iPhone 256Gb,  MQAF2RU,  серый', 214, 1605, 'null', 0, 0, 0, 0, 'null', 499093, 'null');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (5, 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  черный', '2018-02-07T19:15:32+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/357582/', 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  черный', 214, 527, 'https://items-advert.s1.citilink.ru/357582_f_01.jpg', 6, 3, null, null, '202211808577,202211831533,302623440463', 357582, '415.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (6, 'Смартфон APPLE iPhone SE 32Gb,  MP842RU/A,  золотистый', '2018-02-07T18:23:29+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/441713/', 'iPhone SE,  MP842RU/A,  золотистый', 214, 334, 'null', 17, 2, 40, 80, '152888714088,302619585476', 441713, '189.99');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (7, 'Смартфон HTC 10 Lifestyle серебристый', '2018-02-07T14:09:09+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/394971/', 'HTC 10, HTC, серебристый', 214, 477, 'null', 3, 1, 40, 80, '253404639886', 394971, '377.99');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (8, 'Смартфон APPLE iPhone 8 Plus 256Gb,  MQ8P2RU/A,  серый', '2018-02-07T13:13:00+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/499083/', 'APPLE iPhone 8 Plus 256Gb,  MQ8P2RU/A,  серый', 214, 1291, 'null', 9, 5, 0, 0, '152888419155,142677358769,183059781407,173145871887,273050247783', 499083, '699.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (9, 'Смартфон APPLE iPhone 8 Plus 64Gb,  MQ8N2RU/A,  золотистый', '2018-02-07T16:03:06+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/499082/', 'APPLE iPhone 8 Plus 64Gb,  MQ8N2RU/A,  золотистый', 214, 1073, null, 15, 3, null, null, '263469086509,192445450293,173136956115', 499082, '610.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (10, 'Смартфон APPLE iPhone 8 Plus 64Gb,  MQ8M2RU/A,  серебристый', '2018-02-07T15:45:17+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/499081/', 'APPLE iPhone 8 Plus 64Gb,  MQ8M2RU/A,  серебристый', 214, 1073, 'null', 20, 5, 40, 90, '263472775292,202220177269,152888651923,192445450293,222827732174', 0, '710.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (11, 'Смартфон SAMSUNG Galaxy S7 Edge 32Gb,  SM-G935FD,  синий', '2018-02-06T21:01:10+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/410094/', 'Смартфон SAMSUNG Galaxy S7 Edge 32Gb,  SM-G935FD,  синий', 214, 629, 'https://items-advert.s1.citilink.ru/410094_f_01.jpg', 1, 1, null, null, '162881959831', 410094, '380.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (12, 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  серебристый', '2018-02-07T23:19:00+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/357583/', 'Galaxy S7,  SM-G930FD,  серебристый', 214, 491, 'https://items-advert.s1.citilink.ru/357583_f_01.jpg', 17, 2, null, null, '332546348396,202207950531', 357583, '255.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (13, 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  золотистый', '2018-02-07T18:03:44+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/357581/', 'Galaxy S7,  SM-G930FD,  золотистый', 214, 491, 'https://items-advert.s1.citilink.ru/357581_f_01.jpg', 17, 2, 0, 0, '302623025041,282832923304', 357581, '275.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (14, 'Смартфон SAMSUNG Galaxy S7 32Gb,  SM-G930FD,  золотистый', '2018-02-07T18:18:05+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/357581/', 'Galaxy S7,  SM-G930FD,  золотистый', 214, 491, 'https://items-advert.s1.citilink.ru/357581_f_01.jpg', 16, 5, null, null, '332543521383,282832923304,323044272222,162880113011,282830404106', 357581, '252.00');
-INSERT INTO tst01.Product (id, title, min_lefttime, citilinkURL, synonyms, categoryID, citilinkPrice, picture_url, last_all_ebay_count, last_approve_ebay_count, min_procent, max_procent, ebay_ids, citilinkID, ebay_price) VALUES (15, 'Смартфон SAMSUNG Galaxy S7 Edge 32Gb,  SM-G935FD,  синий', '2018-02-07T22:14:10+0000', 'https://www.citilink.ru/catalog/mobile/cell_phones/410094/', 'Galaxy S7 Edge,  SM-G935FD,  синий', 214, 632, 'https://items-advert.s1.citilink.ru/410094_f_01.jpg', 3, 2, null, null, '273049557983,202212282391', 410094, '495.00');
+  id                      INT AUTO_INCREMENT
+    PRIMARY KEY,
+  our_name                VARCHAR(1024) NULL,
+  min_lefttime            VARCHAR(50)   NULL,
+  citilinkURL             VARCHAR(500)  NULL,
+  synonyms                TEXT          NULL,
+  title                   VARCHAR(500)  NULL,
+  citilinkPrice           FLOAT         NULL,
+  picture_url             VARCHAR(1024) NULL,
+  last_all_ebay_count     INT           NULL,
+  last_approve_ebay_count INT           NULL,
+  min_procent             INT           NULL,
+  max_procent             INT           NULL,
+  ebay_ids                TEXT          NULL,
+  citilinkID              INT           NULL,
+  ebay_price              VARCHAR(10)   NULL,
+  citilink_data           LONGTEXT      NULL,
+  categoryID              INT           NULL
+)
+  ENGINE = InnoDB;
+
+

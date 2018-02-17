@@ -1,7 +1,19 @@
-CREATE TABLE tst01.ebay_products
+CREATE TABLE ebay_products
 (
-    id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    ebay_id int(11),
-    product_id int(11)
-);
-CREATE UNIQUE INDEX ebay_products_id_uindex ON tst01.ebay_products (id);
+  id           INT AUTO_INCREMENT
+    PRIMARY KEY,
+  ebay_id      BIGINT UNSIGNED NULL,
+  product_id   INT             NULL,
+  datetimeleft VARCHAR(24)     NULL,
+  CONSTRAINT ebay_products_id_uindex
+  UNIQUE (id)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX ebay_id
+  ON ebay_products (ebay_id);
+
+CREATE INDEX product_id
+  ON ebay_products (product_id);
+
+

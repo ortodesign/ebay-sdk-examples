@@ -8,6 +8,6 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" href="styles_dop.css">
-    <link rel="stylesheet" href="node_modules/handsontable/dist/handsontable.full.css">
+<!--    <link rel="stylesheet" href="node_modules/handsontable/dist/handsontable.full.css">-->
     <title>Редактируем синонимы</title>
 </head>
