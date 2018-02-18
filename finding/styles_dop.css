@@ -1,3 +1,8 @@
+body {
+    color: #9cafb9;
+    background-color: #292b2c;
+}
+
 table {
     font-size: .7em;
 }
@@ -58,16 +63,18 @@ table {
     position: fixed;
     z-index: 10;
     /*right: 20px;*/
-    top: 60px;
+    top: 30px;
     background: rgba(255, 255, 255, 0.92);
     /*z-index: 1;*/
 }
-#formaddColEdited{
+
+#formaddColEdited {
     position: fixed;
     top: 30px;
     right: 10px;
     z-index: 10;
 }
+
 #resultCity {
     overflow-x: scroll;
     overflow-y: scroll;
@@ -89,6 +96,10 @@ table {
     /*z-index: 1;*/
 }
 
+#formTableEbayResults table td:nth-child(2n+1)  {
+    color: #1d1e1f;
+}
+
 .modal-dialog {
     max-width: 90%;
 }
@@ -101,17 +112,17 @@ table {
     flex-wrap: wrap;
 }
 
-
-
 /*-------------DOP--------------*/
 
 .collapse {
     visibility: hidden;
 }
+
 .collapse.show {
     visibility: visible;
     display: block;
 }
+
 .collapsing {
     position: relative;
     height: 0;
@@ -123,6 +134,7 @@ table {
     -webkit-transition-timing-function: ease;
     transition-timing-function: ease;
 }
+
 .collapsing.width {
     -webkit-transition-property: width, visibility;
     transition-property: width, visibility;
@@ -134,6 +146,7 @@ table.dataTable {
     table-layout: fixed;
     word-wrap: break-word;
 }
+
 table.dataTable th {
     width: auto !important;
 }
