@@ -162,11 +162,13 @@
         font-size: .7em;
     }
     #resp {
-        /*position: fixed;*/
-        /*height: 200px;*/
-        /*width: 80%;*/
-        /*background: gray;*/
-        /*z-index: -1;*/
+        position: relative;
+        max-width: none;
+        display: block;
+        min-height: 200px;
+        width: 80%;
+        background: gray;
+        z-index: -1;
     }
 </style>
 <script

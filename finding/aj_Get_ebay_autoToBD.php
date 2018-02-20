@@ -30,6 +30,17 @@ class EbayProduct extends ActiveRecord\Model {
 class Ebay extends ActiveRecord\Model {
 	static $table_name = 'ebay';
 	static $connection = 'production';
+	public static function removeDoubles() {
+		Ebay::query('
+		DELETE t1 FROM ebay_products t1
+		  INNER JOIN
+		  ebay_products t2
+		WHERE
+		(t1.product_id < t2.product_id) AND (t1.ebay_id = t2.ebay_id);
+		');
+//		var_dump(Todo::connection()->query);
+	}
+
 }
 
 class Product extends ActiveRecord\Model {
@@ -122,8 +133,11 @@ foreach ( $product::all() as &$p ) {
 	$priceIn = $p->citilinkprice;
 //Проценты по дефолту мин - 50, макс - 80
 
-	$priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;
-	$priceMax = $_POST['max_procent'] ? $priceIn * $_POST['max_procent'] / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
+//	$priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;
+//	$priceMax = $_POST['max_procent'] ? $priceIn * $_POST['max_procent'] / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
+
+	$priceMin = $p->min_procent ? $priceIn * $p->min_procent / 100 : $priceIn * .5;
+	$priceMax = $p->max_procent ? $priceIn * $p->max_procent / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
 
 //	$_POST['min_procent'] ? $_POST['min_procent'] :
 	$request->itemFilter[] = new Types\ItemFilter( [
@@ -202,7 +216,7 @@ foreach ( $product::all() as &$p ) {
 					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
 				) );
 			} catch ( ActiveRecord\DatabaseException $exception ) {
-				$ebay->update_attributes( array(
+				$ebay::find( intval( $item->itemId ) )->update_attributes( array(
 					'pid'          => $p->id,
 					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
 					'ebaydata'     => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
@@ -239,4 +253,5 @@ foreach ( $product::all() as &$p ) {
 //		echo '</form>';
 	}
 }
+Ebay::removeDoubles();
 ?>

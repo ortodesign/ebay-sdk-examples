@@ -135,5 +135,9 @@ table.dataTable {
     word-wrap: break-word;
 }
 table.dataTable th {
-    width: auto !important;
+    /*width: auto !important;*/
+    width: auto;
+}
+.hidden{
+    display: none;
 }

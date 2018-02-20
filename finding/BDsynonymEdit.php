@@ -26,11 +26,14 @@
             <h3>Таймлайн eBay
                 <small>- показаны самые близкие к окончанию аукциона лоты из группы связанной с нашим названием</small>
             </h3>
-            <table id="timelineEbayTable" class="display table table-striped table-hover table-inverse" cellspacing="0"
-                   width="100%">
-                <!--Таблица конфигурируется в js-->
+            <div style="width: 100%">
+                <table id="timelineEbayTable" class="display table table-striped table-hover table-inverse"
+                       cellspacing="0"
+                       width="100%">
+                    <!--Таблица конфигурируется в js-->
 
-            </table>
+                </table>
+            </div>
             <hr>
             <!--            <table id="example" class="display table table-striped table-hover table-inverse" cellspacing="0"-->
             <!--                   width="100%">-->
@@ -66,13 +69,20 @@
                 <input type="text" name="addCol" id="addCol" class="form-control">
                 <button type="submit" form="formaddCol" value="Submit" class="btn btn-primary">Искать</button>
                 <div class="pl-4">
-                <button type="button" form="addManualy" class="btn btn-primary">Добавить позицию вручную (in progress)</button>
+                    <button type="button" form="addManualy" class="btn btn-primary">Добавить позицию вручную (in
+                        progress)
+                    </button>
                 </div>
                 <div class="pl-4">
-                    <button type="button" form="addFromJson" class="btn btn-primary">Спарсить <small>json список с ситилинка <br> (парсит из файла spisok.json) <br> (Формат: our_name,citilinkURL,synonyms)</small></button>
+                    <button type="button" form="addFromJson" class="btn btn-primary">Спарсить
+                        <small>json список с ситилинка <br> (парсит из файла spisok.json) <br> (Формат:
+                            our_name,citilinkURL,synonyms)
+                        </small>
+                    </button>
                 </div>
                 <div class="pl-4">
-                    <button type="button" form="addFromJson" class="btn btn-primary">Запустить автозаполнение eBay</button>
+                    <button type="button" form="addFromJson" class="btn btn-primary">Запустить автозаполнение eBay
+                    </button>
                 </div>
 
             </form>
@@ -96,9 +106,9 @@
             <h3>Наша база
                 <small>- клик по кнопке в колонке "Результаты выдачи" - запускает запрос списка с eBay</small>
             </h3>
-	        <?php
-	        echo (__DIR__.'/aj_get_Product_table.php');
-	        ?>
+			<?php
+			echo( __DIR__ . '/aj_get_Product_table.php' );
+			?>
             <table id="citiList" class="table table-striped table-hover table-inverse" cellspacing="0" width="100%">
                 <thead>
                 <tr class="table-primary">
@@ -121,7 +131,7 @@
 
 				<?php
 				include 'aj_get_Product_table.php';
-                ?>
+				?>
 
                 </tbody>
             </table>
@@ -195,6 +205,10 @@
 <script src="dataTables.bootstrap4.min.js"></script>
 <script src="libs2/moment.js"></script>
 <script src="libs2/locale/ru.js"></script>
+<link rel="stylesheet" href="node_modules/trumbowyg/dist/ui/trumbowyg.min.css">
+<script src="node_modules/trumbowyg/dist/trumbowyg.min.js"></script>
+<script src="node_modules/trumbowyg/dist/langs/ru.min.js"></script>
+
 <!--<script src="node_modules/handsontable/dist/handsontable.full.js"></script>-->
 <script>
     var gl = {};
@@ -305,22 +319,28 @@
         timelineEbayTable = $('#timelineEbayTable').DataTable({
             "paging": false,
             "ordering": false,
+            "autoWidth": false,
             "ajax": {
                 url: "aj_Get_BD_ebay.php",
                 dataSrc: ''
             },
             "columns": [
                 {
-                    "width": "2%",
+                    "width": "20px",
                     "title": "наш id",
-                    "data": "product_id",
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        // return data.product_id + ' | ' + data.ebaydata.itemId;
+                        // console.log( type,row,meta);
+                        return '<span class="badge ' + (data.description ? 'badge-success">' : 'badge-danger">') + data.product_id + '</span><input type="hidden" class="inputEID" value="' + data.ebaydata.itemId + '">';
+                    }
                 },
                 {
-                    "width": "2%",
+                    "width": "50px",
                     "title": "Время окончания",
                     "data": "datetimeleft",
                     "render": function (data, type, row, meta) {
-                        return moment(data, moment.ISO_8601, 'ru').format("MMM DD HH:mm");
+                        return moment(data, moment.ISO_8601, 'ru').format("MM-DD HH:mm");
                     }
                 },
                 {
@@ -329,11 +349,29 @@
                 },
                 {
                     "title": "Цена отсчета (ситилинк)",
+                    "width": "50px",
                     "data": "citilinkprice"
                 },
                 {
                     "title": "Цена ebay",
+                    "width": "50px",
                     "data": "ebaydata.sellingStatus.currentPrice.value"
+                },
+                {
+                    "title": "Наше описание",
+                    "data": "description",
+                    "width": "400px",
+                    "render": function (data, type, row, meta) {
+                        if (data) {
+                            return data
+                        }
+                        // else if (!data) return '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;"></textarea>';
+                        else if (!data) return '<button class="buttonDescr btn btn-danger btn-sm" style="right: 15px;width: 100%;">Заполнить описание</button>' +
+                            '<div class="inputDescrWrapper hidden">' +
+                            '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;"></textarea>' +
+                            '<button class="buttonDescrSave"  style="right: 15px;width: 100%;">Сохранить</button>' +
+                            '</div>';
+                    }
                 },
                 {
                     "title": "Картинка с ebay",
@@ -374,7 +412,7 @@
                     "title": "Минимальный и максимальный % (по дефолту 50/80)",
                     "data": null,
                     render: function (data, type, row, meta) {
-                        return (data.min_procent ? '<span class="badge badge-primary">' + data.min_procent + '</span> / ' : '') + (data.max_procent ? '<span class="badge badge-primary">' + data.max_procent+ '</span>' : '');
+                        return (data.min_procent ? '<span class="badge badge-primary">' + data.min_procent + '</span> / ' : '') + (data.max_procent ? '<span class="badge badge-primary">' + data.max_procent + '</span>' : '');
                     }
                 }, {
                     "title": "(chexbox = автоматом) Отправить в торги",
@@ -385,16 +423,71 @@
                 },
             ]
         });
-        setInterval(function () {
-            console.log('timelineEbayTable redraw');
-            timelineEbayTable.ajax.reload();
-        }, 5000);
 
-        $('#timelineEbayTable tbody').on('click','.runIt',function (e) {
+        // setTimeout(function () {
+        //     $('textarea.inputDescr').each(function () {
+        //         console.log('--*--');
+        //         $(this).trumbowyg();
+        //     })
+        // }, 2000);
+
+
+        var refreshTable;
+
+        function startRefresh() {
+            refreshTable = setInterval(function () {
+                console.log('timelineEbayTable redraw');
+                timelineEbayTable.ajax.reload();
+            }, 2000);
+        }
+
+        // startRefresh();
+
+
+        $('#timelineEbayTable tbody').on('click', '.runIt', function (e) {
             var ourID = $(e.target).closest('tr').find('td').eq(0).text(); //в первой колонке должен быть наш id
             console.log(ourID);
+        })
 
+        //Добавляем инпут выбора картинки (по enter сохраняет в БД)
+        $('#timelineEbayTable tbody').on('click', 'img', function (e) {
+            $('#timelineEbayTable tbody input.changePicURL').remove();
+            clearInterval(refreshTable);
+            var ourID = $(e.target).closest('tr').find('td span').eq(0).text(); //в первой колонке должен быть наш id
+            var eID = $(e.target).closest('tr').find('td input').eq(0).val(); //рядом с нашим ид - скрытый инпут с ебеем
+            console.log(ourID, eID);
+            var inp = $('<input class="changePicURL" type="text" value="' + $(this).attr('src') + '">');
+            if (!($(e.target).parent().find('input').hasClass('changePicURL'))) {
+                inp.insertAfter($(this)).focus().keyup(function (ev) {
+                    if (ev.keyCode === 13) {
+                        //console.log('enter save to BD');
+                        //do ajax stuff
+                        inp.remove();
+                        startRefresh();
+                    }
+                    if (ev.keyCode === 27) {
+                        //console.log('escape CANCEL');
+                        inp.remove();
+                        startRefresh();
+                    }
+                });
+            }
+        })
 
+        //Открываем редактирование описания (по enter сохраняет в БД)
+        $('#timelineEbayTable tbody').on('click', 'button.buttonDescr', function (e) {
+            // $('#timelineEbayTable tbody input.changePicURL').remove();
+            clearInterval(refreshTable);
+            var ourID = $(e.target).closest('tr').find('td span').eq(0).text(); //в первой колонке должен быть наш id
+            var eID = $(e.target).closest('tr').find('td input').eq(0).val(); //рядом с нашим ид - скрытый инпут с ебеем
+            console.log(ourID, eID);
+            // var inp = $('<input class="changePicURL" type="text" value="' + $(this).attr('src') + '">');
+            var inp = $(e.target).closest('td').find('div.inputDescrWrapper');
+            inp.toggleClass('hidden');
+            inp.find('textarea').trumbowyg({
+                lang: 'ru',
+                // autogrow: true
+            });
         })
 
     });
@@ -424,10 +517,11 @@
         });
 
     }
+
     function get_eBay() {
-        
+
     }
-    
+
     $('body').on('click', 'tr[id^="cid"]', function (e) {
         //Если не нажата кнопка на результах выдачи или Поиска по ситилинку
         if (!($(e.target).hasClass('runIt') || $(e.target).hasClass('runCiti'))) {

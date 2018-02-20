@@ -65,7 +65,7 @@ $eb = EbayProduct::find_by_sql( '
 	SELECT *
     FROM ebay_products,Product,ebay
     WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id)
-  	# GROUP BY product_id
+  	# GROUP BY ebay_id
     ORDER BY ebay_products.datetimeleft
     ' );
 

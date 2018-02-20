@@ -23,7 +23,13 @@ class Product extends ActiveRecord\Model {
 	static $connection = 'production';
 	static $attr_protected = array( 'ebaydata' );
 }
+
+class Category extends ActiveRecord\Model {
+	static $table_name = 'category';
+	static $connection = 'production';
+}
 $product = new Product;
+$category = new Category;
 
 foreach ( $citySpisokIn as $sin ) {
 
@@ -54,8 +60,16 @@ foreach ( $citySpisokIn as $sin ) {
 				'our_name'     => $sin->our_name,
 				'synonyms'     => $sin->synonyms,
 				'citilinkURL'     => $sin->citilinkURL,
+				'categoryID'     => $ca->categoryId,
 				'citilinkPrice'     => (int)($ca->productPrice / $dollar),
 				'citilink_data'     => htmlspecialchars( json_encode( $ca ) ) //вся дата из ситилинка сюда жсоном
+			));
+//			$product->save();
+			$category::create(array(
+				'pid' => $product::last()->id,
+				'name' => $ca->categoryName,
+				'citi_category_id' => $ca->categoryId
+
 			));
 		}
 	}
