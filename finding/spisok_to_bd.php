@@ -1,7 +1,8 @@
 <?php
 
 $citySpisokIn = json_decode( file_get_contents( 'spisok.json', "r" ) );
-$cityArray    = json_decode( file_get_contents( 'firstSpisokParse.json', "r" ) );
+//$cityArray    = json_decode( file_get_contents( 'firstSpisokParse.json', "r" ) );
+$cityArray    = json_decode( file_get_contents( '2nd_spisok.json', "r" ) );
 
 require_once 'functions.php';
 $dollar = getDollarCourse();
