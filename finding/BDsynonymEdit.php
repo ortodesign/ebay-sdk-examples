@@ -358,26 +358,41 @@
                     "data": "ebaydata.sellingStatus.currentPrice.value"
                 },
                 {
+                    "title": "Наша цена",
+                    "width": "50px",
+                    "data": null,
+                    // "data": "ebaydata.sellingStatus.currentPrice.value"
+                    "render": function (data, type, row, meta) {
+                        return '<input class="inputOurPrice" style="width: 100%" type="text" value="' + (data.our_price ? data.our_price : data.ebaydata.sellingStatus.currentPrice.value) +'">'
+                    }
+                },
+                {
                     "title": "Наше описание",
-                    "data": "description",
+                    "data": null,
                     "width": "400px",
                     "render": function (data, type, row, meta) {
-                        if (data) {
-                            return data
+                        if (data.description) {
+                            // return data
+                            return data.description + '<br><br><button class="buttonDescr btn btn-success btn-sm" style="right: 15px;width: 100%;">редактировать</button>' +
+
+                                '<div class="inputDescrWrapper hidden">' +
+                                '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;">' + data.description + '</textarea>' +
+                                '<button class="buttonDescrSave"  style="right: 15px;width: 100%;">Сохранить</button>' +
+                                '</div>';
                         }
                         // else if (!data) return '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;"></textarea>';
-                        else if (!data) return '<button class="buttonDescr btn btn-danger btn-sm" style="right: 15px;width: 100%;">Заполнить описание</button>' +
+                        else if (!data.description) return '<button class="buttonDescr btn btn-danger btn-sm" style="right: 15px;width: 100%;">Заполнить описание</button>' +
                             '<div class="inputDescrWrapper hidden">' +
-                            '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;"></textarea>' +
+                            '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;">' + data.ebaydata.title + '</textarea>' +
                             '<button class="buttonDescrSave"  style="right: 15px;width: 100%;">Сохранить</button>' +
                             '</div>';
                     }
                 },
                 {
-                    "title": "Картинка с ebay",
-                    "data": "ebaydata",
+                    "title": "Картинка",
+                    "data": null,
                     render: function (data, type, row, meta) {
-                        return '<img src="' + data.galleryURL + '" height="70">';
+                        return '<img src="' + (data.pic_url ? data.pic_url : ( data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL)) + '" height="70">';
                     }
                 },
                 {
@@ -431,6 +446,12 @@
         //     })
         // }, 2000);
 
+        function scrollTo(sel) {
+            $('html, body').animate({
+                scrollTop: sel.offset().top
+            }, 500);
+        }
+
 
         var refreshTable;
 
@@ -440,55 +461,103 @@
                 timelineEbayTable.ajax.reload();
             }, 2000);
         }
+        // var saveToEBD = new $.Deferred();
+        function saveToEBD(senddata){
+            var dfd = new $.Deferred();
+            $.ajax({
+                type: "POST",
+                data: {data: senddata},
+                url: "aj_update_desrc_pic_eBD.php",
+                success: function (data) {
+                    dfd.resolve(data);
+                },
+            });
+            return dfd.promise();
+        }
+
 
         // startRefresh();
 
 
-        $('#timelineEbayTable tbody').on('click', '.runIt', function (e) {
-            var ourID = $(e.target).closest('tr').find('td').eq(0).text(); //в первой колонке должен быть наш id
-            console.log(ourID);
-        })
+        //        Обрабатываем клик по таблице таймлайн ебея
+        $('#timelineEbayTable tbody').on('click keyup', function (e) {
 
-        //Добавляем инпут выбора картинки (по enter сохраняет в БД)
-        $('#timelineEbayTable tbody').on('click', 'img', function (e) {
-            $('#timelineEbayTable tbody input.changePicURL').remove();
-            clearInterval(refreshTable);
-            var ourID = $(e.target).closest('tr').find('td span').eq(0).text(); //в первой колонке должен быть наш id
-            var eID = $(e.target).closest('tr').find('td input').eq(0).val(); //рядом с нашим ид - скрытый инпут с ебеем
-            console.log(ourID, eID);
-            var inp = $('<input class="changePicURL" type="text" value="' + $(this).attr('src') + '">');
-            if (!($(e.target).parent().find('input').hasClass('changePicURL'))) {
-                inp.insertAfter($(this)).focus().keyup(function (ev) {
-                    if (ev.keyCode === 13) {
-                        //console.log('enter save to BD');
-                        //do ajax stuff
-                        inp.remove();
-                        startRefresh();
-                    }
-                    if (ev.keyCode === 27) {
-                        //console.log('escape CANCEL');
-                        inp.remove();
-                        startRefresh();
-                    }
+            var tg = $(e.target);
+            var ourID = tg.closest('tr').find('td span').eq(0).text(); //в первой колонке должен быть наш id
+            var eID = tg.closest('tr').find('td input').eq(0).val(); //рядом с нашим ид - скрытый инпут с ебеем
+
+
+            if (tg.is('img')) {  //Добавляем инпут выбора картинки (по enter сохраняет в БД)
+                $('#timelineEbayTable tbody input.changePicURL').remove();
+                clearInterval(refreshTable);
+                console.log(ourID, eID);
+                var inp = $('<input class="changePicURL" type="text" value="' + tg.attr('src') + '">');
+                if (!($(e.target).parent().find('input').hasClass('changePicURL'))) {
+                    inp.insertAfter(tg).focus().keyup(function (ev) {
+                        if (ev.which === 13) { // or keyCode
+                            //console.log('enter save to BD');
+                            //do ajax stuff
+                            console.log(saveToEBD({
+                                'id': eID,
+                                'pic_url': inp.val()
+                            }));
+                            inp.remove();
+                            startRefresh();
+                        }
+                        if (ev.which === 27) {
+                            //console.log('escape CANCEL');
+                            inp.remove();
+                            startRefresh();
+                        }
+                    });
+                }
+            }
+
+            if (tg.is('button.buttonDescr')) {         //Открываем редактирование описания
+                clearInterval(refreshTable);
+                var inp = tg.closest('td').find('div.inputDescrWrapper');
+                inp.toggleClass('hidden');
+                inp.find('textarea').trumbowyg({
+                    lang: 'ru',
+                    // autogrow: true
                 });
             }
-        })
 
-        //Открываем редактирование описания (по enter сохраняет в БД)
-        $('#timelineEbayTable tbody').on('click', 'button.buttonDescr', function (e) {
-            // $('#timelineEbayTable tbody input.changePicURL').remove();
-            clearInterval(refreshTable);
-            var ourID = $(e.target).closest('tr').find('td span').eq(0).text(); //в первой колонке должен быть наш id
-            var eID = $(e.target).closest('tr').find('td input').eq(0).val(); //рядом с нашим ид - скрытый инпут с ебеем
-            console.log(ourID, eID);
-            // var inp = $('<input class="changePicURL" type="text" value="' + $(this).attr('src') + '">');
-            var inp = $(e.target).closest('td').find('div.inputDescrWrapper');
-            inp.toggleClass('hidden');
-            inp.find('textarea').trumbowyg({
-                lang: 'ru',
-                // autogrow: true
-            });
-        })
+            if (tg.is('button.buttonDescrSave')) {         // сохраняет в БД описание
+                var inp = tg.closest('td').find('div.inputDescrWrapper');
+                var tArea = tg.closest('td').find('div.trumbowyg-editor');
+                inp.toggleClass('hidden');
+                console.log(saveToEBD({
+                    'id': eID,
+                    'description': tArea.html()
+                }));
+                // console.log(tArea.html());
+                scrollTo(tg.closest('tr'));
+                startRefresh();
+            }
+
+            if (tg.is('input.inputOurPrice')) {         // сохраняет в БД цену
+                console.log(e);
+                var inp = $(e.target);
+                if (e.which === 13) {
+                    console.log(saveToEBD({
+                        'id': eID,
+                        'our_price': inp.val()
+                    }));
+                    // inp.remove();
+                    startRefresh();
+                }
+                if (e.which === 27) {
+                    //console.log('escape CANCEL');
+                    // inp.remove();
+                    startRefresh();
+                }
+            }
+        });
+
+        $('#timelineEbayTable tbody').on('keyup','.inputOurPrice',function (ev) {
+
+        });
 
     });
 

@@ -1,19 +1,169 @@
-CREATE TABLE ebay_products
+CREATE TABLE tst01.ebay_products
 (
-  id           INT AUTO_INCREMENT
-    PRIMARY KEY,
-  ebay_id      BIGINT UNSIGNED NULL,
-  product_id   INT             NULL,
-  datetimeleft VARCHAR(24)     NULL,
-  CONSTRAINT ebay_products_id_uindex
-  UNIQUE (id)
-)
-  ENGINE = InnoDB;
-
-CREATE INDEX ebay_id
-  ON ebay_products (ebay_id);
-
-CREATE INDEX product_id
-  ON ebay_products (product_id);
-
-
+    id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ebay_id bigint(20) unsigned,
+    product_id int(11),
+    datetimeleft varchar(24)
+);
+CREATE UNIQUE INDEX ebay_products_id_uindex ON tst01.ebay_products (id);
+CREATE INDEX ebay_id ON tst01.ebay_products (ebay_id);
+CREATE INDEX product_id ON tst01.ebay_products (product_id);
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1143, 273070063411, 254, '2018-02-20T02:45:26+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1144, 122971880952, 256, '2018-02-19T21:31:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1145, 192454718905, 256, '2018-02-19T22:53:17+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1146, 332552999576, 256, '2018-02-20T01:37:13+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1147, 263493505920, 256, '2018-02-20T02:12:33+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1148, 162908674686, 256, '2018-02-20T02:37:45+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1149, 282846509564, 256, '2018-02-20T04:43:59+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1150, 142693068139, 256, '2018-02-20T09:44:14+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1151, 263502595006, 256, '2018-02-20T12:02:54+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1152, 273066608772, 267, '2018-02-19T16:43:27+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1153, 122964273417, 267, '2018-02-19T17:03:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1154, 183071217727, 267, '2018-02-19T17:48:33+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1155, 132507819033, 267, '2018-02-19T18:26:00+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1156, 253423842770, 267, '2018-02-19T19:13:57+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1157, 132503004507, 267, '2018-02-19T19:21:30+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1158, 273066790058, 267, '2018-02-19T19:27:35+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1159, 152905466435, 267, '2018-02-19T20:37:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1160, 122971892354, 267, '2018-02-19T21:33:40+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1161, 273066968938, 267, '2018-02-19T21:58:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1162, 183071591489, 267, '2018-02-19T22:19:50+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1163, 292447364642, 267, '2018-02-19T23:17:36+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1164, 253432030979, 267, '2018-02-20T00:00:05+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1165, 173156776964, 267, '2018-02-20T00:41:22+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1166, 112812551105, 267, '2018-02-20T01:47:06+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1167, 152901891123, 267, '2018-02-20T02:01:04+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1168, 183083096536, 267, '2018-02-20T02:39:17+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1169, 282846474772, 267, '2018-02-20T03:52:24+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1170, 302641551757, 267, '2018-02-20T04:12:04+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1171, 292447605544, 267, '2018-02-20T04:18:25+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1172, 273067359874, 267, '2018-02-20T06:02:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1173, 253437375386, 267, '2018-02-20T10:48:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1174, 142691118581, 267, '2018-02-20T13:06:59+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1175, 222842132763, 268, '2018-02-19T17:27:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1176, 152901336991, 268, '2018-02-19T17:33:23+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1177, 183075124561, 268, '2018-02-19T17:35:41+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1178, 372222529276, 268, '2018-02-19T18:55:37+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1179, 132505317215, 268, '2018-02-19T20:32:43+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1180, 132505321551, 268, '2018-02-19T20:38:15+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1181, 302633594041, 268, '2018-02-19T21:10:29+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1182, 302636787177, 268, '2018-02-19T21:17:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1183, 282846238461, 268, '2018-02-19T22:30:08+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1184, 173166928408, 268, '2018-02-19T23:39:56+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1185, 302636891331, 268, '2018-02-19T23:40:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1186, 142688541955, 268, '2018-02-19T23:57:57+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1187, 232663390657, 268, '2018-02-20T00:30:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1188, 142688571056, 268, '2018-02-20T01:03:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1189, 122964827548, 268, '2018-02-20T01:40:51+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1190, 263501989226, 268, '2018-02-20T02:26:13+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1191, 253428004999, 268, '2018-02-20T02:38:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1192, 142690726222, 268, '2018-02-20T02:55:37+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1193, 312066450079, 268, '2018-02-20T02:58:34+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1194, 192454846528, 268, '2018-02-20T03:18:44+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1195, 152905819342, 268, '2018-02-20T03:19:24+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1196, 202229172674, 268, '2018-02-20T03:22:50+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1197, 142690754045, 268, '2018-02-20T03:34:30+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1198, 222839816314, 268, '2018-02-20T04:15:32+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1199, 173160391357, 268, '2018-02-20T04:20:30+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1200, 173167337862, 268, '2018-02-20T06:47:33+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1201, 122965206983, 268, '2018-02-20T07:57:28+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1202, 112813131471, 268, '2018-02-20T10:26:53+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1203, 332558379632, 268, '2018-02-20T15:11:00+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1204, 232664368226, 268, '2018-02-20T15:22:32+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1205, 323072753078, 268, '2018-02-20T15:40:14+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1206, 122964621009, 271, '2018-02-19T22:09:56+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1207, 282846385927, 271, '2018-02-20T01:52:44+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1208, 273067352134, 271, '2018-02-20T05:50:39+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1209, 282847031505, 271, '2018-02-20T14:55:50+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1210, 132505002630, 272, '2018-02-19T16:24:40+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1211, 202230989341, 272, '2018-02-19T22:00:06+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1212, 142689106275, 272, '2018-02-20T15:09:13+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1213, 192456404620, 274, '2018-02-19T20:37:35+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1214, 253424135289, 274, '2018-02-19T23:15:00+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1215, 152911131374, 274, '2018-02-20T00:49:10+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1216, 253424082063, 277, '2018-02-19T22:19:34+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1217, 332553092841, 277, '2018-02-20T04:23:59+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1263, 183079529705, 268, '2018-02-22T07:12:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1265, 253427630871, 271, '2018-02-21T22:07:51+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1266, 112819013785, 272, '2018-02-21T14:46:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1267, 292449552758, 272, '2018-02-21T15:55:53+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1268, 222845254808, 272, '2018-02-21T18:13:15+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1269, 173154626153, 272, '2018-02-21T18:53:24+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1270, 162902601827, 272, '2018-02-21T20:40:23+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1271, 192456600735, 272, '2018-02-22T02:18:00+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1272, 282848344617, 274, '2018-02-21T15:41:49+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1273, 132505133955, 274, '2018-02-21T18:11:38+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1274, 253431740861, 274, '2018-02-21T20:45:37+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1279, 122978028887, 283, '2018-02-21T13:39:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1280, 263508541938, 283, '2018-02-21T14:22:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1281, 282853021390, 283, '2018-02-21T16:26:38+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1282, 391981456091, 283, '2018-02-21T23:24:49+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1283, 142694887137, 289, '2018-02-22T02:29:44+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1284, 332557874945, 293, '2018-02-22T02:48:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1285, 152912842035, 294, '2018-02-21T13:42:08+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1286, 273069326339, 294, '2018-02-21T14:30:36+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1287, 183085899499, 294, '2018-02-21T15:35:39+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1288, 263496615849, 294, '2018-02-21T16:32:30+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1289, 112819242467, 294, '2018-02-21T16:54:54+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1290, 112819327032, 294, '2018-02-21T17:57:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1291, 263508981696, 294, '2018-02-21T19:14:06+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1292, 323075170593, 294, '2018-02-21T19:30:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1293, 263505069494, 294, '2018-02-21T19:58:40+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1294, 323075221893, 294, '2018-02-21T20:07:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1295, 401494393548, 294, '2018-02-21T23:44:55+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1296, 122968296032, 294, '2018-02-22T00:25:28+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1297, 162902849073, 294, '2018-02-22T00:46:23+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1298, 292452674545, 294, '2018-02-22T02:22:51+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1299, 263497386364, 294, '2018-02-22T02:33:48+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1300, 282853616008, 294, '2018-02-22T03:24:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1301, 122972374716, 294, '2018-02-22T05:40:19+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1302, 302638560472, 295, '2018-02-21T13:48:51+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1303, 302643078950, 295, '2018-02-21T14:28:18+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1304, 152912987285, 295, '2018-02-21T16:11:44+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1305, 232667816770, 295, '2018-02-21T16:15:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1306, 282850872149, 295, '2018-02-21T17:24:06+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1307, 253431421014, 295, '2018-02-21T17:36:11+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1308, 192456313503, 295, '2018-02-21T18:29:21+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1309, 222848598766, 295, '2018-02-21T19:38:12+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1310, 112815223253, 295, '2018-02-21T21:00:28+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1311, 132505397594, 295, '2018-02-21T21:51:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1312, 232670302570, 295, '2018-02-21T22:36:20+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1313, 183082766133, 295, '2018-02-21T23:01:34+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1314, 292452560374, 295, '2018-02-22T00:02:28+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1315, 282855931866, 295, '2018-02-22T00:45:35+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1316, 263497294518, 295, '2018-02-22T01:15:32+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1317, 112823649524, 295, '2018-02-22T01:45:43+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1318, 162911133032, 295, '2018-02-22T02:00:30+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1319, 192456598568, 295, '2018-02-22T02:13:14+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1320, 173160290018, 295, '2018-02-22T02:34:12+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1321, 273075606212, 295, '2018-02-22T02:44:39+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1322, 273075664369, 295, '2018-02-22T04:05:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1323, 173160434112, 295, '2018-02-22T05:22:26+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1324, 122968590713, 295, '2018-02-22T07:16:16+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1325, 292449815866, 297, '2018-02-21T19:50:18+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1326, 253431130362, 299, '2018-02-21T14:28:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1327, 183075190366, 299, '2018-02-21T18:09:08+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1328, 253427305007, 299, '2018-02-21T18:56:28+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1329, 162908305928, 299, '2018-02-21T20:06:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1330, 332555025106, 299, '2018-02-21T21:03:23+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1331, 323068915412, 299, '2018-02-21T21:25:03+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1332, 162905635374, 299, '2018-02-21T21:29:43+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1333, 273072969516, 299, '2018-02-22T01:11:09+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1334, 122963327624, 299, '2018-02-22T01:17:34+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1335, 232666084350, 299, '2018-02-22T03:37:58+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1336, 282851419294, 299, '2018-02-22T05:23:12+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1337, 263497635150, 299, '2018-02-22T05:42:31+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1338, 323085826640, 299, '2018-02-22T13:14:24+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1339, 122962745860, 308, '2018-02-21T17:13:12+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1340, 142687347564, 312, '2018-02-21T19:34:59+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1341, 173166581777, 312, '2018-02-21T20:05:56+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1342, 222842374231, 313, '2018-02-21T20:27:11+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1343, 263497418555, 313, '2018-02-22T03:00:34+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1344, 222839169993, 325, '2018-02-21T17:54:23+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1345, 162905679224, 325, '2018-02-21T22:15:27+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1346, 122971988577, 325, '2018-02-21T23:02:06+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1347, 263497348852, 325, '2018-02-22T02:06:07+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1348, 142692249292, 332, '2018-02-21T14:37:51+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1349, 152913076986, 332, '2018-02-21T17:33:26+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1350, 183075247175, 332, '2018-02-21T18:53:15+0000');
+INSERT INTO tst01.ebay_products (id, ebay_id, product_id, datetimeleft) VALUES (1351, 332557828944, 332, '2018-02-22T01:26:34+0000');

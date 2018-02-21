@@ -5,6 +5,28 @@
  * Date: 16.02.2018
  * Time: 16:47
  */
+//session_start();
+//echo '<pre style="color:#f9f9f9;">';
+//var_dump( $GLOBALS );
+//var_dump( $_SESSION );
+//echo '</pre>';
+//
+//
+//// Удаляем все переменные сессии.
+//$_SESSION = array();
+//
+//// Если требуется уничтожить сессию, также необходимо удалить сессионные cookie.
+//// Замечание: Это уничтожит сессию, а не только данные сессии!
+//if ( ini_get( "session.use_cookies" ) ) {
+//	$params = session_get_cookie_params();
+//	setcookie( session_name(), '', time() - 42000,
+//		$params["path"], $params["domain"],
+//		$params["secure"], $params["httponly"]
+//	);
+//}
+//
+//// Наконец, уничтожаем сессию.
+//session_destroy();
 
 ?>
 <!doctype html>
@@ -18,10 +40,10 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" href="styles_dop.css">
-    <link rel="stylesheet" href="node_modules/handsontable/dist/handsontable.full.css">
     <title>Выдача</title>
 </head>
 <body>
+
 <h2 style="position: fixed;left: 20px;top: 20px;">Обновилось раз: <span id="counter"></span>
 </h2>
 <div class="container" id="ttt">
@@ -51,25 +73,25 @@
                     $cont.append(row);
                 }
 
-                var $props = ''
-                $.each($out[i].citilink_data.additions.properties, function (k, v) {
-                    $props += '<b>' + k + ': </b>' + v + '<br />';
-                });
-
+                var $props = '';
+                // $.each($out[i].citilink_data.additions.properties, function (k, v) {
+                //     $props += '<b>' + k + ': </b>' + v + '<br />';
+                // });
+                $props = $out[i].description ? $out[i].description : '';
                 row.append(`
 
                     <div class="card" style="width: 20rem;margin: 1rem;" >
         <div style="height: 30rem; ">
 
-                    <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${$out[i].ebaydata.galleryURL}) 100% 100% no-repeat;
+                    <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data.productPictureUrl ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL)) }) 100% 100% no-repeat;
                     background-size: auto auto;background-position: center;background-size: cover;"></div>
                 </div>
 
                         <div class="card-body d-flex flex-column justify-content-between" style="padding: 1rem; height: 100%">
-                            <h4 class="card-title">${$out[i].our_name}</h4>
+                            <h4 class="card-title">${($out[i].our_name ? $out[i].our_name : '')}</h4>
                             <p class="card-text" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${$props}</p>
                             <div>
-                                <h4 class="card-title"><small>Последняя ставка:</small> ${$out[i].ebaydata.sellingStatus.currentPrice.value} &dollar;</h4>
+                                <h4 class="card-title"><small>Последняя ставка:</small> ${($out[i].our_price ? $out[i].our_price : $out[i].ebaydata.sellingStatus.currentPrice.value)} &dollar;</h4>
                                 <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a>
                             </div>
                         </div>
@@ -77,7 +99,9 @@
 
                 `);
             }
-        //         <img class="card-img-top embed-responsive" src="${$out[i].ebaydata.galleryURL}" alt="Card image">
+            // <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a>
+
+            //         <img class="card-img-top embed-responsive" src="${$out[i].ebaydata.galleryURL}" alt="Card image">
 
             // <p class="card-text">${$out[i].citilink_data.additions.properties["Особенности"]}.</p>
 
@@ -92,9 +116,9 @@
 
     getContent();
 
-    // setInterval(function () {
-    //     getContent();
-    // }, 3000);
+    setInterval(function () {
+        getContent();
+    }, 3000);
 
 </script>
 

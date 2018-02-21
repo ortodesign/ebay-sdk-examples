@@ -64,9 +64,9 @@ $ebayProduct = new EbayProduct;
 $eb = EbayProduct::find_by_sql( '
 	SELECT *
     FROM ebay_products,Product,ebay
-    WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id)
+    WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id) AND (ebay_products.datetimeleft > "2018-02-21T13:39:07+0000")
   	# GROUP BY ebay_id
-    ORDER BY ebay_products.datetimeleft
+    ORDER BY ebay_products.datetimeleft ASC 
     ' );
 
 foreach ( $eb as &$e ) {
