@@ -10,7 +10,12 @@ require_once( '../shopping/01-get-ebay-time.php' );
 $dt = new DateTime();
 $dt = $ebayTime;
 $curEbTime = $ebayTime->format( DateTime::ISO8601 );
-$dt->modify( '+1 hours' );
+//$dt->modify( '+1 hours' );
+if (isset($_GET['plushours'])) {
+	$dt->modify( '+'.$_GET['plushours'].' hours');
+} else {
+	$dt->modify( '+24 hours');
+}
 //$deadLine = $ebayTime->format( DateTime::ISO8601 );
 $deadLine = $dt->format( DateTime::ISO8601 );
 //$deadLine = "2018-02-21T15:39:07+0000";

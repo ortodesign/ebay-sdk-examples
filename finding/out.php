@@ -27,7 +27,11 @@
 //
 //// Наконец, уничтожаем сессию.
 //session_destroy();
-
+if (isset($_GET['plushours'])) {
+	$plushours = '?plushours='.$_GET['plushours'];
+} else {
+	$plushours = NULL;
+}
 ?>
 <!doctype html>
 <!--suppress ALL -->
@@ -62,7 +66,7 @@
     var refreshed = 0;
 
     function getContent() {
-        $.get("aj_Get_BD_ebay.php", function (data, status) {
+        $.get('aj_Get_BD_ebay.php<?php echo $plushours; ?>' , function (data, status) {
             $out = $.parseJSON(data);
             // console.log($out);
             $target = $('#ttt');
@@ -78,6 +82,7 @@
                 //     $props += '<b>' + k + ': </b>' + v + '<br />';
                 // });
                 $props = $out[i].description ? $out[i].description : '';
+                var timeLeft = moment($out[i].ebaydata.listingInfo.endTime, moment.ISO_8601, 'ru').format('MMM, DD [в <b style="color:red">]HH:mm[</b>]');
                 row.append(`
 
                     <div class="card" style="width: 20rem;margin: 1rem;" >
@@ -86,6 +91,7 @@
                     <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data.productPictureUrl ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL)) }) 100% 100% no-repeat;
                     background-size: auto auto;background-position: center;background-size: cover;"></div>
                 </div>
+                                <p class="" style="text-align:right;border: 1px dashed #c5bc61"><small>Ставки до:</small> ${timeLeft} </p>
 
                         <div class="card-body d-flex flex-column justify-content-between" style="padding: 1rem; height: 100%">
                             <h4 class="card-title">${($out[i].our_name ? $out[i].our_name : '')}</h4>
