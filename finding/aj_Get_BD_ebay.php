@@ -5,6 +5,8 @@
  * Date: 26.01.2018
  * Time: 14:44
  */
+error_reporting( 0 );
+
 require_once( '../shopping/01-get-ebay-time.php' );
 //echo '<br>';
 $dt = new DateTime();
@@ -19,7 +21,6 @@ if (isset($_GET['plushours'])) {
 //$deadLine = $ebayTime->format( DateTime::ISO8601 );
 $deadLine = $dt->format( DateTime::ISO8601 );
 //$deadLine = "2018-02-21T15:39:07+0000";
-error_reporting( 0 );
 //$json = file_get_contents('php://input');
 //$json = file_get_contents('php://input');
 //$dataObject = json_decode($json);

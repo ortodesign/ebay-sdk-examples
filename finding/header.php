@@ -9,5 +9,5 @@
     <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" href="styles_dop.css">
 <!--    <link rel="stylesheet" href="node_modules/handsontable/dist/handsontable.full.css">-->
-    <title>Редактируем синонимы</title>
+    <title><?php echo (isset($pagetitle) ? $pagetitle : 'Редактируем синонимы'); ?></title>
 </head>

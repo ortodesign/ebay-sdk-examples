@@ -1,9 +1,13 @@
 <?php
 
-$citySpisokIn = json_decode( file_get_contents( 'spisok.json', "r" ) );
+$citySpisokIn = json_decode( file_get_contents( 'jsons/spisok0222.json', "r" ) );
 //$cityArray    = json_decode( file_get_contents( 'firstSpisokParse.json', "r" ) );
-$cityArray    = json_decode( file_get_contents( '2nd_spisok.json', "r" ) );
+$cityArray    = json_decode( file_get_contents( 'jsons/p001.json', "r" ) );
+//print_r( $citySpisokIn );
+//echo '<br><br><br>';
 
+//print_r( json_encode( $citySpisokIn) );
+print_r( json_encode( $cityArray) );
 require_once 'functions.php';
 $dollar = getDollarCourse();
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
