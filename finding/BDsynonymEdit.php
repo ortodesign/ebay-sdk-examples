@@ -16,7 +16,7 @@
 
 <?php include 'menu.php'; ?>
 <img src="loading2.gif" alt="" class="loader">
-
+<div class="ajaxResultWindow hidden"></div>
 <div class="container-fluid">
     <div class="row">
 
@@ -81,7 +81,7 @@
                     </button>
                 </div>
                 <div class="pl-4">
-                    <button type="button" form="addFromJson" class="btn btn-primary">Запустить автозаполнение eBay
+                    <button type="button" id="autoBDfromEbay" class="btn btn-primary">Запустить автозаполнение eBay
                     </button>
                 </div>
 
@@ -352,7 +352,7 @@
                     "data": null,
                     // "data": "ebaydata.sellingStatus.currentPrice.value"
                     "render": function (data, type, row, meta) {
-                        return '<input class="inputOurPrice" style="width: 100%" type="text" value="' + (data.our_price ? data.our_price : data.ebaydata.sellingStatus.currentPrice.value) +'">'
+                        return '<input class="inputOurPrice" style="width: 100%" type="text" value="' + (data.our_price ? data.our_price : data.ebaydata.sellingStatus.currentPrice.value) + '">'
                     }
                 },
                 {
@@ -381,7 +381,7 @@
                     "title": "Картинка",
                     "data": null,
                     render: function (data, type, row, meta) {
-                        return '<img src="' + (data.pic_url ? data.pic_url : ( data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL)) + '" height="70">';
+                        return '<img src="' + (data.pic_url ? data.pic_url : (data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL)) + '" height="70">';
                     }
                 },
                 {
@@ -422,7 +422,7 @@
                     "title": "(chexbox = автоматом) Отправить в торги",
                     "data": null,
                     render: function (data, type, row, meta) {
-                        return '<input type="checkbox" class="form-check-input"><button type="button" class="btn btn-primary btn-sm">&rarr; (in progress)</button>';
+                        return '<input type="checkbox" class="form-check-input" ' + (data.approved ? 'checked' : '') + '><button type="button" class="btn btn-primary btn-sm">&rarr; (in progress)</button>';
                     }
                 },
             ]
@@ -450,8 +450,9 @@
                 timelineEbayTable.ajax.reload();
             }, 2000);
         }
+
         // var saveToEBD = new $.Deferred();
-        function saveToEBD(senddata){
+        function saveToEBD(senddata) {
             var dfd = new $.Deferred();
             $.ajax({
                 type: "POST",
@@ -848,6 +849,31 @@
         });
     })
     // console.log($(this).attr('data-cid'));
+
+    //Автозаполнение с eBay аяксом
+    $('#autoBDfromEbay').on('click',function (e) {
+        console.log('Автозаполнение с eBay аяксом');
+        e.preventDefault();
+        $.ajax({
+            // type: "POST",
+            // data     : {data:values},
+            // data: {
+            //     'synonyms': synonymsFromCity,
+            //     'citilinkprice': priceFromCity
+            // },
+            url: "aj_Get_ebay_autoToBD.php",
+            beforeSend: function () {
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('.loader').hide();
+                $('.ajaxResultWindow').removeClass('hidden').html(data);
+                setTimeout(function () {
+                    $('.ajaxResultWindow').addClass('hidden');
+                },2000)
+            }
+        });
+    })
 </script>
 
 <!--REACT will be here-->

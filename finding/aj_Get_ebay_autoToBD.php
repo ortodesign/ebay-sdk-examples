@@ -36,9 +36,9 @@ class Ebay extends ActiveRecord\Model {
 		  INNER JOIN
 		  ebay_products t2
 		WHERE
-		(t1.product_id < t2.product_id) AND (t1.ebay_id = t2.ebay_id);
+		(t1.product_id = t2.product_id) AND (t1.ebay_id = t2.ebay_id) and (t1.id < t2.id);
 		');
-//		var_dump(Todo::connection()->query);
+//		var_dump(Ebay::connection()->query);
 	}
 
 }
@@ -254,4 +254,5 @@ foreach ( $product::all() as &$p ) {
 	}
 }
 Ebay::removeDoubles();
+echo 'Success';
 ?>

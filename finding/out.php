@@ -82,6 +82,8 @@ if (isset($_GET['plushours'])) {
                 //     $props += '<b>' + k + ': </b>' + v + '<br />';
                 // });
                 $props = $out[i].description ? $out[i].description : '';
+                var $price = Math.ceil($out[i].our_price ? $out[i].our_price : $out[i].ebaydata.sellingStatus.currentPrice.value);
+                var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].citilinkprice));
                 var timeLeft = moment($out[i].ebaydata.listingInfo.endTime, moment.ISO_8601, 'ru').format('MMM, DD [в <b style="color:red">]HH:mm[</b>]');
                 row.append(`
 
@@ -97,8 +99,8 @@ if (isset($_GET['plushours'])) {
                             <h4 class="card-title">${($out[i].our_name ? $out[i].our_name : '')}</h4>
                             <p class="card-text" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${$props}</p>
                             <div>
-                                <h4 class="card-title"><small>Последняя ставка:</small> ${($out[i].our_price ? $out[i].our_price : $out[i].ebaydata.sellingStatus.currentPrice.value)} &dollar;</h4>
-                                <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a>
+                                <span class="card-title h4"><small>Цена:</small> <b style="color:#d00000;">${$price}</b> &dollar;</span> <span class="h4" style="float:right;"><small>Скидка:</small><b style="color:#2b542c;"> – ${$procent}%</b></span>
+                                <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a> <span class="h5"  style="float:right;"><strike>${$out[i].citilinkprice}</strike>$</span>
                             </div>
                         </div>
                     </div>
