@@ -48,8 +48,7 @@ if (isset($_GET['plushours'])) {
 </head>
 <body>
 
-<h2 style="position: fixed;left: 20px;top: 20px;">Обновилось раз: <span id="counter"></span>
-</h2>
+<!--<h2 style="position: fixed;left: 20px;top: 20px;">Обновилось раз: <span id="counter"></span></h2>-->
 <div class="container" id="ttt">
 </div>
 
@@ -70,10 +69,10 @@ if (isset($_GET['plushours'])) {
             $out = $.parseJSON(data);
             // console.log($out);
             $target = $('#ttt');
-            var $cont = $('<div>');
+            var $cont = $('<div class="row">');
             for (var i = 0; i < $out.length; i++) {
                 if (i % 3 == 0) {
-                    var row = $('<div class="d-flex  justify-content-center align-items-stretch" style="height: 40rem">');
+                    var row = $('<div class="d-flex  justify-content-center align-items-stretch flex-wrap" style="min-height: 40rem">');
                     $cont.append(row);
                 }
 
@@ -84,13 +83,14 @@ if (isset($_GET['plushours'])) {
                 $props = $out[i].description ? $out[i].description : '';
                 var $price = Math.ceil($out[i].our_price ? $out[i].our_price : $out[i].ebaydata.sellingStatus.currentPrice.value);
                 var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].citilinkprice));
+                var $pic = $out[i].picture_url ? $out[i].picture_url : ($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data.productPictureUrl ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL));
                 var timeLeft = moment($out[i].ebaydata.listingInfo.endTime, moment.ISO_8601, 'ru').format('MMM, DD [в <b style="color:red">]HH:mm[</b>]');
                 row.append(`
 
                     <div class="card" style="width: 20rem;margin: 1rem;" >
         <div style="height: 30rem; ">
 
-                    <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data.productPictureUrl ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL)) }) 100% 100% no-repeat;
+                    <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${$pic}) 100% 100% no-repeat;
                     background-size: auto auto;background-position: center;background-size: cover;"></div>
                 </div>
                                 <p class="" style="text-align:right;border: 1px dashed #c5bc61"><small>Ставки до:</small> ${timeLeft} </p>
@@ -116,7 +116,7 @@ if (isset($_GET['plushours'])) {
             // console.log($cont);
             $target.html($cont);
             refreshed++;
-            $('#counter').text(refreshed);
+            // $('#counter').text(refreshed);
 
         });
 
@@ -126,6 +126,8 @@ if (isset($_GET['plushours'])) {
 
     setInterval(function () {
         getContent();
+        console.clear();
+        console.log('refreshed: ',refreshed);
     }, 3000);
 
 </script>

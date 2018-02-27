@@ -66,6 +66,7 @@ foreach ( $citySpisokIn as $sin ) {
 				'synonyms'     => $sin->synonyms,
 				'citilinkURL'     => $sin->citilinkURL,
 				'categoryID'     => $ca->categoryId,
+				'picture_url'     => isset($ca->productPictureUrl) ? $ca->productPictureUrl : null,
 				'citilinkPrice'     => (int)($ca->productPrice / $dollar),
 				'citilink_data'     => htmlspecialchars( json_encode( $ca ) ) //вся дата из ситилинка сюда жсоном
 			));

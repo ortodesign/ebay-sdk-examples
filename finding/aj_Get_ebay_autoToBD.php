@@ -207,7 +207,7 @@ foreach ( $product::all() as &$p ) {
 				$ebay::create( array(
 					'id'           => $item->itemId,
 					'pid'          => $p->id,
-					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
+//					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
 					'ebaydata'     => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
 				) );
 				$ebayProduct::create( array(
@@ -218,7 +218,7 @@ foreach ( $product::all() as &$p ) {
 			} catch ( ActiveRecord\DatabaseException $exception ) {
 				$ebay::find( intval( $item->itemId ) )->update_attributes( array(
 					'pid'          => $p->id,
-					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
+//					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
 					'ebaydata'     => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
 				) );
 				$ebayProduct::create( array(

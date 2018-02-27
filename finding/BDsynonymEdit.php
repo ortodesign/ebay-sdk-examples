@@ -209,7 +209,14 @@
         }
 
         return s;
+    };
+
+    function scrollTo(sel) {
+        $('html, body').animate({
+            scrollTop: sel.offset().top
+        }, 500);
     }
+
     $(document).ready(function () {
 
         // $.fn.dataTable.ext.errMode = 'none'; //Выключить алерт ошибок таблиц
@@ -321,7 +328,7 @@
                     "render": function (data, type, row, meta) {
                         // return data.product_id + ' | ' + data.ebaydata.itemId;
                         // console.log( type,row,meta);
-                        return '<span class="badge ' + (data.description ? 'badge-success">' : 'badge-danger">') + data.product_id + '</span><input type="hidden" class="inputEID" value="' + data.ebaydata.itemId + '">';
+                        return '<span class="badge ancorScrollOurID ' + (data.description ? 'badge-success">' : 'badge-danger">') + data.product_id + '</span><input type="hidden" class="inputEID" value="' + data.ebaydata.itemId + '">';
                     }
                 },
                 {
@@ -381,7 +388,7 @@
                     "title": "Картинка",
                     "data": null,
                     render: function (data, type, row, meta) {
-                        return '<img src="' + (data.pic_url ? data.pic_url : (data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL)) + '" height="70">';
+                        return '<img src="' + (data.picture_url ? data.picture_url : (data.pic_url ? data.pic_url : (data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL))) + '" height="70">';
                     }
                 },
                 {
@@ -397,7 +404,10 @@
                 },
                 {
                     "title": "Название ситилинка",
-                    "data": "citilink_data.productName"
+                    "data": null,
+                    render: function (data, type, row, meta) {
+                        return data.citilink_data ? data.citilink_data.productName : 'Error';
+                    }
                 },
                 {
                     "title": "Синонимы",
@@ -434,12 +444,6 @@
         //         $(this).trumbowyg();
         //     })
         // }, 2000);
-
-        function scrollTo(sel) {
-            $('html, body').animate({
-                scrollTop: sel.offset().top
-            }, 500);
-        }
 
 
         var refreshTable;
@@ -525,6 +529,9 @@
                 scrollTo(tg.closest('tr'));
                 startRefresh();
             }
+            if (tg.is('span.ancorScrollOurID')) {         // скролл к продукту-группе (наш айди)
+                scrollTo($("tr[data-id='" + ourID + "']").eq(0));
+            }
 
             if (tg.is('input.inputOurPrice')) {         // сохраняет в БД цену
                 console.log(e);
@@ -571,10 +578,6 @@
                 // },1000)
             }
         });
-
-    }
-
-    function get_eBay() {
 
     }
 
@@ -851,7 +854,7 @@
     // console.log($(this).attr('data-cid'));
 
     //Автозаполнение с eBay аяксом
-    $('#autoBDfromEbay').on('click',function (e) {
+    $('#autoBDfromEbay').on('click', function (e) {
         console.log('Автозаполнение с eBay аяксом');
         e.preventDefault();
         $.ajax({
@@ -870,7 +873,7 @@
                 $('.ajaxResultWindow').removeClass('hidden').html(data);
                 setTimeout(function () {
                     $('.ajaxResultWindow').addClass('hidden');
-                },2000)
+                }, 2000)
             }
         });
     })

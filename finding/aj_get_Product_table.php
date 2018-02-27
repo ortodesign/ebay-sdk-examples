@@ -64,6 +64,8 @@ foreach ( $product->all() as $k => $v ) {
 	print_r( '<td>' . $v->min_procent . ' / ' . $v->max_procent . '</td>' );
 //					print_r( '<td class="wrapword">' . $v->citilinkurl . '</td>' );
 //					print_r( '<td>' . '<button>&times;</button>' . '</td>' );
-	print_r( '<td>' . '<button class="runCiti">&rarr;</button>' . '</td>' );
+
+	print_r( '<td>' . '<img class="runCiti" src="'.$v->picture_url.'" height="50px" />' . '</td>' );
+//	print_r( '<td>' . '<button class="runCiti">&rarr;</button>' . '</td>' );
 	echo '</tr>';
 }
