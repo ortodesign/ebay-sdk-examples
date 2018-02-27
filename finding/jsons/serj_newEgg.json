@@ -1,0 +1,140 @@
+[
+  {
+    "category": "процесор",
+    "our_name": "Intel Core i7-7700K",
+    "synonyms": "i7-7700K",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16819117726"
+  },
+  {
+    "category": "процесор",
+    "our_name": "Intel Core i7-6800K",
+    "synonyms": "i7-6800K",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA0ZX5N34279"
+  },
+  {
+    "category": "процесор",
+    "our_name": "Intel Core i5-7600K",
+    "synonyms": "i5-7600K",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16819117728"
+  },
+  {
+    "category": "процесор",
+    "our_name": "Intel Core i5-6600K",
+    "synonyms": "i5-6600K",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16819117561"
+  },
+  {
+    "category": "процесор",
+    "our_name": "AMD RYZEN 5 1600",
+    "synonyms": "AMD RYZEN 5 1600",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16819113435"
+  },
+  {
+    "category": "процесор",
+    "our_name": "AMD RYZEN 7 1700",
+    "synonyms": "AMD RYZEN 7 1700",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16819113428"
+  },
+  {
+    "category": "дрон",
+    "our_name": "DJI MAVIC AIR",
+    "synonyms": "DJI MAVIC AIR",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAAWD6RE0094"
+  },
+  {
+    "category": "дрон",
+    "our_name": "DJI Mavic Pro",
+    "synonyms": "DJI Mavic Pro",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAAWD6RF1628"
+  },
+  {
+    "category": "дрон",
+    "our_name": "DJI Spark Mini",
+    "synonyms": "DJI Spark Mini",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAAWD5SD8238"
+  },
+  {
+    "category": "свитч",
+    "our_name": "Nintendo Switch Bundle 32",
+    "synonyms": "Nintendo Switch Bundle 32",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA3786D67788"
+  },
+  {
+    "category": "ssd",
+    "our_name": "SAMSUNG 850 EVO  2TB",
+    "citilinkURL": "SAMSUNG 850 EVO  2TB",
+    "synonyms": "https://www.newegg.com/Product/Product.aspx?Item=N82E16820147441&ignorebbr=1"
+  },
+  {
+    "category": "ssd",
+    "our_name": "WD 1TB",
+    "synonyms": "WD 1TB",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=N82E16820250094"
+  },
+  {
+    "category": "irobot",
+    "our_name": "iRobot Roomba 650",
+    "synonyms": "iRobot Roomba 650",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA9AZ5SC9648"
+  },
+  {
+    "category": "irobot",
+    "our_name": "iRobot 560 Roomba",
+    "synonyms": "iRobot 560 Roomba",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA0AJ1DZ0353"
+  },
+  {
+    "category": "irobot",
+    "our_name": "iRobot Scooba 450",
+    "synonyms": "iRobot Scooba 450",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA61K5B73097"
+  },
+  {
+    "category": "кофе",
+    "our_name": "Breville BES870CBXL",
+    "synonyms": "Breville BES870CBXL",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA1JX6KZ5511"
+  },
+  {
+    "category": "кофе",
+    "our_name": "Breville Duo Temp Pro",
+    "synonyms": "Breville Duo Temp Pro",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAFSW6VB0715"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "Bose Wave Music System III",
+    "synonyms": "Bose Wave Music System III",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAEFP6WG3983"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "Bose SoundLink Revolve",
+    "synonyms": "Bose SoundLink Revolve",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAFSW6WF3274"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "Bose SoundLink Bluetooth Speaker III",
+    "synonyms": "Bose SoundLink Bluetooth Speaker III",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIACJW6Y48227"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "JBL Xtreme Portable Wireless Bluetooth Speaker",
+    "synonyms": "JBL Xtreme Portable Wireless Bluetooth Speaker",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIA71N6NU3923"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "JBL Link 300 Voice Activated Speaker",
+    "synonyms": "JBL Link 300 Voice Activated Speaker",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIADM26WY9869"
+  },
+  {
+    "category": "переносные колонки",
+    "our_name": "JBL Xtreme Portable Wireless Bluetooth",
+    "synonyms": "JBL Xtreme Portable Wireless Bluetooth",
+    "citilinkURL": "https://www.newegg.com/Product/Product.aspx?Item=9SIAFCN6WA6265"
+  }
+]

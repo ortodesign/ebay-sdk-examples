@@ -10,14 +10,13 @@ include __DIR__ . '/../../header.php'; ?>
 <?php include __DIR__ . '/../../jsLibs.php'; ?>
 <script src="node_modules/he/he.js"></script>
 <script>
-    function parseHtmlEntities(str) {
-        return str.toString().replace(/#([0-9]{1,3});/gi, function (match, numStr) {
-            var num = parseInt(numStr, 10); // read num as normal number
-            return String.fromCharCode(num);
-        });
-    };
+<?php
+$spisok  = file_get_contents(  __DIR__ . '/../../jsons/serj_newEgg.json', "r" );
+?>
 
+    var inJson = <?php echo $spisok; ?>;
 
+    //fake object for eval
     var Web = {
         StateManager: {
             Cookies: {
@@ -31,23 +30,22 @@ include __DIR__ . '/../../header.php'; ?>
             }
         }
     };
-
+inJson.forEach(function (item) {
     $.ajax({
-        url: 'parsers/php/parse_newEgg.php?' + 'target=' + 'https://www.newegg.com/Product/Product.aspx?Item=N82E16828840014', //item.citilinkURL,
+        // url: 'parsers/php/parse_newEgg.php?' + 'target=' + 'https://www.newegg.com/Product/Product.aspx?Item=N82E16828840014', //item.citilinkURL,,
+        url: 'parsers/php/parse_newEgg.php?' + 'target=' + item.citilinkURL,
         // data: data,
         success: function (data) {
             var ev = eval('(' + data + ')');
             console.log(ev);
-            // $('#point').append(JSON.stringify(ev));
             // $('#point').append('<div>'+ev.product_model+'</div>');
             $('#point').append('<h3>' + he.decode(String(ev.product_title)) + '</h3>');
             $('#point').append('<img src="' + ev.picUrl + '" style="width: 800px">');
-            // $('#point').append('<div>'+parseHtmlEntities(ev.product_title)+'</div>');
             $('#point').append('<div class="h1">' + ev.product_sale_price + '</div>');
         },
         // dataType: dataType
     });
-
+});
 
     ////var inJson = $.parseJSON('<?php ////echo $spisok; ?>////');
     //var inJson = <?php //echo $spisok; ?>//;
