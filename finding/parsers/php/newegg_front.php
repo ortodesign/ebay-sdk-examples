@@ -11,7 +11,7 @@ include __DIR__ . '/../../header.php'; ?>
 <script src="node_modules/he/he.js"></script>
 <script>
 <?php
-$spisok  = file_get_contents(  __DIR__ . '/../../jsons/serj_newEgg.json', "r" );
+$spisok  = file_get_contents( __DIR__ . '/../../jsons/serj_newEgg.json', "r" );
 ?>
 
     var inJson = <?php echo $spisok; ?>;
@@ -30,6 +30,8 @@ $spisok  = file_get_contents(  __DIR__ . '/../../jsons/serj_newEgg.json', "r" );
             }
         }
     };
+$('#point').append('[');
+
 inJson.forEach(function (item) {
     $.ajax({
         // url: 'parsers/php/parse_newEgg.php?' + 'target=' + 'https://www.newegg.com/Product/Product.aspx?Item=N82E16828840014', //item.citilinkURL,,
@@ -38,14 +40,27 @@ inJson.forEach(function (item) {
         success: function (data) {
             var ev = eval('(' + data + ')');
             console.log(ev);
-            // $('#point').append('<div>'+ev.product_model+'</div>');
-            $('#point').append('<h3>' + he.decode(String(ev.product_title)) + '</h3>');
-            $('#point').append('<img src="' + ev.picUrl + '" style="width: 800px">');
-            $('#point').append('<div class="h1">' + ev.product_sale_price + '</div>');
+
+            var outObj = {
+                'our_name': item.our_name,
+                'synonyms': item.synonyms,
+                'citilinkURL': item.citilinkURL,
+                'categoryID': null,
+                'picture_url': ev.picUrl,
+                'citilinkPrice': ev.product_sale_price,
+                'citilink_data': null,
+            };
+            $('#point').append('<div>'+JSON.stringify(outObj)+'</div>');
+            //// $('#point').append('<div>'+ev.product_model+'</div>');
+            // $('#point').append('<h3>' + he.decode(String(ev.product_title)) + '</h3>');
+            // $('#point').append('<img src="' + ev.picUrl + '" style="width: 800px">');
+            // $('#point').append('<div class="h1">' + ev.product_sale_price + '</div>');
         },
         // dataType: dataType
     });
+
 });
+$('#point').append(']');
 
     ////var inJson = $.parseJSON('<?php ////echo $spisok; ?>////');
     //var inJson = <?php //echo $spisok; ?>//;

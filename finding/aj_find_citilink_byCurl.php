@@ -40,6 +40,10 @@ curl_close($ch);
 	//По сути ищем готовый json с данными из исходного кода страницы в тегах <script> и обрезаем строку регулярками.
 	$rows   = $finder->query( "//script[contains(text(),'pageData = ')]" )->item( 0 )->nodeValue;;
 
+	//тут картинка есть в галерее
+//	$x('.//div[@class = "full_content"]/img/@src')[0].nodeValue
+
+
 //$doc->getElementsByTagName('script'); //->item(0)->nodeValue
 //echo '<pre>';
 	preg_match( '/pageData = {"pageType".+;/', $rows, $matches );
