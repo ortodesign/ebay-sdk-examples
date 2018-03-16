@@ -101,7 +101,7 @@ if (isset($_GET['plushours'])) {
         getContent();
         console.clear();
         console.log('refreshed: ',refreshed);
-    }, 3000);
+    }, 8000);
 
 </script>
 

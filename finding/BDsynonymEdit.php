@@ -320,6 +320,7 @@
                 url: "aj_Get_BD_ebay.php",
                 dataSrc: ''
             },
+            rowId: 'ebaydata.itemId',
             "columns": [
                 {
                     "width": "20px",

@@ -85,11 +85,11 @@
 
 # select * from
 #   (
-    SELECT *
-    FROM ebay_products,Product,ebay
-    WHERE (ebay_products.product_id = Product.id) and (ebay_products.ebay_id = ebay.id)
-  GROUP BY product_id
-    ORDER BY ebay_products.datetimeleft
+#     SELECT *
+#     FROM ebay_products,Product,ebay
+#     WHERE (ebay_products.product_id = Product.id) and (ebay_products.ebay_id = ebay.id)
+#   GROUP BY product_id
+#     ORDER BY ebay_products.datetimeleft
 
 #   ) as t1
 
@@ -102,7 +102,35 @@
 #  WHERE (ebay_id = ebay.id) AND (product_id = Product.id)
 
 
-SELECT `COLUMN_NAME`
-FROM `INFORMATION_SCHEMA`.`COLUMNS`
-WHERE `TABLE_SCHEMA`='tst01'
-      AND `TABLE_NAME`='Product';
+# SELECT `COLUMN_NAME`
+# FROM `INFORMATION_SCHEMA`.`COLUMNS`
+# WHERE `TABLE_SCHEMA`='tst01'
+#       AND `TABLE_NAME`='Product';
+
+
+DELETE t1 FROM ebay_products t1
+  INNER JOIN
+  ebay_products t2
+WHERE
+  (t1.ebay_id = t2.ebay_id) AND (t1.id < t2.id);
+
+
+
+DELETE t1 FROM parsed_citi t1
+  INNER JOIN
+  parsed_citi t2
+WHERE
+  (t1.pre_syn = t2.pre_syn) AND (t1.id < t2.id);
+
+
+
+SELECT *
+FROM ebay_products,parsed_citi,ebay
+WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id)
+      AND (ebay_products.datetimeleft > "2018-03-15T11:00:08+0000") AND (ebay_products.datetimeleft < "2018-03-15T20:44:26+0000")
+# GROUP BY ebay_id
+ORDER BY ebay_products.datetimeleft ASC
+
+
+DELETE FROM ebay
+WHERE id > 0

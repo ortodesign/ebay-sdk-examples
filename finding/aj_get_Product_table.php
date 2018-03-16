@@ -50,9 +50,10 @@ $category = new  Category;
 foreach ( $product->all() as $k => $v ) {
 	echo '<tr id="cid' . $v->citilinkid . '" data-id="' . $v->id . '" data-cid="' . $v->citilinkid . '" data-all="' . htmlspecialchars( json_encode( $v->attributes() ) ) . '">';
 	print_r( '<td>' . $v->id . '</td>' );
-	print_r( '<td>' . $category::all( array(
-			'conditions' => array( 'citi_category_id = ?', isset($v->categoryid) ? $v->categoryid : '*')
-		) )[0]->name . '</td>' );
+//	print_r( '<td>' . $category::all( array(
+//			'conditions' => array( 'citi_category_id = ?', isset($v->categoryid) ? $v->categoryid : '*')
+//		) )[0]->name . '</td>' );
+	print_r( '<td>' . $v->category_name. '</td>' );
 	print_r( '<td>' . $v->min_lefttime . '</td>' );
 	print_r( '<td>' . $v->ebay_price . '</td>' );
 	print_r( '<td>' . $v->citilinkprice . '</td>' );
