@@ -24,6 +24,14 @@ class Parsed_citi extends ActiveRecord\Model {
 
 $parsed_citi = new Parsed_citi;
 
+class Synon extends ActiveRecord\Model {
+	static $table_name = 'synon';
+	static $connection = 'production';
+//	static $attr_protected = array( 'ebaydata' );
+}
+
+$synon = new Synon;
+
 
 //class Category extends ActiveRecord\Model {
 //	static $table_name = 'category';
@@ -88,8 +96,12 @@ foreach ( $big as &$item ) {
 	$sk   = explode( ',', $s );
 	$ssyn = '';
 	foreach ( $sk as &$vv ) {
-		if ( strlen( $vv ) > 6 && trim( $vv ) != $item->pre_syn) {
+		if ( strlen( trim($vv) ) > 6 && trim( $vv ) != $item->pre_syn) {
 			$ssyn = $ssyn . ',' . trim( $vv );
+			$synon::create( array(
+				'pid' => $item->id,
+				'syn' => trim( $vv )
+			) );
 		}
 	}
 	$item->pre_syn = $item->pre_syn .','. trim($ssyn,',');

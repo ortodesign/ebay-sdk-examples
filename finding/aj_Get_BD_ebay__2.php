@@ -9,14 +9,14 @@ error_reporting( 0 );
 
 require_once( '../shopping/01-get-ebay-time.php' );
 //echo '<br>';
-$dt = new DateTime();
-$dt = $ebayTime;
+$dt        = new DateTime();
+$dt        = $ebayTime;
 $curEbTime = $ebayTime->format( DateTime::ISO8601 );
 //$dt->modify( '+1 hours' );
-if (isset($_GET['plushours'])) {
-	$dt->modify( '+'.$_GET['plushours'].' hours');
+if ( isset( $_GET['plushours'] ) ) {
+	$dt->modify( '+' . $_GET['plushours'] . ' hours' );
 } else {
-	$dt->modify( '+24 hours');
+	$dt->modify( '+24 hours' );
 }
 //$deadLine = $ebayTime->format( DateTime::ISO8601 );
 $deadLine = $dt->format( DateTime::ISO8601 );
@@ -78,29 +78,28 @@ class Parsed_citi extends ActiveRecord\Model {
 $parsed_citi = new Parsed_citi;
 
 
-
 //$data = EbayProduct::all( array(
 //	'select'     => 'Product.*, `category`.name, ebay.datetimeleft',
 //	'from'       => '`Product`, `category`, `ebay`',
 //	'conditions' => 'Product.categoryID = category.citi_category_id AND Product.id = ebay.pid',
 //	'order'      => 'ebay.datetimeleft desc'
 //) );
-
-$eb = EbayProduct::find_by_sql( '
+$isApproved = isset( $_GET['approved'] ) ? 'AND (ebay.approved = "1")' : '';
+$eb         = EbayProduct::find_by_sql( '
 	SELECT *
     FROM ebay_products,parsed_citi,ebay
     WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id) 
-    AND (ebay_products.datetimeleft > "' . $curEbTime . '") AND (ebay_products.datetimeleft < "' . $deadLine . '")
+    AND (ebay_products.datetimeleft > "' . $curEbTime . '") AND (ebay_products.datetimeleft < "' . $deadLine . '")' . $isApproved . '  
   	# GROUP BY ebay_id
     ORDER BY ebay_products.datetimeleft ASC 
     ' );
 
 foreach ( $eb as &$e ) {
 //	$tmpstr = str_replace('&quot;', '"', $e->ebaydata);
-	$tmp_ebay           = json_decode( html_entity_decode( $e->ebaydata ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
+	$tmp_ebay = json_decode( html_entity_decode( $e->ebaydata ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
 //	$tmp_ebay_citi      = json_decode( html_entity_decode( $e->citilink_data ), true ); //парсим строку JSON из БД, с тем чтобы на выход отдать общий валидный json
-	$e                  = $e->to_array();
-	$e['ebaydata']      = $tmp_ebay;
+	$e             = $e->to_array();
+	$e['ebaydata'] = $tmp_ebay;
 //	$e['citilink_data'] = $tmp_ebay_citi;
 }
 echo json_encode( $eb );

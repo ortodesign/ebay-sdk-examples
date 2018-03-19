@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 1200);
+ini_set( 'max_execution_time', 3600 );
 $ebayTime = new DateTime();
 require_once( '../shopping/01-get-ebay-time.php' );
 print_r( 'Время на eBay: ' . $ebayTime->format( DateTime::ISO8601 ) );
@@ -115,9 +115,10 @@ foreach ( $parsed_citi::all() as &$p ) {
 	$request = new Types\FindItemsAdvancedRequest();
 
 //	$request->keywords = $_POST['synonyms'] ? '(' . $_POST['synonyms'] . ')' : '(iPhone 7, iphone 6)';
-	$request->keywords = '(' . ( isset( $p->pre_syn ) ? ( $p->pre_syn . ',' ) : "" ) . ( isset( $p->non_cyr ) ? $p->non_cyr : "" ) . ')';
-	print_r( '$request->keywords: ' );
-	print_r( $request->keywords );
+//	$request->keywords = '(' . ( isset( $p->pre_syn ) ? ( $p->pre_syn . ',' ) : "" ) . ( isset( $p->non_cyr ) ? $p->non_cyr : "" ) . ')';
+	$request->keywords = '(' . ( isset( $p->pre_syn ) ? $p->pre_syn : "" ) . ')';
+//	print_r( '$request->keywords: ' );
+//	print_r( $request->keywords );
 	/**
 	 * Search across two categories.
 	 * DVDs & Movies > DVDs & Blue-ray (617)
@@ -180,11 +181,12 @@ foreach ( $parsed_citi::all() as &$p ) {
 	/**
 	 * Send the request.
 	 */
-	print_r( '$request: ' );
-//	print_r( $request );
+//	print_r( '$request: ' ); print_r( $request );
 
 	$response = $service->findItemsAdvanced( $request );
-
+	if ( ! $response ) {
+		die( 'no response' );
+	}
 	if ( isset( $response->errorMessage ) ) {
 		foreach ( $response->errorMessage->error as $error ) {
 			printf(
@@ -204,20 +206,8 @@ foreach ( $parsed_citi::all() as &$p ) {
 //	$response->paginationOutput->totalPages
 //);
 //printf( '<script> gl.eresp = %s ; </script>', $response->paginationOutput->totalEntries );
-//echo "<br>==================\nResults \n==================\n<br>";
 
-//	echo '<h4><small> Название:</small> ' . $p->synonyms . '</h4><h1><small> Синонимы: </small>' . $p->synonyms . '</h1>';
-//	echo '<form id="formTableEbayResults">';
-//	echo '<table id="tableEbayResults">';
 	if ( $response->ack !== 'Failure' ) {
-//		print_r( '<thead>' );
-//		printf(
-//			'<th></th><th>(%s)</th><th>(%s)</th><th>(%s)</th> <th>%s</th> <th>%s</th> <th>%s</th> <th>%s</th>',
-//
-//			'time', 'timeleft', 'itemId', 'title', 'ebayURL', 'currencyId', 'value'
-//		);
-//		print_r( '</thead>' );
-//		print_r( '<tbody>' );
 		foreach ( $response->searchResult->item as $item ) {
 //			echo '<pre>';
 //			var_dump( $item );
@@ -225,9 +215,9 @@ foreach ( $parsed_citi::all() as &$p ) {
 			if ( $ebay::exists( intval( $item->itemId ) ) ) {
 				$ebay::find( intval( $item->itemId ) )->update_attributes( array(
 					'pid'       => $p->id,
-					'our_price' => intval($p->price / $dollar),
+					'our_price' => intval( $p->price / $dollar ),
 //					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-					'ebaydata' => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
+					'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
 				) );
 				$ebayProduct::create( array(
 					'ebay_id'      => $item->itemId,
@@ -236,11 +226,11 @@ foreach ( $parsed_citi::all() as &$p ) {
 				) );
 			} else {
 				$ebay::create( array(
-					'id'       => $item->itemId,
-					'pid'      => $p->id,
-					'our_price' => intval($p->price / $dollar),
+					'id'        => $item->itemId,
+					'pid'       => $p->id,
+					'our_price' => intval( $p->price / $dollar ),
 //					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-					'ebaydata' => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
+					'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
 				) );
 				$ebayProduct::create( array(
 					'ebay_id'      => $item->itemId,
@@ -250,27 +240,7 @@ foreach ( $parsed_citi::all() as &$p ) {
 			}
 
 
-////			printf("<img src='%s' alt='%s'>", $item->galleryURL, $item->title);
-//			echo '<tr id="ebayid_' . $item->itemId . '" data="' . htmlspecialchars( json_encode( $item->toArray() ) ) . '">';
-//			$diff = $ebayTime->diff( $item->listingInfo->endTime );
-//			printf(
-//				'<td><input class="" type="checkbox"></td><td>%s</td><td>%s</td><td>(%s)</td> <td>%s</td> <td><a href="%s" target="_blank">link</a></td> <td>%s</td> <td>%.2f</td>',
-////			$item->sellingStatus->timeLeft,
-//				$item->listingInfo->endTime->format( DateTime::ISO8601 ),
-////			$item->listingInfo->endTime->format('d h:m:s'),
-////			$diff->format(DateTime::ISO8601),
-//				$diff->format( '%h ч. %i м.' ),
-//				$item->itemId,
-//				$item->title,
-//				$item->viewItemURL,
-//				$item->sellingStatus->currentPrice->currencyId,
-//				$item->sellingStatus->currentPrice->value
-//			);
-//			echo '</tr>';
 		}
-//		print_r( '</tbody>' );
-//		echo '</table>';
-//		echo '</form>';
 	}
 }
 Ebay::removeDoubles();

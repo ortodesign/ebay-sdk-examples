@@ -102,10 +102,10 @@
 #  WHERE (ebay_id = ebay.id) AND (product_id = Product.id)
 
 
-# SELECT `COLUMN_NAME`
-# FROM `INFORMATION_SCHEMA`.`COLUMNS`
-# WHERE `TABLE_SCHEMA`='tst01'
-#       AND `TABLE_NAME`='Product';
+SELECT `COLUMN_NAME`
+FROM `INFORMATION_SCHEMA`.`COLUMNS`
+WHERE `TABLE_SCHEMA`='tst01'
+      AND `TABLE_NAME`='parsed_citi';
 
 
 DELETE t1 FROM ebay_products t1
@@ -123,14 +123,86 @@ WHERE
   (t1.pre_syn = t2.pre_syn) AND (t1.id < t2.id);
 
 
+DELETE t1 FROM ebay_products t1
+  INNER JOIN
+  ebay_products t2
+WHERE
+  (t1.product_id = t2.product_id) AND (t1.ebay_id = t2.ebay_id) AND (t1.id < t2.id);
+
+
 
 SELECT *
 FROM ebay_products,parsed_citi,ebay
 WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id)
       AND (ebay_products.datetimeleft > "2018-03-15T11:00:08+0000") AND (ebay_products.datetimeleft < "2018-03-15T20:44:26+0000")
 # GROUP BY ebay_id
-ORDER BY ebay_products.datetimeleft ASC
+ORDER BY ebay_products.datetimeleft ASC;
 
 
-DELETE FROM ebay
+DELETE FROM parsed_citi
 WHERE id > 0
+
+SELECT * from synon t1
+  INNER JOIN
+  synon t2
+WHERE
+  (t1.pid = t2.pid) AND (t1.id < t2.id)
+GROUP BY t2.syn;
+# AND (t1.syn = t2.syn)
+# AND (t1.id < t2.id);
+
+SELECT * from
+(SELECT * from synon t1
+ ORDER BY pid) t2
+# GROUP BY syn) t2
+# GROUP BY pid
+# ORDER BY pid
+
+  SELECT t2.pid,COUNT(*) count from
+# (SELECT * from
+ (SELECT * from synon t1
+GROUP BY syn) t2
+# GROUP BY pid
+# ORDER BY t2.pid) t3
+  Having
+    COUNT(*) > 1
+
+SELECT *
+FROM synon
+GROUP BY pid
+HAVING COUNT(pid) > 2
+ORDER BY pid
+
+## !!!!
+select * from synon
+where pid in (
+select pid from synon group by pid having count(*) > 1);
+
+SELECT
+  synon.pid AS spid,
+  parsed_citi.id     AS psid,
+  syn,
+  shortName
+FROM synon, parsed_citi
+WHERE (pid IN (
+  SELECT pid
+  FROM synon
+  GROUP BY pid
+  HAVING count(pid) = 1)
+      ) AND (parsed_citi.id = synon.pid);
+
+
+SELECT
+  syn,
+  pid ,
+#   syn AS sy,
+  COUNT(*) count
+FROM
+  synon
+GROUP BY
+#   id,
+  pid
+#   sy
+Having
+  COUNT(*) > 2
+ORDER BY pid

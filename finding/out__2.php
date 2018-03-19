@@ -22,6 +22,7 @@ if (isset($_GET['plushours'])) {
 <body>
 
 <!--<h2 style="position: fixed;left: 20px;top: 20px;">Обновилось раз: <span id="counter"></span></h2>-->
+<div id="totalCount"></div>
 <div class="container" id="ttt">
 </div>
 
@@ -38,12 +39,14 @@ if (isset($_GET['plushours'])) {
     var refreshed = 0;
 
     function getContent() {
-        $.get('aj_Get_BD_ebay__2.php<?php echo $plushours; ?>' , function (data, status) {
+        $.get('aj_Get_BD_ebay__2.php<?php echo $plushours; ?>&approved=1' , function (data, status) {
             $out = $.parseJSON(data);
             // console.log($out);
             $target = $('#ttt');
+            $('#totalCount').html('<h3 class="text-center">'+$out.length+'</h3>');
             var $cont = $('<div class="row">');
             for (var i = 0; i < $out.length; i++) {
+
                 if (i % 3 == 0) {
                     var row = $('<div class="d-flex  justify-content-center align-items-stretch flex-wrap" style="min-height: 40rem">');
                     $cont.append(row);
@@ -54,7 +57,7 @@ if (isset($_GET['plushours'])) {
                 //     $props += '<b>' + k + ': </b>' + v + '<br />';
                 // });
                 $props = $out[i].description ? $out[i].description : '';
-                var $title = $out[i].shortname ? ($out[i].shortname + '<br><small>'+$out[i].non_cyr+'</small>'+ '<br><small style="color: #d00000">'+$out[i].ebaydata.title+'</small>') : '';
+                var $title = $out[i].shortname ? ($out[i].shortname + '<br><small  style="color: #fe5e10">'+$out[i].pre_syn+'</small>'+ '<br><small>'+$out[i].non_cyr+'</small>'+ '<br><small style="color: #d00000">'+$out[i].ebaydata.title+'</small>') : '';
                 var $price = Math.ceil($out[i].ebaydata.sellingStatus.currentPrice.value); //$out[i].our_price ? $out[i].our_price :
                 var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].our_price));
                 var $pic = $out[i].picture_url ? $out[i].picture_url : ($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL));
