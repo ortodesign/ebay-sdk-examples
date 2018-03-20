@@ -111,7 +111,19 @@ $usedPostTypes = [ 'citilinkPrice', 'synonyms', 'id', 'EndTimeTo' ];
 //	print_r( $p->citilinkprice );
 //	echo '<br>';
 //}
-foreach ( $parsed_citi::all() as &$p ) {
+
+if (isset($_GET) & $_GET['part'] == 'true') {
+
+	$qd = array_map( function($value) { return (int)$value; }, $_POST['ids'] );
+	$parse_object = $parsed_citi::find($qd);
+
+//	$parse_object = ( isset( $_POST ) & $_POST['data'] ) ? $_POST['data'] : die( 'no data' );
+
+} else {
+
+	$parse_object = $parsed_citi::all();
+}
+foreach ( $parse_object as &$p ) {
 	$request = new Types\FindItemsAdvancedRequest();
 
 //	$request->keywords = $_POST['synonyms'] ? '(' . $_POST['synonyms'] . ')' : '(iPhone 7, iphone 6)';

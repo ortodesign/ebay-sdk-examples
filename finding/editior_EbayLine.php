@@ -21,6 +21,7 @@ $dollar = getDollarCourse();
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
+            <button type="button" id="switchDebug" class="btn btn-warning">^</button>
             <div id="events">
 
             </div>
@@ -35,6 +36,7 @@ $dollar = getDollarCourse();
                 <small>- большая куча</small>
             </h3>
             <button class="btn btn-danger" id="delSelected">delete selected</button>
+            <button class="btn btn-warning" id="parseSelToEbay">parse selected from Ebay</button>
             <div style="width: 100%">
                 <table id="citiTable" class="display table table-striped table-hover table-inverse"
                        cellspacing="0"
@@ -291,6 +293,57 @@ $dollar = getDollarCourse();
             }
         ];
 
+        var buttons = [
+            {
+                text: 'Get selected data',
+                action: function () {
+                    // var count = citiTable.rows( { selected: true } ).count();
+                    // events.prepend( '<div>'+count+' row(s) selected</div>' );
+
+                    var rowData = citiTable.rows( { selected: true } ).data().toArray();
+                    events.html( '<div>'+JSON.stringify( rowData )+'</div>' );
+                }
+            },
+            {
+                text: 'SaveBD',
+                action: function () {
+                    // var count = citiTable.rows( { selected: true } ).count();
+                    // events.prepend( '<div>'+count+' row(s) selected</div>' );
+                    var rowData = citiTable.rows( { selected: true } ).data().toArray();
+                    // events.html( '<div>'+JSON.stringify( rowData )+'</div>' );
+                    saveBDciti(rowData);
+                }
+            },
+            {
+                text: 'Parse selected from Ebay',
+                action: function () {
+                        console.log('removing');
+                        var ids = [];
+                        var idsobj = citiTable.rows( { selected: true } ).ids();
+                        $.each(idsobj, function(index, value) {
+                            console.log(index, value);
+                            ids.push(value);
+                        });
+                        $.ajax({
+                            type: "POST",
+                            data: {ids: ids},
+                            url: "aj_Get_ebay_autoToBD__2.php?part=true",
+                            beforeSend: function () {
+                                $('.loader').show();
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                ids = [];
+                                $('.loader').hide();
+                            },
+                        });
+                        // citiTable.rows( { selected: true } )
+                        //     .remove()
+                        //     .draw();
+                }
+            },
+        ];
+
 
         // var columnsTimelineEbayTable = [
         //     {
@@ -436,28 +489,7 @@ $dollar = getDollarCourse();
             // },
             select: true,
             dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: 'Get selected data',
-                    action: function () {
-                        // var count = citiTable.rows( { selected: true } ).count();
-                        // events.prepend( '<div>'+count+' row(s) selected</div>' );
-
-                        var rowData = citiTable.rows( { selected: true } ).data().toArray();
-                        events.html( '<div>'+JSON.stringify( rowData )+'</div>' );
-                    }
-                },
-                {
-                    text: 'SaveBD',
-                    action: function () {
-                        // var count = citiTable.rows( { selected: true } ).count();
-                        // events.prepend( '<div>'+count+' row(s) selected</div>' );
-                        var rowData = citiTable.rows( { selected: true } ).data().toArray();
-                        // events.html( '<div>'+JSON.stringify( rowData )+'</div>' );
-                        saveBDciti(rowData);
-                    }
-                },
-            ],
+            buttons: buttons,
             "autoWidth": false,
             "ajax": {
                 url: "aj_Get_BD_citiSource__2.php",
@@ -523,7 +555,29 @@ $dollar = getDollarCourse();
                 .draw();
         });
 
-
+        $('#parseSelToEbay').on('click',function () {
+                console.log('removing');
+                var ids = [];
+                var idsobj = citiTable.rows( { selected: true } ).ids();
+                $.each(idsobj, function(index, value) {
+                    console.log(index, value);
+                    ids.push(value);
+                });
+                $.ajax({
+                    type: "POST",
+                    data: {ids: ids},
+                    url: "aj_Get_ebay_autoToBD__2.php?part=true",
+                    beforeSend: function () {
+                        $('.loader').show();
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        ids = [];
+                        $('.loader').hide();
+                    },
+                });
+            }
+        );
 
         $('#citiTable tbody').on('click', 'tr', function (e) {
             var id = this.id;
@@ -773,7 +827,9 @@ $dollar = getDollarCourse();
 
     });
 
-
+    $('#switchDebug').click(function () { //Прячем дебаг
+        $('#events').toggleClass('hidden')
+    });
     //Автозаполнение с eBay аяксом
     $('#autoBDfromEbay').on('click', function (e) {
         console.log('Автозаполнение с eBay аяксом');

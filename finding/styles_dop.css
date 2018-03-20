@@ -190,9 +190,15 @@ table.dataTable th {
     left: 20px;
     z-index: 100;
 }
+#parseSelToEbay{
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    z-index: 100;
+}
 #events{
     position: fixed;
-    right: 10px;
+    right: 53px;
     top: 10px;
     width: 400px;
     z-index: 100;
@@ -203,4 +209,10 @@ table.dataTable th {
     color: #fff;
     font-size: .6em;
     overflow: scroll;
+}
+#switchDebug{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    z-index: 101;
 }

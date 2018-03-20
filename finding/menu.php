@@ -20,6 +20,8 @@
 			<a class="nav-item nav-link" href="formSearch.php" target="_blank">Форма поиска</a>
 			<a class="nav-item nav-link" href="parsers/main_utilites/citi_JsonsToBD.php" target="_blank">finding/parsers/main_utilites/citi_JsonsToBD.php</a>
 			<a class="nav-item nav-link" href="aj_Get_ebay_autoToBD__2.php" target="_blank">(~20min)aj_Get_ebay_autoToBD__2.php</a>
+			<a class="nav-item nav-link" href="out.php?plushours=24" target="_blank">Выдача1(24ч)</a>
+			<a class="nav-item nav-link" href="out__2.php?plushours=24" target="_blank">Выдача2(24ч)</a>
 <!--			<a class="nav-item nav-link" href="searchSettings.php">Настройки</a>-->
 <!--			<a class="nav-item nav-link" href="#">Pricing</a>-->
 <!--			<a class="nav-item nav-link disabled" href="#">Disabled</a>-->
