@@ -104,8 +104,8 @@
 
 SELECT `COLUMN_NAME`
 FROM `INFORMATION_SCHEMA`.`COLUMNS`
-WHERE `TABLE_SCHEMA`='tst01'
-      AND `TABLE_NAME`='parsed_citi';
+WHERE `TABLE_SCHEMA` = 'tst01'
+      AND `TABLE_NAME` = 'parsed_citi';
 
 
 DELETE t1 FROM ebay_products t1
@@ -113,7 +113,6 @@ DELETE t1 FROM ebay_products t1
   ebay_products t2
 WHERE
   (t1.ebay_id = t2.ebay_id) AND (t1.id < t2.id);
-
 
 
 DELETE t1 FROM parsed_citi t1
@@ -130,11 +129,11 @@ WHERE
   (t1.product_id = t2.product_id) AND (t1.ebay_id = t2.ebay_id) AND (t1.id < t2.id);
 
 
-
 SELECT *
-FROM ebay_products,parsed_citi,ebay
+FROM ebay_products, parsed_citi, ebay
 WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id)
-      AND (ebay_products.datetimeleft > "2018-03-15T11:00:08+0000") AND (ebay_products.datetimeleft < "2018-03-15T20:44:26+0000")
+      AND (ebay_products.datetimeleft > "2018-03-15T11:00:08+0000") AND
+      (ebay_products.datetimeleft < "2018-03-15T20:44:26+0000")
 # GROUP BY ebay_id
 ORDER BY ebay_products.datetimeleft ASC;
 
@@ -142,7 +141,8 @@ ORDER BY ebay_products.datetimeleft ASC;
 DELETE FROM parsed_citi
 WHERE id > 0
 
-SELECT * from synon t1
+SELECT *
+FROM synon t1
   INNER JOIN
   synon t2
 WHERE
@@ -151,21 +151,27 @@ GROUP BY t2.syn;
 # AND (t1.syn = t2.syn)
 # AND (t1.id < t2.id);
 
-SELECT * from
-(SELECT * from synon t1
- ORDER BY pid) t2
+SELECT *
+FROM
+  (SELECT *
+   FROM synon t1
+   ORDER BY pid) t2
 # GROUP BY syn) t2
 # GROUP BY pid
 # ORDER BY pid
 
-  SELECT t2.pid,COUNT(*) count from
-# (SELECT * from
- (SELECT * from synon t1
-GROUP BY syn) t2
+SELECT
+  t2.pid,
+  COUNT(*) count
+FROM
+  # (SELECT * from
+  (SELECT *
+   FROM synon t1
+   GROUP BY syn) t2
 # GROUP BY pid
 # ORDER BY t2.pid) t3
-  Having
-    COUNT(*) > 1
+HAVING
+  COUNT(*) > 1
 
 SELECT *
 FROM synon
@@ -174,13 +180,17 @@ HAVING COUNT(pid) > 2
 ORDER BY pid
 
 ## !!!!
-select * from synon
-where pid in (
-select pid from synon group by pid having count(*) > 1);
+SELECT *
+FROM synon
+WHERE pid IN (
+  SELECT pid
+  FROM synon
+  GROUP BY pid
+  HAVING count(*) > 1);
 
 SELECT
-  synon.pid AS spid,
-  parsed_citi.id     AS psid,
+  synon.pid      AS spid,
+  parsed_citi.id AS psid,
   syn,
   shortName
 FROM synon, parsed_citi
@@ -194,15 +204,224 @@ WHERE (pid IN (
 
 SELECT
   syn,
-  pid ,
-#   syn AS sy,
+  pid,
+  #   syn AS sy,
   COUNT(*) count
 FROM
   synon
 GROUP BY
-#   id,
+  #   id,
   pid
 #   sy
-Having
+HAVING
   COUNT(*) > 2
-ORDER BY pid
+ORDER BY pid;
+
+DELETE t1 FROM ebay_products t1
+  INNER JOIN
+  ebay_products t2
+WHERE
+  ((t1.product_id = t2.product_id) OR (t1.ebay_id = t2.ebay_id)) AND (t1.id < t2.id);
+
+CREATE TABLE citi_cats AS
+  SELECT
+    categoryName,
+    categoryId
+  FROM parsed_citi
+  GROUP BY categoryId;
+
+SELECT *
+FROM (SELECT categoryName AS cn,)
+
+
+SELECT *
+FROM ebay_products, parsed_citi, ebay
+WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id)
+
+#узнать кол-во дублей
+SELECT
+  product_id,
+  ebay_id,
+  #   syn AS sy,
+  COUNT(*) count
+FROM
+  ebay_products
+GROUP BY
+  #   id,
+  product_id
+#   sy
+HAVING
+  COUNT(*) > 0
+ORDER BY product_id;
+
+#выбрать дубли по id parsed_citi (дубляжи по синонимам)
+SELECT *
+FROM oops
+WHERE id IN (SELECT product_id
+             FROM (SELECT
+                     product_id,
+                     ebay_id
+                   #   syn AS sy,
+                   #                COUNT(*) count
+                   FROM
+                     ebay_products
+                   GROUP BY
+                     #   id,
+                     product_id
+                   #   sy
+                   HAVING
+                     COUNT(*) > 1
+                   ORDER BY product_id) t1);
+
+SELECT *
+FROM ebay_products, parsed_citi, ebay, Product
+  INNER JOIN
+  (SELECT *
+   FROM ebay_products, parsed_citi, ebay
+   WHERE (ebay_products.product_id = parsed_citi.id) AND (ebay_products.ebay_id = ebay.id)
+   ORDER BY ebay_products.datetimeleft ASC) t1
+  JOIN
+  (SELECT *
+   FROM ebay_products, Product, ebay
+   WHERE (ebay_products.product_id = Product.id) AND (ebay_products.ebay_id = ebay.id)
+   ORDER BY Product.id ASC) t2
+
+
+SELECT *
+FROM ebay_products, parsed_citi, ebay, Product
+GROUP BY product_id
+HAVING count(product_id) > 1
+
+SELECT
+  tst01.parsed_citi.id        psid,
+  Product.id                  ppid,
+  tst01.parsed_citi.shortName sn,
+  tst01.Product.our_name      oon,
+  count(*)                    count
+FROM parsed_citi, Product
+WHERE tst01.parsed_citi.id != tst01.Product.id
+GROUP BY ppid
+HAVING COUNT(*) > 1
+
+
+CREATE TABLE IF NOT EXISTS doubles AS
+  SELECT *
+  FROM (SELECT
+          product_id,
+          ebay_id,
+          #   syn AS sy,
+          COUNT(*) count
+        FROM
+          ebay_products
+        GROUP BY
+          #   id,
+          product_id
+        #   sy
+        HAVING
+          COUNT(*) > 0
+        ORDER BY product_id) t1;
+
+SELECT
+  t1.id,
+  t1.categoryName,
+  t1.url,
+  t1.shortName sn,
+  t2.our_name  sn
+FROM parsed_citi AS t1
+  JOIN Product AS t2
+GROUP BY t1.id
+
+
+CREATE TABLE IF NOT EXISTS
+  `oops` (
+  `id`         INT(11)         NOT NULL AUTO_INCREMENT,
+  category_pid INT             NULL,
+  older_pid    INT             NULL,
+  url          VARCHAR(512)    NULL,
+  price        INT             NULL,
+  brand        VARCHAR(20)     NULL,
+  shortname    VARCHAR(1024)   NULL,
+  syn          VARCHAR(1024)   NULL,
+  price_min    INT             NULL,
+  price_max    INT             NULL,
+  pic          VARCHAR(512)    NULL,
+  descr        TEXT            NULL,
+  out_apr      INT DEFAULT '0' NULL,
+  out_tot      INT DEFAULT '0' NULL,
+  out_arc      INT DEFAULT '0' NULL,
+  source       INT             NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE oops
+    (SELECT
+       older_pid               AS `id`,
+       category_pid,
+       older_pid               AS older_pid,
+       url,
+       price,
+       brand                   AS brand,
+       shortname,
+       syn,
+       NULL                    AS price_min,
+       NULL                    AS price_max,
+       pic,
+       NULL                    AS descr,
+       NULL                    AS out_apr,
+       NULL                    AS out_tot,
+       NULL                    AS out_arc,
+       IFNULL(min_procent, 50) AS min_procent,
+       IFNULL(max_procent, 80) AS max_procent,
+       src                     AS src,
+       (SELECT COUNT(*) count
+        FROM ebay_products
+        WHERE ebay_products.product_id = older_pid
+        GROUP BY older_pid
+        HAVING COUNT(*) > 0
+       )                       AS finded
+     FROM
+       (SELECT
+          Product.id    AS older_pid,
+          our_name      AS shortname,
+          citilinkURL   AS url,
+          categoryID    AS category_pid,
+          citilinkPrice AS price,
+          synonyms      AS syn,
+          picture_url   AS pic,
+          min_procent   AS min_procent,
+          max_procent   AS max_procent,
+          NULL          AS brand,
+          'Product'     AS src
+        FROM Product
+        UNION
+        SELECT
+          parsed_citi.id AS older_pid,
+          shortName      AS shortname,
+          url            AS url,
+          categoryId     AS category_pid,
+          price          AS price,
+          pre_syn        AS syn,
+          pic            AS pic,
+          NULL           AS min_procent,
+          NULL           AS max_procent,
+          brandName      AS brand,
+          'parsed_citi'  AS src
+        FROM parsed_citi) t1)
+     ORDER BY finded;
+
+
+ALTER TABLE oops
+  ALTER min_procent SET DEFAULT 50,
+  ALTER max_procent SET DEFAULT 80;
+
+
+SELECT
+  (SELECT categoryName
+   FROM citi_cats
+   WHERE category_pid = citi_cats.categoryId) AS categoryName,
+  oops.*,
+  count(*)                                    AS count
+FROM oops, ebay_products
+WHERE oops.older_pid = ebay_products.product_id
+GROUP BY older_pid
+HAVING count(*) > 0

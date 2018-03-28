@@ -112,106 +112,98 @@ $usedPostTypes = [ 'citilinkPrice', 'synonyms', 'id', 'EndTimeTo' ];
 //	echo '<br>';
 //}
 
-if (isset($_GET) & $_GET['part'] == 'true') {
 
-	$qd = array_map( function($value) { return (int)$value; }, $_POST['ids'] );
-	$parse_object = $parsed_citi::find($qd);
-
-//	$parse_object = ( isset( $_POST ) & $_POST['data'] ) ? $_POST['data'] : die( 'no data' );
-
-} else {
-
-	$parse_object = $parsed_citi::all();
-}
-foreach ( $parse_object as &$p ) {
-	$request = new Types\FindItemsAdvancedRequest();
+function parse_ebay( $ob ) {
+	global $dollar,$timeOffset,$service,$ebay,$ebayProduct;
+	foreach ( $ob as &$p ) {
+		$request = new Types\FindItemsAdvancedRequest();
 
 //	$request->keywords = $_POST['synonyms'] ? '(' . $_POST['synonyms'] . ')' : '(iPhone 7, iphone 6)';
 //	$request->keywords = '(' . ( isset( $p->pre_syn ) ? ( $p->pre_syn . ',' ) : "" ) . ( isset( $p->non_cyr ) ? $p->non_cyr : "" ) . ')';
-	$request->keywords = '(' . ( isset( $p->pre_syn ) ? $p->pre_syn : "" ) . ')';
+		$request->keywords = '(' . ( isset( $p->pre_syn ) ? $p->pre_syn : "" ) . ')';
 //	print_r( '$request->keywords: ' );
 //	print_r( $request->keywords );
-	/**
-	 * Search across two categories.
-	 * DVDs & Movies > DVDs & Blue-ray (617)
-	 * Books > Fiction & Literature (171228)
-	 */
+		/**
+		 * Search across two categories.
+		 * DVDs & Movies > DVDs & Blue-ray (617)
+		 * Books > Fiction & Literature (171228)
+		 */
 //	$request->categoryId = [ '617', '171228' ];
 //	$request->categoryId = [ '9355' ];
 
-	/**
-	 * Filter results to only include auction items or auctions with buy it now.
-	 */
-	$itemFilter            = new Types\ItemFilter();
-	$itemFilter->name      = 'ListingType';
-	$itemFilter->value[]   = 'Auction';
-	$itemFilter->value[]   = 'AuctionWithBIN';
-	$request->itemFilter[] = $itemFilter;
+		/**
+		 * Filter results to only include auction items or auctions with buy it now.
+		 */
+		$itemFilter            = new Types\ItemFilter();
+		$itemFilter->name      = 'ListingType';
+		$itemFilter->value[]   = 'Auction';
+		$itemFilter->value[]   = 'AuctionWithBIN';
+		$request->itemFilter[] = $itemFilter;
 
-	/**
-	 * Add additional filters to only include items that fall in the price range of $1 to $10.
-	 *
-	 * Notice that we can take advantage of the fact that the SDK allows object properties to be assigned via the class constructor.
-	 */
+		/**
+		 * Add additional filters to only include items that fall in the price range of $1 to $10.
+		 *
+		 * Notice that we can take advantage of the fact that the SDK allows object properties to be assigned via the class constructor.
+		 */
 
 //	$priceIn = $_POST['citilinkprice'] ? $_POST['citilinkprice'] : 1000;
 //	$priceIn = $p->citilinkprice;
-	$priceIn = $p->price / $dollar;
+		$priceIn = $p->price / $dollar;
 //Проценты по дефолту мин - 50, макс - 80
 
 //	$priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;
 //	$priceMax = $_POST['max_procent'] ? $priceIn * $_POST['max_procent'] / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
 
-	$priceMin = isset( $p->min_procent ) ? $priceIn * $p->min_procent / 100 : $priceIn * .5;
-	$priceMax = isset( $p->max_procent ) ? $priceIn * $p->max_procent / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
+		$priceMin = isset( $p->min_procent ) ? $priceIn * $p->min_procent / 100 : $priceIn * .5;
+		$priceMax = isset( $p->max_procent ) ? $priceIn * $p->max_procent / 100 : $priceIn * .8; //$priceIn * $_POST['max_procent'] / 100;
 
 //	$_POST['min_procent'] ? $_POST['min_procent'] :
-	$request->itemFilter[] = new Types\ItemFilter( [
-		'name'  => 'MinPrice',
-		'value' => [ (string) $priceMin ]
+		$request->itemFilter[] = new Types\ItemFilter( [
+			'name'  => 'MinPrice',
+			'value' => [ (string) $priceMin ]
 //	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.5) : '100.00' ]
-	] );
+		] );
 
-	$request->itemFilter[] = new Types\ItemFilter( [
-		'name'  => 'MaxPrice',
-		'value' => [ (string) $priceMax ]
+		$request->itemFilter[] = new Types\ItemFilter( [
+			'name'  => 'MaxPrice',
+			'value' => [ (string) $priceMax ]
 //	'value' => [ $_POST['citilinkprice'] ? (string)($_POST['citilinkprice'] * 0.8) : '100.00' ]
-	] );
+		] );
 
 
-	$request->itemFilter[] = new Types\ItemFilter( [
-		'name'  => 'EndTimeTo',
-		'value' => [ iso_8601_utc_time( $timeOffset ) ]
-	] );
+		$request->itemFilter[] = new Types\ItemFilter( [
+			'name'  => 'EndTimeTo',
+			'value' => [ iso_8601_utc_time( $timeOffset ) ]
+		] );
 
-	/**
-	 * Sort the results by current price.
-	 */
+		/**
+		 * Sort the results by current price.
+		 */
 //$request->sortOrder = 'CurrentPriceHighest';
-	$request->sortOrder = 'EndTimeSoonest';
+		$request->sortOrder = 'EndTimeSoonest';
 
-	/**
-	 * Send the request.
-	 */
+		/**
+		 * Send the request.
+		 */
 //	print_r( '$request: ' ); print_r( $request );
 
-	$response = $service->findItemsAdvanced( $request );
-	if ( ! $response ) {
-		die( 'no response' );
-	}
-	if ( isset( $response->errorMessage ) ) {
-		foreach ( $response->errorMessage->error as $error ) {
-			printf(
-				"%s: %s\n\n",
-				$error->severity === Enums\ErrorSeverity::C_ERROR ? 'Error' : 'Warning',
-				$error->message
-			);
+		$response = $service->findItemsAdvanced( $request );
+		if ( ! $response ) {
+			die( 'no response' );
 		}
-	}
+		if ( isset( $response->errorMessage ) ) {
+			foreach ( $response->errorMessage->error as $error ) {
+				printf(
+					"%s: %s\n\n",
+					$error->severity === Enums\ErrorSeverity::C_ERROR ? 'Error' : 'Warning',
+					$error->message
+				);
+			}
+		}
 
-	/**
-	 * Output the result of the search.
-	 */
+		/**
+		 * Output the result of the search.
+		 */
 //printf(
 //	"%s items found over %s pages.\n\n",
 //	$response->paginationOutput->totalEntries,
@@ -219,42 +211,69 @@ foreach ( $parse_object as &$p ) {
 //);
 //printf( '<script> gl.eresp = %s ; </script>', $response->paginationOutput->totalEntries );
 
-	if ( $response->ack !== 'Failure' ) {
-		foreach ( $response->searchResult->item as $item ) {
+		if ( $response->ack !== 'Failure' ) {
+			foreach ( $response->searchResult->item as $item ) {
 //			echo '<pre>';
 //			var_dump( $item );
 //			echo '</pre>';
-			if ( $ebay::exists( intval( $item->itemId ) ) ) {
-				$ebay::find( intval( $item->itemId ) )->update_attributes( array(
-					'pid'       => $p->id,
-					'our_price' => intval( $p->price / $dollar ),
+				if ( $ebay::exists( intval( $item->itemId ) ) ) {
+					$ebay::find( intval( $item->itemId ) )->update_attributes( array(
+						'pid'       => $p->id,
+						'our_price' => intval( $p->price / $dollar ),
 //					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-					'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
-				) );
-				$ebayProduct::create( array(
-					'ebay_id'      => $item->itemId,
-					'product_id'   => $p->id,
-					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-				) );
-			} else {
-				$ebay::create( array(
-					'id'        => $item->itemId,
-					'pid'       => $p->id,
-					'our_price' => intval( $p->price / $dollar ),
+						'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) )
+						//вся дата из ебея сюда жсоном
+					) );
+					$ebayProduct::create( array(
+						'ebay_id'      => $item->itemId,
+						'product_id'   => $p->id,
+						'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
+					) );
+				} else {
+					$ebay::create( array(
+						'id'        => $item->itemId,
+						'pid'       => $p->id,
+						'our_price' => intval( $p->price / $dollar ),
 //					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-					'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) ) //вся дата из ебея сюда жсоном
-				) );
-				$ebayProduct::create( array(
-					'ebay_id'      => $item->itemId,
-					'product_id'   => $p->id,
-					'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
-				) );
+						'ebaydata'  => htmlspecialchars( json_encode( $item->toArray() ) )
+						//вся дата из ебея сюда жсоном
+					) );
+					$ebayProduct::create( array(
+						'ebay_id'      => $item->itemId,
+						'product_id'   => $p->id,
+						'datetimeleft' => $item->listingInfo->endTime->format( DateTime::ISO8601 ),
+					) );
+				}
+
+
 			}
-
-
 		}
 	}
 }
+
+
+
+
+if ( isset( $_GET ) && $_GET['part'] == 'true' ) {
+//	$parse_object = ( isset( $_POST ) & $_POST['data'] ) ? $_POST['data'] : die( 'no data' );
+	$qd           = array_map( function ( $value ) {
+		return (int) $value;
+	}, $_POST['ids'] );
+	$parse_object = $parsed_citi::find( $qd );
+	parse_ebay( $parse_object );
+
+} else {
+
+//	$parse_object = $parsed_citi::all();
+	$parsed_all   = $parsed_citi::all();
+	$parse_chunks = array_chunk( $parsed_all, 300 );
+	foreach ( $parse_chunks as &$parse_obj ) {
+		parse_ebay( $parse_obj );
+		sleep(10);
+	}
+}
+
+
 Ebay::removeDoubles();
 echo 'Success';
 ?>

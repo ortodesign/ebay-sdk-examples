@@ -22,7 +22,6 @@ class Parsed_citi extends ActiveRecord\Model {
 
 $parsed_citi = new Parsed_citi;
 
-
 if ( ! ( isset( $_GET ) & $_GET['delete'] =='ids' ) ) {
 
 	$q = ( isset( $_POST ) & $_POST['data'] ) ? $_POST['data'] : die( 'no data' );

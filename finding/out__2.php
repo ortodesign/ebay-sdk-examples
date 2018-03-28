@@ -60,15 +60,17 @@ if (isset($_GET['plushours'])) {
                 var $title = $out[i].shortname ? ($out[i].shortname + '<br><small  style="color: #fe5e10">'+$out[i].pre_syn+'</small>'+ '<br><small>'+$out[i].non_cyr+'</small>'+ '<br><small style="color: #d00000">'+$out[i].ebaydata.title+'</small>') : '';
                 var $price = Math.ceil($out[i].ebaydata.sellingStatus.currentPrice.value); //$out[i].our_price ? $out[i].our_price :
                 var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].our_price));
-                var $pic = $out[i].picture_url ? $out[i].picture_url : ($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL));
+                // var $pic = $out[i].picture_url ? $out[i].picture_url : ($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL));
+                var $pic = '//items.s2.citilink.ru/'+$out[i].product_id+'_v01_b.jpg';
+                // https://items.s2.citilink.ru/457907_v01_b.jpg
                 var timeLeft = moment($out[i].ebaydata.listingInfo.endTime, moment.ISO_8601, 'ru').format('MMM, DD [в <b style="color:red">]HH:mm[</b>]');
 
                 row.append(`
                     <div class="card" style="width: 20rem;margin: 1rem;" >
         <div style="height: 30rem; ">
 
-                    <div class="card-img-top" style="height: 20rem;background: #babfc5 url(${$pic}) 100% 100% no-repeat;
-                    background-size: auto auto;background-position: center;background-size: cover;"></div>
+                    <div class="card-img-top" style="height: 20rem;background: #fff url(${$pic}) 100% 100% no-repeat;
+                    background-size: auto auto;background-position: center;background-size: contain;"></div>
                 </div>
                                 <p class="" style="text-align:right;border: 1px dashed #c5bc61"><small>Ставки до:</small> ${timeLeft} </p>
 

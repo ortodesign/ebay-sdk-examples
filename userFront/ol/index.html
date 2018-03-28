@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./../finding/bootstrap.min.css">
+    <title>bids</title>
+    <style>
+        .formWrapper {
+            padding: 20px;
+            float: left;
+            border: 1px dashed lightgrey;
+            margin: 5px;
+        }
+
+        .inputForm {
+            display: block;
+            margin: 5px 0;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="debugWindow"></div>
+
+            <div class="formWrapper">
+                <h3>please login</h3>
+                <form action="login" class="loginForm" id="loginForm">
+                    <input class="inputForm" type="text" placeholder="login" name="login">
+                    <input class="inputForm" type="password" placeholder="password" name="password">
+                </form>
+                <button type="submit" form="loginForm" value="Submit">Submit</button>
+            </div>
+
+
+            <div class="formWrapper">
+                <h3>please register</h3>
+                <form action="" method="post" class="regForm" id="regForm">
+                    <input class="inputForm" type="text" placeholder="login" name="login">
+                    <input class="inputForm" type="password" placeholder="password" name="password">
+                </form>
+                <button type="submit" form="regForm" value="Submit">Submit</button>
+            </div>
+
+            <div class="formWrapper">
+                <h3>your bid</h3>
+                <form action="" method="post" class="bidForm" id="bidForm">
+                    <input class="inputForm" type="tel" placeholder="bid" name="bid">
+                </form>
+                <button type="submit" form="regForm" value="Submit">Submit</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="./../finding/jquery-3.3.1.min.js"></script>
+<script>
+    $('#regForm, #loginForm').on("submit", function (e) {
+        e.preventDefault();
+        console.log($(this).serialize());
+    })
+</script>
+</body>
+</html>
