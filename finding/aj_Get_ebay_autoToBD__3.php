@@ -58,11 +58,12 @@ class Ebay extends ActiveRecord\Model {
 
 
 //$product     = new Product;
-
+$ebay        = new Ebay;
+$ebayProduct = new EbayProduct;
 
 
 class Parsed_citi extends ActiveRecord\Model {
-	static $table_name = 'parsed_citi';
+	static $table_name = 'oops';
 	static $connection = 'production';
 //	static $attr_protected = array( 'ebaydata' );
 }
@@ -113,9 +114,7 @@ $usedPostTypes = [ 'citilinkPrice', 'synonyms', 'id', 'EndTimeTo' ];
 
 
 function parse_ebay( $ob ) {
-	global $dollar,$timeOffset,$service;
-	$ebay        = new Ebay;
-	$ebayProduct = new EbayProduct;
+	global $dollar,$timeOffset,$service,$ebay,$ebayProduct;
 	foreach ( $ob as &$p ) {
 		$request = new Types\FindItemsAdvancedRequest();
 
@@ -270,7 +269,7 @@ if ( isset( $_GET ) && $_GET['part'] == 'true' ) {
 	$parse_chunks = array_chunk( $parsed_all, 300 );
 	foreach ( $parse_chunks as &$parse_obj ) {
 		parse_ebay( $parse_obj );
-//		sleep(1);
+		sleep(10);
 	}
 }
 

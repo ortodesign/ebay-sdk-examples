@@ -43,7 +43,9 @@ $service = new Services\TradingService([
     'credentials' => $config['production']['credentials'],
     'siteId'      => Constants\SiteIds::US
 ]);
-
+//echo '<pre>';
+//var_dump($service);
+//echo '</pre>';
 /**
  * Create the request object.
  */

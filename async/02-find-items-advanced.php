@@ -50,8 +50,8 @@ $service = new Services\FindingService([
  */
 $request = new Types\FindItemsAdvancedRequest();
 $request->keywords = 'Harry Potter';
-$request->categoryId = ['617', '171228'];
-$request->sortOrder = 'CurrentPriceHighest';
+//$request->categoryId = ['617', '171228'];
+//$request->sortOrder = 'CurrentPriceHighest';
 $request->paginationInput = new Types\PaginationInput();
 $request->paginationInput->entriesPerPage = 10;
 $request->paginationInput->pageNumber = 1;
@@ -71,6 +71,10 @@ if (isset($response->errorMessage)) {
         );
     }
 }
+echo '<pre>';
+var_dump($response->paginationOutput->totalPages);
+var_dump($response->paginationOutput->entriesPerPage );
+echo '</pre>';
 
 /**
  * Output the result of the search.
@@ -99,7 +103,7 @@ if ($response->ack !== 'Failure') {
  * Paginate through upto 20 more pages worth of results.
  * The requests for these pages will be made concurrently.
  */
-$limit = min($response->paginationOutput->totalPages, 20);
+$limit = min($response->paginationOutput->totalPages, 120);
 $promises = [];
 for ($pageNum = 2; $pageNum <= $limit; $pageNum++) {
     $request->paginationInput->pageNumber = $pageNum;

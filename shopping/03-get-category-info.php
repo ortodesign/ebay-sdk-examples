@@ -47,6 +47,7 @@ $service = new Services\ShoppingService([
 $request = new Types\GetCategoryInfoRequestType();
 
 $request->CategoryID = '-1';
+//$request->CategoryID = '30262';
 $request->IncludeSelector = 'ChildCategories';
 
 /**
@@ -67,6 +68,8 @@ if (isset($response->Errors)) {
         );
     }
 }
+//$ids=array();
+$cats=array();
 
 if ($response->Ack !== 'Failure') {
     foreach ($response->CategoryArray->Category as $category) {
@@ -75,5 +78,23 @@ if ($response->Ack !== 'Failure') {
             $category->CategoryID,
             $category->CategoryName
         );
+//        array_push($ids,$category->CategoryID);
+        array_push($cats,$category);
     }
 }
+echo '<br>';
+echo '<br>';
+echo '<br>';
+echo '<pre>';
+
+var_dump($cats);
+//foreach ($ids as $id) {
+//
+//	var_dump($response->CategoryArray->Category[$id]);
+////	printf(
+////		"Category2 (%s) %s\n",
+////		$response->CategoryArray->Category[$id]->CategoryID,
+////		$response->CategoryArray->Category[$id]->CategoryName
+////	);
+//}
+echo '</pre>';

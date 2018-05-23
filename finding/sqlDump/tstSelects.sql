@@ -409,6 +409,83 @@ CREATE TABLE oops
         FROM parsed_citi) t1)
      ORDER BY finded;
 
+CREATE TABLE oops
+(
+  id           INT DEFAULT '0'         NOT NULL PRIMARY KEY,
+  category_pid INT                     NULL,
+  older_pid    INT DEFAULT '0'         NOT NULL,
+  url          VARCHAR(512)            NULL,
+  price        INT                     NULL,
+  brand        VARCHAR(15)             NULL,
+  shortname    VARCHAR(512)            NULL,
+  syn          VARCHAR(512)            NULL,
+  price_min    BINARY(0)               NULL,
+  price_max    BINARY(0)               NULL,
+  pic          VARCHAR(512)            NULL,
+  descr        TEXT                    NULL,
+  out_apr      BINARY(0)               NULL,
+  out_tot      BINARY(0)               NULL,
+  out_arc      BINARY(0)               NULL,
+  min_procent  INT(11) DEFAULT '0'     NOT NULL,
+  max_procent  INT(11) DEFAULT '0'     NOT NULL,
+  src          VARCHAR(36) DEFAULT ''  NOT NULL,
+  finded       INT(21) DEFAULT '0'     NULL
+);
+
+INSERT INTO oops SELECT
+                   older_pid               AS `id`,
+                   category_pid,
+                   older_pid               AS older_pid,
+                   url,
+                   price,
+                   brand                   AS brand,
+                   shortname,
+                   syn,
+                   NULL                    AS price_min,
+                   NULL                    AS price_max,
+                   pic,
+                   NULL                    AS descr,
+                   NULL                    AS out_apr,
+                   NULL                    AS out_tot,
+                   NULL                    AS out_arc,
+                   IFNULL(min_procent, 50) AS min_procent,
+                   IFNULL(max_procent, 80) AS max_procent,
+                   src                     AS src,
+                   (SELECT COUNT(*) count
+                    FROM ebay_products
+                    WHERE ebay_products.product_id = older_pid
+                    GROUP BY older_pid
+                    HAVING COUNT(*) > 0
+                   )                       AS finded
+                 FROM
+                   (SELECT
+                      Product.id    AS older_pid,
+                      our_name      AS shortname,
+                      citilinkURL   AS url,
+                      categoryID    AS category_pid,
+                      citilinkPrice AS price,
+                      synonyms      AS syn,
+                      picture_url   AS pic,
+                      min_procent   AS min_procent,
+                      max_procent   AS max_procent,
+                      NULL          AS brand,
+                      'Product'     AS src
+                    FROM Product
+                    UNION
+                    SELECT
+                      parsed_citi.id AS older_pid,
+                      shortName      AS shortname,
+                      url            AS url,
+                      categoryId     AS category_pid,
+                      price          AS price,
+                      pre_syn        AS syn,
+                      pic            AS pic,
+                      NULL           AS min_procent,
+                      NULL           AS max_procent,
+                      brandName      AS brand,
+                      'parsed_citi'  AS src
+                    FROM parsed_citi) t1;
+
 
 ALTER TABLE oops
   ALTER min_procent SET DEFAULT 50,
@@ -416,12 +493,54 @@ ALTER TABLE oops
 
 
 SELECT
+  tst01.oops.shortname,
   (SELECT categoryName
    FROM citi_cats
    WHERE category_pid = citi_cats.categoryId) AS categoryName,
-  oops.*,
-  count(*)                                    AS count
+  #   oops.*,
+  count(*)                                    AS count1
 FROM oops, ebay_products
 WHERE oops.older_pid = ebay_products.product_id
 GROUP BY older_pid
 HAVING count(*) > 0
+
+SELECT
+  tst01.ebay_products.appr,
+  tst01.oops.shortname,
+  tst01.oops.syn,
+  (SELECT categoryName
+   FROM citi_cats
+   WHERE category_pid = citi_cats.categoryId) AS categoryName,
+  ebay_products.ebay_id,
+  ebay_products.product_id,
+  count(*)                                    AS finded
+FROM oops
+  LEFT JOIN ebay_products ON (oops.older_pid = ebay_products.product_id)
+WHERE (ebay_products.product_id IS NOT NULL) #выбираем которые не нашлись (IS NOT NULL - наоборот которые нашлись)
+  AND (ebay_products.datetimeleft > "2018-04-03T03:42:24+0000")
+  AND (ebay_products.appr = TRUE )
+GROUP BY ebay_products.ebay_id
+# GROUP BY ebay_products.product_id
+ORDER BY ebay_id DESC;
+
+
+
+
+
+UPDATE Product
+SET citilinkPrice = citilinkPrice * 57.5598
+
+SELECT
+  a.name,
+  IFNULL(s.total, 0)
+FROM article a
+  LEFT JOIN (
+              SELECT
+                idArticle,
+                COUNT(*) AS total
+              FROM sale
+              WHERE date = "2011-01-01"
+              GROUP BY idArticle
+            ) AS s ON a.id = s.idArticle
+
+

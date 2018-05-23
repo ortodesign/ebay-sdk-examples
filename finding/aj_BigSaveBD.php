@@ -8,7 +8,11 @@ if ( ! ( isset( $_POST ) && isset( $_POST['directive'] ) ) ) {
 	$update = ( $_POST['directive']['type'] == 'update' ) ? true : false;
 	$save   = ( $_POST['directive']['type'] == 'save' ) ? true : false;
 	$delete = ( $_POST['directive']['type'] == 'delete' ) ? true : false;
-	$data   = $_POST['data'];
+	$get    = ( $_POST['directive']['type'] == 'get' ) ? true : false;
+	$id     = isset( $_POST['directive']['id'] ) ? intval( $_POST['directive']['id'] ) : false;
+	$data   = isset($_POST['data']) ? $_POST['data'] : NULL;
+//	var_dump($get);
+//	var_dump($id);
 }
 
 require_once __DIR__ . '/../vendor/php-activerecord/php-activerecord/ActiveRecord.php';
@@ -46,3 +50,6 @@ if ( $save || $delete || $update || $new ) {
 	}
 }
 
+if ( $get && $id ) {
+	echo '['.json_encode( $pre_product::find($id)->to_array() ).']';
+}

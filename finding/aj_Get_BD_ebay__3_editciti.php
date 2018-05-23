@@ -1,8 +1,11 @@
 <?php
+
 ini_set('display_errors', 1);
 //error_reporting( 0 );
 
 require_once( '../shopping/01-get-ebay-time.php' );
+require_once( 'functions.php' );
+$dollar     = getDollarCourse();
 //echo '<br>';
 $dt        = new DateTime();
 $dt        = $ebayTime;
@@ -15,7 +18,6 @@ if ( isset( $_GET['plushours'] ) ) {
 }
 //$deadLine = $ebayTime->format( DateTime::ISO8601 );
 $deadLine = $dt->format( DateTime::ISO8601 );
-//echo $deadLine;
 //$deadLine = "2018-02-21T15:39:07+0000";
 //$json = file_get_contents('php://input');
 //$json = file_get_contents('php://input');
@@ -80,13 +82,11 @@ $parsed_citi = new Parsed_citi;
 //	'conditions' => 'Product.categoryID = category.citi_category_id AND Product.id = ebay.pid',
 //	'order'      => 'ebay.datetimeleft desc'
 //) );
-$isIdProduct = isset( $_GET['idproduct'] ) ? '"'.$_GET['idproduct'].'"' : 'parsed_citi.id';
 $isApproved = isset( $_GET['approved'] ) ? 'AND (ebay.approved = "1")' : '';
 $eb         = EbayProduct::find_by_sql( '
-	SELECT *
-    FROM ebay_products,parsed_citi,ebay
-    WHERE (ebay_products.product_id = '.$isIdProduct.') AND (ebay_products.ebay_id = ebay.id) 
-    # AND (ebay_products.datetimeleft > "' . $curEbTime . '") AND (ebay_products.datetimeleft < "' . $deadLine . '")' . $isApproved . '  
+	SELECT TRUNCATE(oops.price / '.$dollar.',0) as oprice, oops.*,ebay_products.*,ebay.* FROM oops,ebay_products,ebay
+    WHERE (ebay_products.product_id = oops.older_pid) AND (ebay_products.ebay_id = ebay.id) 
+    AND (ebay_products.datetimeleft > "' . $curEbTime . '") AND (ebay_products.datetimeleft < "' . $deadLine . '")' . $isApproved . '  
   	# GROUP BY ebay_id
     ORDER BY ebay_products.datetimeleft ASC 
     ' );
@@ -100,7 +100,7 @@ foreach ( $eb as &$e ) {
 //	$e['citilink_data'] = $tmp_ebay_citi;
 }
 echo json_encode( $eb );
-//echo ( 'WHERE (ebay_products.product_id = "'.$isIdProduct.'") AND (ebay_products.ebay_id = ebay.id) ' );
+
 //$eb = $ebay::all( array(
 //	'order' => 'ebay.datetimeleft asc'
 //) );

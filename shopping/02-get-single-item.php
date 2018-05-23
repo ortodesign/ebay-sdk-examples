@@ -40,6 +40,7 @@ use \DTS\eBaySDK\Shopping\Enums;
  */
 $service = new Services\ShoppingService([
     'credentials' => $config['production']['credentials']
+//    'credentials' => $config['sandbox']['credentials']
 ]);
 
 /**
@@ -51,7 +52,8 @@ $request = new Types\GetSingleItemRequestType();
  * Specify the item ID of the listing.
  */
 //$request->ItemID = '111111111111';
-$request->ItemID = '222826845545';
+//$request->ItemID = '222826845545';
+$request->ItemID = '273168757600';
 
 /**
  * Specify that additional fields need to be returned in the response.

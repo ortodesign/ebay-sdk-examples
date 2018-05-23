@@ -15,13 +15,15 @@
 	<a class="navbar-brand" href="#">&clubs;</a>
 	<div class="navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
-			<a class="nav-item nav-link active" href="BDsynonymEdit.php">Редактирование синонимов <span class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link active" href="editor_EbayLine_citi.php">Редактирование синонимов <span class="sr-only">(current)</span></a>
 			<a class="nav-item nav-link active" href="editior_EbayLine.php">Редактирование citi </a>
-			<a class="nav-item nav-link" href="formSearch.php" target="_blank">Форма поиска</a>
-			<a class="nav-item nav-link" href="parsers/main_utilites/citi_JsonsToBD.php" target="_blank">finding/parsers/main_utilites/citi_JsonsToBD.php</a>
-			<a class="nav-item nav-link" href="aj_Get_ebay_autoToBD__2.php" target="_blank">(~20min)aj_Get_ebay_autoToBD__2.php</a>
+            <a class="nav-item nav-link active" href="BDsynonymEdit.php">Редактирование (old) <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="formSearch.php" target="_blank">Форма поиска</a>
+<!--			<a class="nav-item nav-link" href="parsers/main_utilites/citi_JsonsToBD.php" target="_blank">finding/parsers/main_utilites/citi_JsonsToBD.php</a>-->
+<!--			<a class="nav-item nav-link" href="aj_Get_ebay_autoToBD__2.php" target="_blank">(~20min)aj_Get_ebay_autoToBD__2.php</a>-->
 			<a class="nav-item nav-link" href="out.php?plushours=24" target="_blank">Выдача1(24ч)</a>
 			<a class="nav-item nav-link" href="out__2.php?plushours=24" target="_blank">Выдача2(24ч)</a>
+			<a class="nav-item nav-link" href="out__3.php?plushours=24" target="_blank">Выдача3 Куча (24ч)</a>
 <!--			<a class="nav-item nav-link" href="searchSettings.php">Настройки</a>-->
 <!--			<a class="nav-item nav-link" href="#">Pricing</a>-->
 <!--			<a class="nav-item nav-link disabled" href="#">Disabled</a>-->

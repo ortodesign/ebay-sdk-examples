@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 1);
 $ebayTime = new DateTime();
 require_once( '../shopping/01-get-ebay-time.php' );
 print_r( 'Время на eBay: ' . $ebayTime->format( DateTime::ISO8601 ) );
@@ -130,7 +131,7 @@ foreach ( $product::all() as &$p ) {
 	 */
 
 //	$priceIn = $_POST['citilinkprice'] ? $_POST['citilinkprice'] : 1000;
-	$priceIn = $p->citilinkprice;
+	$priceIn = $p->citilinkprice / $dollar;
 //Проценты по дефолту мин - 50, макс - 80
 
 //	$priceMin = $_POST['min_procent'] ? $priceIn * $_POST['min_procent'] / 100 : $priceIn * .5;

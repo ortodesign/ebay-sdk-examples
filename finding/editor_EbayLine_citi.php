@@ -136,6 +136,43 @@ $dollar = getDollarCourse();
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="openEbayTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="formSaveBD" action="" data-id="">
+                <h5 class="modal-title">Связанные лоты eBay</h5>
+
+                <div class="text-right px-4">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!--                    <button type="submit" form="formSaveBD" value="Submit" class="btn btn-primary saveJson">Save changes</button>-->
+                    <button type="button" class="btn btn-primary saveJson">Save changes</button>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Таблица eBay по связанному id синонима</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="openEbayTableContent">
+                    <table id="ebayTableContent" class="display table table-striped table-hover table-inverse"
+                           cellspacing="0"
+                           width="100%">
+                        <!--Таблица конфигурируется в js-->
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!--                    <button type="submit" form="formSaveBD" value="Submit" class="btn btn-primary">Save changes</button>-->
+                    <button type="button" class="btn btn-primary saveJson">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id="resp">
 
 </div>
@@ -160,23 +197,6 @@ $dollar = getDollarCourse();
 
         // $.fn.dataTable.ext.errMode = 'none'; //Выключить алерт ошибок таблиц
 
-        // var saveToEBD = new $.Deferred();
-        // function saveToEBD(senddata) {
-        //     senddata.forEach(function (i) {
-        //         delete i.categoryname;
-        //     });
-        //     var dfd = new $.Deferred();
-        //     $.ajax({
-        //         type: "POST",
-        //         data: {directive:{type:'save',id:senddata.id},data: senddata},
-        //         url: "aj_BigSaveBD.php",
-        //         success: function (data) {
-        //             dfd.resolve(data);
-        //         },
-        //     });
-        //     return dfd.promise();
-        // }
-
         function getJsonCitiByID(id) {
             var dfd = new $.Deferred();
             $.ajax({
@@ -190,6 +210,110 @@ $dollar = getDollarCourse();
             return dfd.promise();
         }
 
+        var ebayTable;
+        var columnsEbayTable = [
+            {
+                "width": "40px",
+                "title": "id",
+                "data": null,
+                "render": function (data) {
+                    return data.id;
+                }
+            },
+            {
+                "width": "80px",
+                "title": "datetimeleft",
+                "data": null,
+                "render": function (data) {
+                    return moment(data.datetimeleft, moment.ISO_8601, 'ru').format("MM-DD HH:mm");;
+                }
+            },
+            {
+                "width": "60px",
+                "title": "galleryURL",
+                "data": 'ebaydata',
+                "render": function (data) {
+                    return `<img src="${data.galleryURL}" height="50">` ;
+                }
+            },
+            {
+                "width": "60px",
+                "title": "URL",
+                "data": 'ebaydata',
+                "render": function (data) {
+                    return `<a href="${data.viewItemURL}" target="_blank">eLink...</a>`;
+                }
+            },
+            {
+                "width": "60px",
+                "title": "ePrice",
+                "data": 'ebaydata',
+                "render": function (data) {
+                    return `<div class="ePrice">${data.sellingStatus.currentPrice.value} <span class="badge badge-success">${data.sellingStatus.currentPrice.currencyId}</span></div>`;
+                }
+            },
+            {
+                "title": "Учавствует",
+                "data": null,
+                render: function (data, type, row, meta) {
+                    return '<input type="checkbox" class="form-check-input" ' + (data.approved ? 'checked' : '') + '>';
+                }
+            },
+
+        ];
+        var buttonsEbay = [
+            {
+                text: 'Get selected data',
+                action: function () {
+                    // var count = citiTable.rows( { selected: true } ).count();
+                    // events.prepend( '<div>'+count+' row(s) selected</div>' );
+
+                    var rowData = citiTable.rows({selected: true}).data().toArray();
+                    rowData.forEach(function (i) {
+                        delete i.categoryname;
+                    })
+                    events.html('<div>' + JSON.stringify(rowData) + '</div>');
+                }
+            },
+            {
+                text: 'SaveBD',
+                action: function () {
+                    // var count = citiTable.rows( { selected: true } ).count();
+                    // events.prepend( '<div>'+count+' row(s) selected</div>' );
+                    var rowData = citiTable.rows({selected: true}).data().toArray();
+                    // events.html( '<div>'+JSON.stringify( rowData )+'</div>' );
+                    saveBDciti(rowData);
+                }
+            },
+            {
+                text: 'Parse selected from Ebay',
+                action: function () {
+                    console.log('Parse selected from Ebay');
+                    var ids = [];
+                    var idsobj = citiTable.rows({selected: true}).ids();
+                    $.each(idsobj, function (index, value) {
+                        console.log(index, value);
+                        ids.push(value);
+                    });
+                    $.ajax({
+                        type: "POST",
+                        data: {ids: ids},
+                        url: "aj_Get_ebay_autoToBD__2.php?part=true",
+                        beforeSend: function () {
+                            $('.loader').show();
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            ids = [];
+                            $('.loader').hide();
+                        },
+                    });
+                    // citiTable.rows( { selected: true } )
+                    //     .remove()
+                    //     .draw();
+                }
+            },
+        ];
 
         var citiTable;
         var columnsCitiTable = [
@@ -275,7 +399,7 @@ $dollar = getDollarCourse();
                 "title": "Результаты выдачи",
                 "data": null,
                 render: function (data, type, row, meta) {
-                    return '<button class="runIt btn btn-outline-info btn-sm">' + data.finded + '</button>';
+                    return '<button class="ebayListOpener btn btn-outline-info btn-sm">' + data.finded + '</button>';
                 }
             },
             {
@@ -341,140 +465,6 @@ $dollar = getDollarCourse();
             },
         ];
 
-        // var columnsTimelineEbayTable = [
-        //     {
-        //         "width": "20px",
-        //         "title": "наш id",
-        //         "data": null,
-        //         "render": function (data, type, row, meta) {
-        //             // return data.product_id + ' | ' + data.ebaydata.itemId;
-        //             // console.log( type,row,meta);
-        //             return '<span class="badge ancorScrollOurID ' + (data.description ? 'badge-success">' : 'badge-danger">') + data.product_id + '</span><input type="hidden" class="inputEID" value="' + data.ebaydata.itemId + '">';
-        //         }
-        //     },
-        //     {
-        //         "width": "50px",
-        //         "title": "Время окончания",
-        //         "data": "datetimeleft",
-        //         "render": function (data, type, row, meta) {
-        //             // console.log(type);
-        //             // console.log(row);
-        //             // console.log(meta);
-        //             return moment(data, moment.ISO_8601, 'ru').format("MM-DD HH:mm");
-        //         }
-        //     },
-        //     {
-        //         "title": "Категория ebay",
-        //         "data": "ebaydata.primaryCategory.categoryName"
-        //     },
-        //     {
-        //         "title": "Цена отсчета (ситилинк)",
-        //         "width": "50px",
-        //         "data": null,
-        //         "render": function (data, type, row, meta) {
-        //             return `<div>${Math.ceil(data.price / dollar)}</div>`
-        //         }
-        //     },
-        //     {
-        //         "title": "Цена ebay",
-        //         "width": "50px",
-        //         "data": "ebaydata.sellingStatus.currentPrice.value"
-        //     },
-        //     {
-        //         "title": "Наша цена",
-        //         "width": "50px",
-        //         "data": null,
-        //         // "data": "ebaydata.sellingStatus.currentPrice.value"
-        //         "render": function (data, type, row, meta) {
-        //             return '<input class="inputOurPrice" style="width: 100%" type="text" value="' + (data.our_price ? data.our_price : data.ebaydata.sellingStatus.currentPrice.value) + '">'
-        //         }
-        //     },
-        //     {
-        //         "title": "Наше описание",
-        //         "data": null,
-        //         "width": "400px",
-        //         "render": function (data, type, row, meta) {
-        //             if (data.description) {
-        //                 // return data
-        //                 return data.description + '<br><br><button class="buttonDescr btn btn-success btn-sm" style="right: 15px;width: 100%;">редактировать</button>' +
-        //
-        //                     '<div class="inputDescrWrapper hidden">' +
-        //                     '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;">' + data.description + '</textarea>' +
-        //                     '<button class="buttonDescrSave"  style="right: 15px;width: 100%;">Сохранить</button>' +
-        //                     '</div>';
-        //             }
-        //             // else if (!data) return '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;"></textarea>';
-        //             else if (!data.description) return '<button class="buttonDescr btn btn-danger btn-sm" style="right: 15px;width: 100%;">Заполнить описание</button>' +
-        //                 '<div class="inputDescrWrapper hidden">' +
-        //                 '<textarea class="inputDescr" placeholder="Заполните описание" style="right: 15px;width: 100%;">' + data.ebaydata.title + '</textarea>' +
-        //                 '<button class="buttonDescrSave"  style="right: 15px;width: 100%;">Сохранить</button>' +
-        //                 '</div>';
-        //         }
-        //     },
-        //     {
-        //         "title": "Картинка",
-        //         "data": null,
-        //         render: function (data, type, row, meta) {
-        //             // return '<img src="' + (data.picture_url ? data.picture_url : (data.pic_url ? data.pic_url : (data.citilink_data.productPictureUrl ? data.citilink_data.productPictureUrl : data.ebaydata.galleryURL))) + '" height="70">';
-        //             return '<img src="' + (data.picture_url ? data.picture_url : (data.pic_url ? data.pic_url : data.ebaydata.galleryURL)) + '" height="70">';
-        //         }
-        //     },
-        //     {
-        //         "title": "Название и ссылка(…) ebay",
-        //         "data": "ebaydata",
-        //         render: function (data, type, row, meta) {
-        //             return `${data.title} <a href="${data.viewItemURL}" target="_blank">…</a>`;
-        //         }
-        //     },
-        //     // {
-        //     //     "title": "Наше название",
-        //     //     "data": "our_name"
-        //     // },
-        //     {
-        //         "title": "Название ситилинка",
-        //         "data": null,
-        //         render: function (data, type, row, meta) {
-        //             return data.shortname ? data.shortname : 'Error';
-        //         }
-        //     },
-        //     {
-        //         "title": "Синонимы",
-        //         "data": "pre_syn"
-        //     },
-        //
-        //
-        //     {
-        //         "title": "Результаты выдачи",
-        //         "data": null,
-        //         render: function (data, type, row, meta) {
-        //             return '<button class="runIt btn btn-outline-info btn-sm">' + data.last_approve_ebay_count + ' / ' + data.last_all_ebay_count + '</button>';
-        //         }
-        //     },
-        //     {
-        //         "title": "Минимальный и максимальный % (по дефолту 50/80)",
-        //         "data": null,
-        //         render: function (data, type, row, meta) {
-        //             return (data.min_procent ? '<span class="badge badge-primary">' + data.min_procent + '</span> / ' : '') + (data.max_procent ? '<span class="badge badge-primary">' + data.max_procent + '</span>' : '');
-        //         }
-        //     }, {
-        //         "title": "(chexbox = автоматом) Отправить в торги",
-        //         "data": null,
-        //         render: function (data, type, row, meta) {
-        //             return '<input type="checkbox" class="form-check-input" ' + ((data.approved == 1) ? 'checked' : '') + '><button type="button" class="btn btn-primary btn-sm">&rarr; (in progress)</button>';
-        //         }
-        //     },
-        // ];
-        // var timelineEbayTable = $('#timelineEbayTable').DataTable({
-        //     "paging": false,
-        //     "ordering": false,
-        //     "autoWidth": false,
-        //     "ajax": {
-        //         url: "aj_Get_BD_ebay__2.php",
-        //         dataSrc: ''
-        //     },
-        //     rowId: 'ebaydata.itemId',
-        //     "columns": columnsTimelineEbayTable
-        // });
         var events = $('#events');
         citiTable = $('#citiTable').DataTable({
             "paging": false,
@@ -498,14 +488,14 @@ $dollar = getDollarCourse();
             // }
         });
 
-        function ajBD(senddata, type = 'save') {
+        function ajBD(senddata, type = 'save', id = null) {
             senddata.forEach(function (i) {
                 delete i.categoryname;
             });
             console.log(senddata);
             $.ajax({
                 type: "POST",
-                data: {directive: {type: type}, data: senddata},
+                data: {directive: {type: type, id: id}, data: senddata},
                 url: "aj_BigSaveBD.php",
                 success: function (data) {
                     $('#events').html('<div>' + data + '</div>');
@@ -564,7 +554,7 @@ $dollar = getDollarCourse();
                 $.ajax({
                     type: "POST",
                     data: {ids: ids},
-                    url: "aj_Get_ebay_autoToBD__2.php?part=true",
+                    url: "aj_Get_ebay_autoToBD__3.php?part=true",
                     beforeSend: function () {
                         $('.loader').show();
                     },
@@ -582,9 +572,35 @@ $dollar = getDollarCourse();
             console.log(id);
             var tg = $(e.target);
 
+            if (tg.hasClass('ebayListOpener')) {
+                e.stopPropagation();
+                $('#openEbayTable').modal();
+
+                if (!ebayTable) {
+                    ebayTable = $('#ebayTableContent').DataTable({
+                        "paging": false,
+                        select: true,
+                        dom: 'Bfrtip',
+                        buttons: buttonsEbay,
+                        "autoWidth": false,
+                        "ajax": {
+                            url: "aj_Get_BD_ebay__3.php?idproduct=" + id,
+                            dataSrc: ''
+                        },
+                        rowId: 'id',
+                        "columns": columnsEbayTable,
+                    });
+                } else {
+                    ebayTable.ajax.url("aj_Get_BD_ebay__3.php?idproduct=" + id).load();
+                }
+
+
+            }
             if (tg.hasClass('editButton')) {
                 e.stopPropagation();
                 $('#openSource').modal();
+
+                $('#inJsonEditor').html('');
                 var container = document.getElementById("inJsonEditor");
                 var options = {
                     // onChange: function () {
@@ -593,12 +609,14 @@ $dollar = getDollarCourse();
                 };
                 var inJsonEditor = new JSONEditor(container, options);
                 //var defaultInJson = <?// echo file_get_contents( "jsons/tmp_serj_newEgg.json", "r" ); ?>//;
+                // console.log({directive: {type: 'get',id:id}});
                 $.ajax({
-                    // type: "POST",
-                    // data: {data: senddata},
-                    url: "aj_Get_BD_citiSource__2.php?id=" + id,
+                    type: "POST",
+                    data: {directive: {type: 'get', id: id}},
+                    url: "aj_BigSaveBD.php",
                     success: function (data) {
                         console.log(data);
+
                         inJsonEditor.set($.parseJSON(data)[0]);
                     },
                 });
@@ -678,44 +696,44 @@ $dollar = getDollarCourse();
         }
 
 
-        $("#openSource").on('opensource', function (e, d) {
-            console.log(d.id);
-
-            // fetchAsync('aj_Get_BD_citiSource__2.php')
-            //     .then(data => {
-            //         // console.log(data);
-            //         if (data) {
-            //             parsedBufferData.push(data);
-            if (!citiTable) {
-                citiTable = $('#citiTable').DataTable({
-                    "paging": false,
-                    "ordering": false,
-                    "autoWidth": false,
-                    "ajax": {
-                        url: 'aj_Get_BD_citiSource__2.php?id=' + d.id,
-                        dataSrc: null
-                    },
-                    rowId: 'id',
-                    "columns": columnsCitiTable
-                });
-            } else {
-                citiTable.ajax.url('aj_Get_BD_citiSource__2.php?id=' + d.id).load();
-            }
-
-            // $("#openSource #openSourceContent").html(JSON.stringify(parsedBufferData));
-            // console.log(JSON.stringify(parsedBufferData))
-            //     } else {
-            //         logw(' errE ');
-            //
-            //     }
-            // })
-            // .catch(reason => logw(reason.message));
-
-
-//                 $("#openSource #openSourceContent").html(`
-// <h5>${d.id}</h5>
-//                 `)
-        });
+//         $("#openSource").on('opensource', function (e, d) {
+//             console.log(d.id);
+//
+//             // fetchAsync('aj_Get_BD_citiSource__2.php')
+//             //     .then(data => {
+//             //         // console.log(data);
+//             //         if (data) {
+//             //             parsedBufferData.push(data);
+//             if (!citiTable) {
+//                 citiTable = $('#citiTable').DataTable({
+//                     "paging": false,
+//                     "ordering": false,
+//                     "autoWidth": false,
+//                     "ajax": {
+//                         url: 'aj_Get_BD_citiSource__2.php?id=' + d.id,
+//                         dataSrc: null
+//                     },
+//                     rowId: 'id',
+//                     "columns": columnsCitiTable
+//                 });
+//             } else {
+//                 citiTable.ajax.url('aj_Get_BD_citiSource__2.php?id=' + d.id).load();
+//             }
+//
+//             // $("#openSource #openSourceContent").html(JSON.stringify(parsedBufferData));
+//             // console.log(JSON.stringify(parsedBufferData))
+//             //     } else {
+//             //         logw(' errE ');
+//             //
+//             //     }
+//             // })
+//             // .catch(reason => logw(reason.message));
+//
+//
+// //                 $("#openSource #openSourceContent").html(`
+// // <h5>${d.id}</h5>
+// //                 `)
+//         });
 
 
         // setTimeout(function () {
@@ -726,14 +744,14 @@ $dollar = getDollarCourse();
         // }, 2000);
 
 
-        var refreshTable;
-
-        function startRefresh() {
-            refreshTable = setInterval(function () {
-                console.log('timelineEbayTable redraw');
-                timelineEbayTable.ajax.reload();
-            }, 2000);
-        }
+        // var refreshTable;
+        //
+        // function startRefresh() {
+        //     refreshTable = setInterval(function () {
+        //         console.log('timelineEbayTable redraw');
+        //         timelineEbayTable.ajax.reload();
+        //     }, 2000);
+        // }
 
 
         // startRefresh();
@@ -749,7 +767,7 @@ $dollar = getDollarCourse();
 
             if (tg.is('img')) {  //Добавляем инпут выбора картинки (по enter сохраняет в БД)
                 $('#citiTable tbody input.changePicURL').remove();
-                clearInterval(refreshTable);
+                // clearInterval(refreshTable);
                 console.log(ourID, eID);
                 var inp = $('<input class="changePicURL" type="text" value="' + tg.attr('src') + '">');
                 if (!($(e.target).parent().find('input').hasClass('changePicURL'))) {
@@ -776,7 +794,7 @@ $dollar = getDollarCourse();
             if (tg.is('button.buttonDescr')) {         //Открываем редактирование описания
                 e.preventDefault();
                 e.stopPropagation();
-                clearInterval(refreshTable);
+                // clearInterval(refreshTable);
                 var inp = tg.closest('td').find('div.inputDescrWrapper');
                 inp.toggleClass('hidden');
                 inp.find('textarea').trumbowyg({

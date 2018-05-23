@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET['plushours'])) {
-	$plushours = '?plushours='.$_GET['plushours'];
+	$plushours = '&plushours='.$_GET['plushours'];
 } else {
 	$plushours = NULL;
 }
@@ -39,7 +39,7 @@ if (isset($_GET['plushours'])) {
     var refreshed = 0;
 
     function getContent() {
-        $.get('aj_Get_BD_ebay__2.php<?php echo $plushours; ?>' , function (data, status) {
+        $.get('aj_Get_BD_ebay__3_editciti.php?approved=1<?php echo $plushours; ?>' , function (data, status) {
             $out = $.parseJSON(data);
             // console.log($out);
             $target = $('#ttt');
@@ -56,12 +56,12 @@ if (isset($_GET['plushours'])) {
                 // $.each($out[i].citilink_data.additions.properties, function (k, v) {
                 //     $props += '<b>' + k + ': </b>' + v + '<br />';
                 // });
-                $props = $out[i].description ? $out[i].description : '';
-                var $title = $out[i].shortname ? ($out[i].shortname + '<br><small  style="color: #fe5e10">'+$out[i].pre_syn+'</small>'+ '<br><small>'+$out[i].non_cyr+'</small>'+ '<br><small style="color: #d00000">'+$out[i].ebaydata.title+'</small>') : '';
+                $props = $out[i].descr ? $out[i].descr : '';
+                var $title = $out[i].shortname ? ($out[i].shortname + '<br><small  style="color: #fe5e10"><b>Cиноним:</b><br>'+$out[i].syn+'</small>'+ '<br><small style="color: #d00000"><b>Назв-е eBay: </b><br>'+$out[i].ebaydata.title+'</small>') : '';
                 var $price = Math.ceil($out[i].ebaydata.sellingStatus.currentPrice.value); //$out[i].our_price ? $out[i].our_price :
-                var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].our_price));
+                var $procent = Math.ceil(100 - (parseInt($out[i].ebaydata.sellingStatus.currentPrice.value) * 100) / parseInt($out[i].oprice));
                 // var $pic = $out[i].picture_url ? $out[i].picture_url : ($out[i].pic_url ? $out[i].pic_url : ( $out[i].citilink_data ? $out[i].citilink_data.productPictureUrl : $out[i].ebaydata.galleryURL));
-                var $pic = '//items.s2.citilink.ru/'+$out[i].product_id+'_v01_b.jpg';
+                var $pic = $out[i].pic ? $out[i].pic : '//items.s2.citilink.ru/'+$out[i].product_id+'_v01_b.jpg';
                 // https://items.s2.citilink.ru/457907_v01_b.jpg
                 var timeLeft = moment($out[i].ebaydata.listingInfo.endTime, moment.ISO_8601, 'ru').format('MMM, DD [в <b style="color:red">]HH:mm[</b>]');
 
@@ -79,7 +79,7 @@ if (isset($_GET['plushours'])) {
                             <p class="card-text" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${$props}</p>
                             <div>
                                 <span class="card-title h4"><small>Цена:</small> <b style="color:#d00000;">${$price}</b> &dollar;</span> <span class="h4" style="float:right;"><small>Скидка:</small><b style="color:#2b542c;"> – ${$procent}%</b></span>
-                                <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a> <span class="h5"  style="float:right;"><strike>${$out[i].our_price}</strike>$</span>
+                                <a href="${$out[i].ebaydata.viewItemURL}" target="_blank" class="btn btn-primary">Смотреть детали</a> <span class="h5"  style="float:right;"><strike>${$out[i].oprice}</strike>$</span>
                             </div>
                         </div>
                     </div>

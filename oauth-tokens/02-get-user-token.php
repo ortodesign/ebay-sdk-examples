@@ -53,7 +53,9 @@ $request->code = '<AUTHORIZATION CODE>';
  * Send the request.
  */
 $response = $service->getUserToken($request);
-
+echo '<pre>';
+var_dump($response);
+echo '</pre>';
 /**
  * Output the result of calling the service operation.
  */

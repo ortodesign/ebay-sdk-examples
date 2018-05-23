@@ -60,7 +60,7 @@ if ($response->getStatusCode() !== 200) {
     );
 } else {
     printf(
-        "%s\n%s\n%s\n%s\n\n",
+        "%s\n<br>%s\n<br>%s\n<br>%s\n<br>\n<br>",
         $response->access_token,
         $response->token_type,
         $response->expires_in,
